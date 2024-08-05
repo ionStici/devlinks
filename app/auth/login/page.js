@@ -1,13 +1,13 @@
-import Form from "@/components/Form";
-import Input from "@/components/Input";
-import { signIn } from "@/actions";
+import Form from "@/components/auth/Form";
+import Input from "@/components/auth/Input";
+import { login } from "@/actions/auth";
 
 export default function Page() {
   return (
     <Form
       header={["Login", "Add your details below to get back into the app"]}
-      footer={["Don't have an account?", "Create account", "/signup"]}
-      action={signIn}
+      footer={["Don't have an account?", "Create account", "/auth/signup"]}
+      action={login}
       btnText="Login"
     >
       <Input

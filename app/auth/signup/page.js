@@ -1,12 +1,12 @@
-import { signUp } from "@/actions";
-import Form from "@/components/Form";
-import Input from "@/components/Input";
+import Form from "@/components/auth/Form";
+import Input from "@/components/auth/Input";
+import { signUp } from "@/actions/auth";
 
 export default function Page() {
   return (
     <Form
       header={["Create account", "Let's get you started sharing links!"]}
-      footer={["Already have an account?", "Login", "/login"]}
+      footer={["Already have an account?", "Login", "/auth/login"]}
       action={signUp}
       btnText="Create new account"
     >

@@ -21,6 +21,8 @@ module.exports = {
     },
     boxShadow: {
       input: "0 0 32px rgba(99, 60, 255, .25)",
+      section: "0px 8px 24px rgba(149, 157, 165, 0.2)",
+      none: "none",
     },
   },
   plugins: [],

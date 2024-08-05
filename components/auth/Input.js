@@ -1,7 +1,7 @@
 import Image from "next/image";
 
-const emailIcon = "assets/icon-email.svg";
-const passwordIcon = "assets/icon-password.svg";
+const emailIcon = "/assets/icon-email.svg";
+const passwordIcon = "/assets/icon-password.svg";
 
 export default function Input({
   label,
