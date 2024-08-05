@@ -1,8 +1,9 @@
 "use client";
 
+import TinySpinner from "../ui/TinySpinner";
 import { useFormStatus } from "react-dom";
 
-export default function Button({ children }) {
+export default function SubmitButton({ children }) {
   const { pending } = useFormStatus();
 
   return (
@@ -23,9 +24,3 @@ export default function Button({ children }) {
     </button>
   );
 }
-
-const TinySpinner = () => {
-  return (
-    <div className="w-6 h-6 border-4 border-t-4 border-t-purple border-white rounded-full animate-spin" />
-  );
-};

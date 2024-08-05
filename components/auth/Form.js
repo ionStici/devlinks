@@ -1,9 +1,9 @@
 import Link from "next/link";
-import Button from "./Button";
+import SubmitButton from "./SubmitButton";
 
 export default function Form({ children, header, action, btnText, footer }) {
   return (
-    <div className="md:bg-white md:p-10 md:rounded-xl md:shadow-section">
+    <>
       <div className="mb-10">
         <h1 className="text-dark_grey mb-2 text-2xl font-bold md:text-[32px] md:leading-10">
           {header[0]}
@@ -14,7 +14,7 @@ export default function Form({ children, header, action, btnText, footer }) {
       <form action={action} className="flex flex-col gap-6 mb-6">
         {children}
 
-        <Button>{btnText}</Button>
+        <SubmitButton>{btnText}</SubmitButton>
       </form>
 
       <div className="text-center md:flex md:justify-center md:gap-1">
@@ -26,6 +26,6 @@ export default function Form({ children, header, action, btnText, footer }) {
           {footer[1]}
         </Link>
       </div>
-    </div>
+    </>
   );
 }

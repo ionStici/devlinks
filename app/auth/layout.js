@@ -6,7 +6,9 @@ export default function Layout({ children }) {
       <div className="flex justify-center mb-16 md:mb-[51px]">
         <Logo size="large" />
       </div>
-      {children}
+      <div className="md:bg-white md:p-10 md:rounded-xl md:shadow-section">
+        {children}
+      </div>
     </section>
   );
 }
