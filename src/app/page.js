@@ -9,6 +9,12 @@ export default function Page() {
       <div>
         <Link href="/auth/signup">Sign Up</Link>
       </div>
+      <div>
+        <Link href="/edit/links">Links</Link>
+      </div>
+      <div>
+        <Link href="/edit/profile">Profile</Link>
+      </div>
     </>
   );
 }

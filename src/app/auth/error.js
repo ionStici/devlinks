@@ -2,7 +2,7 @@
 
 export default function Error({ error, reset }) {
   return (
-    <div className="flex flex-col items-center justify-center text-center">
+    <section className="flex flex-col items-center justify-center text-center">
       <p className="text-grey text-base mb-2">
         The server has something to say
       </p>
@@ -16,6 +16,6 @@ export default function Error({ error, reset }) {
       >
         Try Again!
       </button>
-    </div>
+    </section>
   );
 }
