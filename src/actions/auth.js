@@ -20,7 +20,7 @@ export async function login(formData) {
   const { error } = await supabase.auth.signInWithPassword(userData);
   if (error) throw new Error(error.message);
 
-  redirect("/profile");
+  redirect("/edit/profile");
 }
 
 // Sign Up
@@ -39,7 +39,7 @@ export async function signUp(formData) {
   const { error } = await supabase.auth.signUp(userData);
   if (error) throw new Error(error.message);
 
-  redirect("/profile");
+  redirect("/edit/profile");
 }
 
 // Log Out

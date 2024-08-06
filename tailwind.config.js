@@ -10,6 +10,7 @@ module.exports = {
       revert: "revert",
     },
     colors: {
+      black: "#000",
       purple: "#633CFF",
       purple_hover: "#BEADFF",
       light_purple: "#EFEBFF",
