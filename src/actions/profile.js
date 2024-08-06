@@ -1,6 +1,8 @@
 "use server";
 
 import { createClient } from "@/utils/supabase/server";
+import { revalidatePath } from "next/cache";
+import { emailRegex, nameRegex } from "@/utils/regex";
 
 // // // // // // // // // // // // // // // // // // // //
 
@@ -22,41 +24,37 @@ export async function updateProfile(formData) {
   const lastName = formData.get("lastName");
   const email = formData.get("email");
 
-  await deleteImage("avatar1.png");
+  if (!emailRegex.test(email)) throw new Error("Invalid Email");
+  if (!nameRegex.test(firstName)) throw new Error("Invalid First Name");
+  if (!nameRegex.test(lastName)) throw new Error("Invalid Last Name");
+  if (image.size > 750000) throw new Error("The image is too big");
 
-  console.log(image);
-
-  const { data, error: imgError } = await supabase.storage
-    .from("avatars")
-    .upload("avatar1.png", image, {
-      cacheControl: "3600",
-      upsert: false,
-    });
-
-  if (imgError) throw new Error(error.message);
-
-  console.log(data);
-
-  //
-
-  const { error } = await supabase.auth.updateUser({
+  const { data, error } = await supabase.auth.updateUser({
     email,
     data: { firstName, lastName },
   });
 
   if (error) throw new Error(error.message);
 
-  // const fileName = `${Date.now()}_${image.name}`;
-  // const filePath = `uploads/${fileName}`;
+  const { user } = data;
+  const currentImage = data.user.user_metadata.image;
+  if (image && currentImage) await deleteImage(currentImage);
 
-  // const { data, error } = await supabase.storage
-  //   .from("avatars")
-  //   .upload(filePath, image, {
-  //     cacheControl: "3600",
-  //     upsert: false,
-  //   });
+  if (image) {
+    const { data, error } = await supabase.storage
+      .from("avatars")
+      .upload(user.email.split("@")[0], image, {
+        cacheControl: "3600",
+        upsert: false,
+      });
+    if (error) throw new Error(error.message);
 
-  // if (error) throw new Error(error.message);
+    await supabase.auth.updateUser({
+      data: { image: data.path },
+    });
+  }
 
-  // console.log(data);
+  revalidatePath("/edit/profile");
 }
+
+// // // // // // // // // // // // // // // // // // // //

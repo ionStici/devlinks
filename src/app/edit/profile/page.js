@@ -13,7 +13,7 @@ export default async function Page() {
     <section className="shadow-section max-w-[808px] mx-auto bg-white rounded-xl pt-6 pb-4 md:pt-10 md:pb-6 flex-grow">
       <Heading />
       <form action={updateProfile}>
-        <UploadPicture />
+        <UploadPicture img={user.user_metadata.image} />
         <Inputs user={user} />
         <div className="border-b border-borders mt-6 mb-4" />
         <Button>Save</Button>

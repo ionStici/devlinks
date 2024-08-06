@@ -4,8 +4,9 @@ import Image from "next/image";
 import { useState } from "react";
 import { ReactSVG } from "react-svg";
 
-export default function UploadPicture() {
-  const [preview, setPreview] = useState(null);
+export default function UploadPicture({ img }) {
+  const imgUrl = `https://jkyhtwrybkepbzpwanme.supabase.co/storage/v1/object/public/avatars/${img}`;
+  const [preview, setPreview] = useState(imgUrl);
 
   const handleFileChange = ({ target }) => {
     setPreview(URL.createObjectURL(target.files[0]));
@@ -34,6 +35,7 @@ export default function UploadPicture() {
             alt="Profile Picture"
             fill
             className="rounded-xl object-cover"
+            priority={true}
           />
         )}
 
