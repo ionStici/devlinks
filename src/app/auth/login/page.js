@@ -3,6 +3,8 @@ import Footer from "@/components/auth/Footer";
 import Form from "@/components/auth/Form";
 import Input from "@/components/auth/Input";
 
+import { login } from "@/actions/auth";
+
 export const metadata = {
   title: "Login",
   description: "Log in to your account",
@@ -15,7 +17,7 @@ export default function Page() {
         heading="Login"
         content="Add your details below to get back into the app"
       />
-      <Form btnText="Login">
+      <Form action={login} btnText="Login">
         <Input
           label="Email address"
           type="email"

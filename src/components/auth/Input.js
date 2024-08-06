@@ -2,9 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-
-import { emailRegex } from "@/utils/regex";
-import { passwordRegex } from "@/utils/regex";
+import { emailRegex, passwordRegex } from "@/utils/regex";
 
 const emailIcon = "/assets/icon-email.svg";
 const passwordIcon = "/assets/icon-password.svg";
@@ -12,7 +10,10 @@ const passwordIcon = "/assets/icon-password.svg";
 export default function Input({ label, type, name, placeholder, autofill }) {
   const icon = type === "email" ? emailIcon : passwordIcon;
 
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState(() => {
+    // TEST DATA
+    return type === "email" ? "test-user@email.app" : "qazwsxedc";
+  });
   const [isValid, setIsValid] = useState(true);
 
   const handleValidation = () => {
@@ -52,7 +53,7 @@ export default function Input({ label, type, name, placeholder, autofill }) {
         className="absolute left-4 bottom-4 pointer-events-none"
       />
       {isValid === false && (
-        <p className="absolute text-red text-xs right-0 top-0">
+        <p className="absolute text-red text-xs right-0 top-0 md:top-9 md:right-4">
           {type === "email" ? "Invalid Email" : "Invalid Password"}
         </p>
       )}

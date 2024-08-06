@@ -3,6 +3,8 @@ import Footer from "@/components/auth/Footer";
 import Form from "@/components/auth/Form";
 import Input from "@/components/auth/Input";
 
+import { signUp } from "@/actions/auth";
+
 export const metadata = {
   title: "Sign Up",
   description: "Create a new devlinks account",
@@ -15,7 +17,7 @@ export default function Page() {
         heading="Create account"
         content="Let's get you started sharing links!"
       />
-      <Form btnText="Create new account">
+      <Form action={signUp} btnText="Create new account">
         <Input
           label="Email address"
           type="email"
