@@ -3,7 +3,10 @@ import "./globals.css";
 
 const sans = Instrument_Sans({ subsets: ["latin"] });
 
-export const metadata = {};
+export const metadata = {
+  title: { template: "%s // Link Sharing App", default: "Link Sharing App" },
+  description: "Frontend Mentor Challenge | Guru Difficulty",
+};
 
 export default function RootLayout({ children }) {
   return (

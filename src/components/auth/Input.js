@@ -3,19 +3,13 @@
 import { useState } from "react";
 import Image from "next/image";
 
+import { emailRegex } from "@/utils/regex";
+import { passwordRegex } from "@/utils/regex";
+
 const emailIcon = "/assets/icon-email.svg";
 const passwordIcon = "/assets/icon-password.svg";
 
-const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/;
-const passwordRegex = /^[A-Za-z0-9!@#$%^&*()_+=-]{8,64}$/;
-
-export default function Input({
-  label,
-  type,
-  name,
-  placeholder,
-  autoComplete,
-}) {
+export default function Input({ label, type, name, placeholder, autofill }) {
   const icon = type === "email" ? emailIcon : passwordIcon;
 
   const [input, setInput] = useState("");
@@ -26,15 +20,13 @@ export default function Input({
     if (type === "password") setIsValid(passwordRegex.test(input));
   };
 
-  const resetValidation = () => setIsValid(true);
-
   return (
     <div className="relative flex flex-col">
       <label
+        htmlFor={name}
         className={`mb-1 text-dark_grey text-xs ${
           isValid === false ? "text-red" : ""
         }`}
-        htmlFor={name}
       >
         {label}
       </label>
@@ -43,13 +35,13 @@ export default function Input({
         name={name}
         id={name}
         placeholder={placeholder}
-        autoComplete={autoComplete}
+        autoComplete={autofill}
         onChange={({ target }) => setInput(target.value)}
         value={input}
         onBlur={handleValidation}
-        onFocus={resetValidation}
+        onFocus={() => setIsValid(true)}
         className={`border border-borders h-12 rounded-lg pl-[44px] text-base focus:outline-none focus:shadow-input focus:border-purple hover:border-purple ${
-          isValid === false ? "border-red hover:border-red" : ""
+          isValid === false ? "!border-red hover:border-red" : ""
         }`}
       />
       <Image

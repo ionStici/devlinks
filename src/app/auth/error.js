@@ -2,7 +2,7 @@
 
 export default function Error({ error, reset }) {
   return (
-    <div className="flex items-center justify-center flex-col text-center">
+    <div className="flex flex-col items-center justify-center text-center">
       <p className="text-grey text-base mb-2">
         The server has something to say
       </p>
