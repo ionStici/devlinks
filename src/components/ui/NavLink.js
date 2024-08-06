@@ -7,9 +7,6 @@ const profileIcon = "/assets/icon-profile-details-header.svg";
 const previewIcon = "/assets/icon-preview-header.svg";
 
 export default function NavLink({ pathname, isTablet, href }) {
-  const icon = href === "/edit/links" ? linkIcon : profileIcon;
-  const label = href === "/edit/links" ? "Links" : "Profile";
-
   if (pathname === "preview")
     return (
       <Link
@@ -24,13 +21,17 @@ export default function NavLink({ pathname, isTablet, href }) {
       </Link>
     );
 
+  const icon = href === "/edit/links" ? linkIcon : profileIcon;
+  const label = href === "/edit/links" ? "Links" : "Profile";
+
   return (
     <li className={`rounded-lg ${pathname === href ? "bg-light_purple" : ""}`}>
       <Link
-        className={`flex items-center gap-2 py-[11px] px-[27px] group text-base text-grey font-semibold rounded-lg transition hover:text-purple focus:outline-none focus:ring-2 focus:ring-purple focus:ring-inset active:ring-0 ${
-          pathname === href ? "text-purple focus:ring-0" : ""
+        className={`flex items-center gap-2 py-[11px] px-[27px] group text-base text-grey font-semibold rounded-lg transition hover:text-purple focus:outline-none focus:ring-2 focus:ring-purple focus:ring-inset hover:!ring-0 ${
+          pathname === href ? "text-purple focus:!ring-0" : ""
         }`}
         href={href}
+        tabIndex={`${pathname === href ? "-1" : "0"}`}
       >
         <ReactSVG
           src={icon}

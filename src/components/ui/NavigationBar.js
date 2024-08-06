@@ -11,9 +11,9 @@ export default function NavigationBar() {
   const pathname = usePathname();
 
   return (
-    <nav className="max-w-[1392px] mx-auto rounded-xl flex items-center justify-between px-[24px] py-[16px] bg-white">
+    <nav className="max-w-[808px] lg:max-w-[1392px] mx-auto md:rounded-xl flex items-center justify-between px-[24px] py-[16px] bg-white shadow-section">
       <div>
-        <Logo size={isTablet ? "large" : "small"} />
+        <Logo size={isTablet ? "medium" : "small"} />
       </div>
 
       <ul className="flex items-center">
@@ -21,7 +21,7 @@ export default function NavigationBar() {
         <NavLink pathname={pathname} isTablet={isTablet} href="/edit/profile" />
       </ul>
 
-      <NavLink pathname="preview" isTablet={isTablet} href="/" />
+      <NavLink pathname="preview" isTablet={isTablet} href="/devs" />
     </nav>
   );
 }

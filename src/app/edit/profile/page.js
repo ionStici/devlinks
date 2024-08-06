@@ -10,7 +10,7 @@ export default async function Page() {
   const user = await getUser();
 
   return (
-    <section className="max-w-[808px] mx-auto bg-white rounded-xl pt-6 pb-4 flex-grow">
+    <section className="shadow-section max-w-[808px] mx-auto bg-white rounded-xl pt-6 pb-4 md:pt-10 md:pb-6 flex-grow">
       <Heading />
       <form action={updateProfile}>
         <UploadPicture />

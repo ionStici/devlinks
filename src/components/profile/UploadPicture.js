@@ -12,7 +12,7 @@ export default function UploadPicture() {
   };
 
   return (
-    <div className="mx-6 mb-6 p-5 bg-light_grey rounded-xl sm:flex sm:items-center">
+    <div className="mx-6 mb-6 p-5 md:mx-10 bg-light_grey rounded-xl sm:flex sm:items-center">
       <p className="text-grey text-base mb-4 sm:mr-auto">Profile picture</p>
 
       <label

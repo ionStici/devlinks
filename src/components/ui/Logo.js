@@ -12,6 +12,15 @@ export default function Logo({ size }) {
           priority={true}
         />
       )}
+      {size === "medium" && (
+        <Image
+          src="/assets/logo-devlinks-large.svg"
+          alt="Devlinks Logo"
+          width="146"
+          height="32"
+          priority={true}
+        />
+      )}
       {size === "small" && (
         <Image
           src="/assets/logo-devlinks-small.svg"

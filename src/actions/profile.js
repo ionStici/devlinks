@@ -2,6 +2,18 @@
 
 import { createClient } from "@/utils/supabase/server";
 
+// // // // // // // // // // // // // // // // // // // //
+
+async function deleteImage(path) {
+  const supabase = createClient();
+
+  const { error } = await supabase.storage.from("avatars").remove([path]);
+
+  if (error) throw new Error(error.message);
+}
+
+// // // // // // // // // // // // // // // // // // // //
+
 export async function updateProfile(formData) {
   const supabase = createClient();
 
@@ -10,9 +22,24 @@ export async function updateProfile(formData) {
   const lastName = formData.get("lastName");
   const email = formData.get("email");
 
-  console.log(image, firstName, lastName, email);
+  await deleteImage("avatar1.png");
 
-  const { data, error } = await supabase.auth.updateUser({
+  console.log(image);
+
+  const { data, error: imgError } = await supabase.storage
+    .from("avatars")
+    .upload("avatar1.png", image, {
+      cacheControl: "3600",
+      upsert: false,
+    });
+
+  if (imgError) throw new Error(error.message);
+
+  console.log(data);
+
+  //
+
+  const { error } = await supabase.auth.updateUser({
     email,
     data: { firstName, lastName },
   });
