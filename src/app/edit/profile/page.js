@@ -1,21 +1,22 @@
-import { updateProfile } from "@/actions/profile";
-import Button from "@/components/profile/Button";
 import Heading from "@/components/profile/Heading";
-import Inputs from "@/components/profile/Inputs";
 import UploadPicture from "@/components/profile/UploadPicture";
+import Inputs from "@/components/profile/Inputs";
+import Button from "@/components/profile/Button";
 
+import { updateProfile } from "@/actions/updateProfile";
 import { getUser } from "@/actions/auth";
+
+export const metadata = { title: "Profile Details" };
 
 export default async function Page() {
   const user = await getUser();
 
   return (
-    <section className="shadow-section max-w-[808px] mx-auto bg-white rounded-xl pt-6 pb-4 md:pt-10 md:pb-6 flex-grow">
+    <section className="flex flex-col max-w-[808px] md:h-[834px] mx-auto rounded-xl pt-6 pb-4 md:pt-10 md:pb-6 flex-grow shadow-section bg-white">
       <Heading />
-      <form action={updateProfile}>
+      <form action={updateProfile} className="flex flex-col flex-grow">
         <UploadPicture img={user.user_metadata.image} />
-        <Inputs user={user} />
-        <div className="border-b border-borders mt-6 mb-4" />
+        <Inputs email={user.email} data={user} />
         <Button>Save</Button>
       </form>
     </section>

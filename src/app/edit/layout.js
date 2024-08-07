@@ -3,14 +3,10 @@ import PhoneMockup from "@/components/ui/PhoneMockup";
 
 export default function Layout({ children }) {
   return (
-    <main className="md:m-6">
+    <main className="sm:m-6">
       <NavigationBar />
-
-      <div className="max-w-[1392px] flex gap-6 m-4 md:my-6 md:mx-auto rounded-xl">
-        <section className="hidden rounded-xl shadow-section lg:flex items-center justify-center bg-white min-w-[348px] max-w-[560px] flex-grow">
-          <PhoneMockup />
-        </section>
-
+      <div className="max-w-[1392px] flex gap-6 md:mx-auto m-4 sm:m-0">
+        <PhoneMockup />
         {children}
       </div>
     </main>

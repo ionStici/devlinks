@@ -1,18 +1,31 @@
 import Input from "./Input";
 
-export default function Inputs({ user: { email, user_metadata } }) {
-  const { firstName, lastName } = user_metadata;
+export default function Inputs({ email, data }) {
+  const { firstName, lastName } = data;
 
   return (
-    <div className="flex flex-col gap-3 mx-6 p-5 bg-light_grey rounded-xl md:mx-10">
+    <div className="flex flex-col gap-3 mx-6 md:mx-10 p-5 bg-light_grey rounded-xl">
       <Input
         type="text"
         name="firstName"
         label="First name*"
         value={firstName}
+        placeholder="e.g. John"
       />
-      <Input type="text" name="lastName" label="Last name*" value={lastName} />
-      <Input type="email" name="email" label="Email" value={email} />
+      <Input
+        type="text"
+        name="lastName"
+        label="Last name*"
+        value={lastName}
+        placeholder="e.g. Appleseed"
+      />
+      <Input
+        type="email"
+        name="email"
+        label="Email"
+        value={email}
+        placeholder="e.g. email@example.com"
+      />
     </div>
   );
 }
