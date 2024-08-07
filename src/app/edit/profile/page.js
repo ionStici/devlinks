@@ -16,7 +16,7 @@ export default async function Page() {
       <Heading />
       <form action={updateProfile} className="flex flex-col flex-grow">
         <UploadPicture img={user.user_metadata.image} />
-        <Inputs email={user.email} data={user.user_metadata} />
+        <Inputs data={user.user_metadata} />
         <Button>Save</Button>
       </form>
     </section>

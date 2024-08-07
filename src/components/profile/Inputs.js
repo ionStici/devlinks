@@ -1,7 +1,7 @@
 import Input from "./Input";
 
-export default function Inputs({ email, data }) {
-  const { firstName, lastName } = data;
+export default function Inputs({ data }) {
+  const { email, firstName, lastName } = data;
 
   return (
     <div className="flex flex-col gap-3 mx-6 md:mx-10 p-5 bg-light_grey rounded-xl">

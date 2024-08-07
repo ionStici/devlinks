@@ -20,7 +20,7 @@ export async function updateProfile(formData) {
   const image = formData.get("picture");
   const firstName = formData.get("firstName");
   const lastName = formData.get("lastName");
-  const email = formData.get("email");
+  const email = formData.get("email").slice(0, 50);
 
   // Input validation
   if (!emailRegex.test(email)) throw new Error("Invalid Email");
@@ -31,19 +31,18 @@ export async function updateProfile(formData) {
     throw new Error("Wrong image format");
   }
 
-  // Update data
+  // Update metadata
   const { data, error } = await supabase.auth.updateUser({
-    email,
-    data: { firstName, lastName },
+    data: { email, firstName, lastName },
   });
 
   if (error) throw new Error(error.message);
 
   // Upload Image
   const currentImage = data.user.user_metadata.image;
-  if (image.size > 0 && currentImage) {
-    await deleteImage(currentImage);
+  if (image.size > 0 && currentImage) await deleteImage(currentImage);
 
+  if (image.size > 0) {
     const imageName = `${Math.random()}-${image.name}`
       .replace("/", "")
       .slice(2);

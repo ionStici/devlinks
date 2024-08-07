@@ -34,7 +34,7 @@ export default function Input({ type, name, label, value, placeholder }) {
         onFocus={() => setIsValid(true)}
       />
       {!isValid && (
-        <p className="absolute right-1 top-0 sm:top-[13px] sm:right-3 text-xs sm:text-sm text-red">
+        <p className="absolute right-1 top-0 sm:top-[6px] sm:right-3 text-xs sm:text-sm text-red bg-white py-2 pointer-events-none">
           Invalid {name === "email" ? "Email" : "Name"}
         </p>
       )}

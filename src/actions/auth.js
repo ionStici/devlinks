@@ -36,14 +36,12 @@ export async function signUp(formData) {
   if (!passwordRegex.test(password)) throw new Error("Invalid Password");
   if (password !== repeatPassword) throw new Error("Passwords do not match");
 
-  const { data, error } = await supabase.auth.signUp(userData);
+  const { error } = await supabase.auth.signUp(userData);
   if (error) throw new Error(error.message);
 
-  const { data: updatedData } = await supabase.auth.updateUser({
-    data: { firstName: "", lastName: "", image: "" },
+  await supabase.auth.updateUser({
+    data: { email: "", firstName: "", lastName: "", image: "", links: [] },
   });
-
-  console.log(updatedData);
 
   redirect("/edit/profile");
 }
