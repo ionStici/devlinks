@@ -17,7 +17,7 @@ export default async function PhoneMockup() {
           height={632}
         />
 
-        {imgUrl && (
+        {image && (
           <div className="absolute left-[50%] translate-x-[-50%] top-[60px] size-[104px] border-4 border-purple rounded-full">
             <Image
               src={imgUrl}
@@ -41,6 +41,14 @@ export default async function PhoneMockup() {
           <div className="absolute left-[50%] translate-x-[-50%] top-[210px] w-[250px] text-center bg-white">
             <p className="truncate text-grey text-sm">{email}</p>
           </div>
+        )}
+
+        {links.length > 0 && (
+          <ul>
+            {links.map((link) => (
+              <li></li>
+            ))}
+          </ul>
         )}
       </div>
     </section>

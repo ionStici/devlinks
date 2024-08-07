@@ -22,7 +22,8 @@ export default function NavLink({ pathname, isTablet, href }) {
     );
 
   const icon = href === "/edit/links" ? linkIcon : profileIcon;
-  const label = href === "/edit/links" ? "Links" : "Profile";
+  const ariaLabel = href === "/edit/links" ? "Links" : "Profile";
+  const linkText = href === "/edit/links" ? "Links" : "Profile Details";
 
   return (
     <li className={`rounded-lg ${pathname === href ? "bg-light_purple" : ""}`}>
@@ -41,10 +42,10 @@ export default function NavLink({ pathname, isTablet, href }) {
               : "fill-grey group-hover:fill-purple"
           } `}
           beforeInjection={(svg) => {
-            svg.setAttribute("aria-label", label);
+            svg.setAttribute("aria-label", ariaLabel);
           }}
         />
-        {isTablet && "Profile Details"}
+        {isTablet && linkText}
       </Link>
     </li>
   );
