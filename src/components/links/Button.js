@@ -8,7 +8,8 @@ export default function Button({ children }) {
 
   return (
     <>
-      <div className="border-b border-borders mt-6 mb-4 md:mb-6 md:mt-10" />
+      <div aria-hidden="true" className="md:h-10" />
+      <div className="border-b border-borders mt-6 mb-4 md:mb-6 md:mt-auto" />
       <div className="mx-6 md:mx-10">
         <button
           disabled={pending}
