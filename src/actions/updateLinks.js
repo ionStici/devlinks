@@ -10,8 +10,14 @@ const platforms = ["GitHub", "Frontend Mentor", "Twitter", "LinkedIn", "YouTube"
 export async function updateLinks(formData) {
   const supabase = createClient();
 
-  const links = platforms.reduce((acc, platform) => {
+  const links = platforms.reduce((acc, platform, index) => {
     const url = formData.get(platform);
+
+    if (formData.has(platform)) {
+      if (!platformsRegex[index].test(url))
+        throw new Error(`Invalid URL for ${platform}`);
+    }
+
     if (url) acc.push(`${platform}%${url}`);
     return acc;
   }, []);
