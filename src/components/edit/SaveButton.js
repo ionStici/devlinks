@@ -3,7 +3,7 @@
 import TinySpinner from "../ui/TinySpinner";
 import { useFormStatus } from "react-dom";
 
-export default function Button({ children }) {
+export default function SaveButton() {
   const { pending } = useFormStatus();
 
   return (
@@ -15,7 +15,7 @@ export default function Button({ children }) {
           disabled={pending}
           className="flex items-center justify-center h-[46px] w-full sm:w-[91px] sm:ml-auto bg-purple rounded-lg text-white text-base hover:bg-purple_hover hover:shadow-input transition focus:outline-none focus:ring-[2px] focus:ring-purple focus:ring-offset-2 disabled:bg-borders disabled:shadow-none"
         >
-          {pending ? <TinySpinner /> : children}
+          {pending ? <TinySpinner /> : "Save"}
         </button>
       </div>
     </>

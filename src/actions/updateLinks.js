@@ -3,22 +3,8 @@
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 
-const platforms = [
-  "GitHub",
-  "Frontend Mentor",
-  "Twitter",
-  "LinkedIn",
-  "YouTube",
-  "Facebook",
-  "Twitch",
-  "Dev.to",
-  "Codewars",
-  "Codepen",
-  "freeCodeCamp",
-  "GitLab",
-  "Hashnode",
-  "Stack Overflow",
-];
+// prettier-ignore
+const platforms = ["GitHub", "Frontend Mentor", "Twitter", "LinkedIn", "YouTube", "Facebook", "Twitch", "Dev.to", "Codewars", "Codepen", "freeCodeCamp", "GitLab", "Hashnode", "Stack Overflow", ];
 
 export async function updateLinks(formData) {
   const supabase = createClient();

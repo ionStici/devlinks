@@ -1,5 +1,3 @@
-"use client";
-
 import { useOutsideClick } from "@/hooks/useOutsideClick";
 import { Reorder, useDragControls } from "framer-motion";
 import { useState } from "react";
@@ -17,8 +15,8 @@ export default function LinkInput({
   const url = link.split("%")[1];
 
   const platformData = allPlatforms.find(({ platform: p }) => p === platform);
-  const icon = platformData.icon;
-  const placeholder = platformData.placeholder;
+  const { icon, placeholder, regex } = platformData;
+  console.log(regex);
 
   const dragControls = useDragControls();
   const ref = useOutsideClick(() => setIsOpen(false), false);
@@ -43,6 +41,11 @@ export default function LinkInput({
       newLinks.splice(index, 1);
       return newLinks;
     });
+  };
+
+  const openDropDown = () => {
+    if (unusedPlatforms.length === 0) return;
+    setIsOpen((p) => !p);
   };
 
   return (
@@ -72,7 +75,7 @@ export default function LinkInput({
           <button
             className="flex items-center w-full min-h-12 py-2 rounded-lg border border-borders bg-white px-4 text-left"
             type="button"
-            onClick={() => setIsOpen((p) => !p)}
+            onClick={openDropDown}
           >
             {/* prettier-ignore */}
             <ReactSVG src={icon} className="fill-grey mr-3" beforeInjection={(svg) => { svg.setAttribute("aria-label", `${platform} Logo`); }} />
@@ -109,11 +112,17 @@ export default function LinkInput({
         </div>
 
         <div className="relative">
-          <label className="block text-dark_grey text-xs mb-1">Link</label>
+          <label
+            htmlFor={platform}
+            className="block text-dark_grey text-xs mb-1"
+          >
+            Link
+          </label>
           <input
             className="w-full h-12 rounded-lg border border-borders pl-[44px] text-base text-dark_grey placeholder-dark_grey/50"
             type="text"
             name={platform}
+            id={platform}
             defaultValue={url}
             placeholder={placeholder}
           />

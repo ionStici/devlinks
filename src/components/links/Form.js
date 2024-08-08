@@ -1,15 +1,16 @@
 "use client";
 
-import LinkInput from "./LinkInput";
-import Button from "./Button";
-import GetStarted from "./GetStarted";
-import { useState } from "react";
-import { Reorder } from "framer-motion";
 import { updateLinks } from "@/actions/updateLinks";
 import { platforms as allPlatforms } from "@/data/platforms";
+import { Reorder } from "framer-motion";
+import { useState } from "react";
+import SaveButton from "../edit/SaveButton";
+import GetStarted from "./GetStarted";
+import LinkInput from "./LinkInput";
 
 export default function Form({ links: serverLinks }) {
   const [clientLinks, setClientLinks] = useState([...serverLinks]);
+
   const usedPlatforms = clientLinks.map((link) => link.split("%")[0]);
 
   const unusedPlatforms = allPlatforms.reduce((acc, platform) => {
@@ -18,14 +19,24 @@ export default function Form({ links: serverLinks }) {
   }, []);
 
   const addNewLink = () => {
-    setClientLinks((prev) => [...prev, `${unusedPlatforms[0].platform}%`]);
+    setClientLinks((prev) => {
+      if (prev.length === 14) return prev;
+
+      const platform = unusedPlatforms[0].platform;
+
+      const potentialUrl = serverLinks
+        .find((link) => link.split("%")[0] === platform)
+        ?.split("%")[1];
+
+      return [...prev, `${platform}%${potentialUrl || ""}`];
+    });
   };
 
   return (
     <>
       <button
         onClick={addNewLink}
-        className="mb-6 border border-purple rounded-lg py-[10px] mx-6 md:mx-8 text-base font-semibold text-purple transition hover:bg-light_purple focus:outline-none focus:bg-light_purple"
+        className="mb-6 border border-purple rounded-lg py-[10px] mx-6 md:mx-10 text-base font-semibold text-purple transition hover:bg-light_purple focus:outline-none focus:bg-light_purple"
       >
         + Add new link
       </button>
@@ -53,7 +64,7 @@ export default function Form({ links: serverLinks }) {
             );
           })}
         </Reorder.Group>
-        <Button active={clientLinks.length > 0}>Save</Button>
+        <SaveButton />
       </form>
     </>
   );
