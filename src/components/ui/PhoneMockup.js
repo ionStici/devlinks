@@ -46,7 +46,10 @@ export default async function PhoneMockup() {
         )}
 
         {links.length > 0 && (
-          <ul className="absolute left-[50%] top-[279px] translate-x-[-50%] w-[250px] max-h-[302px] overflow-scroll no-scrollbar space-y-5 bg-white">
+          <ul
+            tabIndex={-1}
+            className="py-1 absolute left-[50%] top-[275px] translate-x-[-50%] w-[260px] max-h-[302px] overflow-scroll no-scrollbar space-y-5 bg-white"
+          >
             {links.map((link) => {
               const platform = link.split("%")[0];
               const url = link.split("%")[1];
@@ -60,7 +63,7 @@ export default async function PhoneMockup() {
                     href={url}
                     target="_blank"
                     style={{ backgroundColor: color }}
-                    className={`w-[237px] h-[44px] px-4 mx-auto flex items-center gap-2 rounded-lg ${
+                    className={`w-[237px] h-[44px] px-4 mx-auto flex items-center gap-2 rounded-lg transition hover:scale-x-105 focus:outline-none focus:ring-2 focus:ring-purple focus:ring-offset-2 ${
                       platform === "Frontend Mentor"
                         ? "border border-borders text-dark_grey"
                         : "text-white"
@@ -68,7 +71,7 @@ export default async function PhoneMockup() {
                   >
                     <Image
                       className="fill-white stroke-white"
-                      src={`/icons/${icon}`}
+                      src={`/icons${icon}`}
                       alt={`${platform} Logo`}
                       width={20}
                       height={20}

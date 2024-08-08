@@ -10,17 +10,25 @@ const platforms = ["GitHub", "Frontend Mentor", "Twitter", "LinkedIn", "YouTube"
 export async function updateLinks(formData) {
   const supabase = createClient();
 
-  const links = platforms.reduce((acc, platform, index) => {
-    const url = formData.get(platform);
+  const newOrder = formData.get("order").split(",");
 
-    if (formData.has(platform)) {
-      if (!platformsRegex[index].test(url))
-        throw new Error(`Invalid URL for ${platform}`);
-    }
+  const links = platforms
+    .reduce((acc, platform, index) => {
+      const url = formData.get(platform);
 
-    if (url) acc.push(`${platform}%${url}`);
-    return acc;
-  }, []);
+      if (formData.has(platform)) {
+        if (!platformsRegex[index].test(url))
+          throw new Error(`Invalid URL for ${platform}`);
+      }
+
+      if (url) acc.push(`${platform}%${url}`);
+      return acc;
+    }, [])
+    .sort((a, b) => {
+      return (
+        newOrder.indexOf(a.split("%")[0]) - newOrder.indexOf(b.split("%")[0])
+      );
+    });
 
   const { error } = await supabase.auth.updateUser({
     data: { links },

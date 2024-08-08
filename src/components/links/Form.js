@@ -10,6 +10,7 @@ import LinkInput from "./LinkInput";
 
 export default function Form({ links: serverLinks }) {
   const [clientLinks, setClientLinks] = useState([...serverLinks]);
+  const newOrder = clientLinks.map((link) => link.split("%")[0]);
 
   const usedPlatforms = clientLinks.map((link) => link.split("%")[0]);
 
@@ -44,6 +45,7 @@ export default function Form({ links: serverLinks }) {
       {clientLinks.length === 0 && <GetStarted />}
 
       <form action={updateLinks} className="flex flex-col flex-grow">
+        <input type="hidden" name="order" value={newOrder} />
         <Reorder.Group
           axis="y"
           onReorder={setClientLinks}
