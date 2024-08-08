@@ -19,11 +19,11 @@ export default function Page() {
       />
       <Form action={signUp} btnText="Create new account">
         <Input
-          label="Email address"
-          type="email"
-          name="email"
-          placeholder="e.g. alex@email.com"
-          autofill="email"
+          label="Username"
+          type="text"
+          name="username"
+          placeholder="e.g. developer"
+          autofill="username"
         />
         <Input
           label="Create password"

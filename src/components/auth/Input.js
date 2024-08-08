@@ -8,16 +8,16 @@ const emailIcon = "/assets/icon-email.svg";
 const passwordIcon = "/assets/icon-password.svg";
 
 export default function Input({ label, type, name, placeholder, autofill }) {
-  const icon = type === "email" ? emailIcon : passwordIcon;
+  const icon = type === "text" ? emailIcon : passwordIcon;
 
   const [input, setInput] = useState(() => {
     // TEST DATA
-    return type === "email" ? "test-user@email.app" : "qazwsxedc";
+    return type === "text" ? "dev/@developer" : "qazwsxedc";
   });
   const [isValid, setIsValid] = useState(true);
 
   const handleValidation = () => {
-    if (type === "email") setIsValid(emailRegex.test(input));
+    if (type === "text") setIsValid(emailRegex.test(input));
     if (type === "password") setIsValid(passwordRegex.test(input));
   };
 
@@ -54,7 +54,7 @@ export default function Input({ label, type, name, placeholder, autofill }) {
       />
       {isValid === false && (
         <p className="absolute text-red text-xs right-0 top-0 md:top-9 md:right-4">
-          {type === "email" ? "Invalid Email" : "Invalid Password"}
+          {type === "text" ? "Invalid Email" : "Invalid Password"}
         </p>
       )}
     </div>

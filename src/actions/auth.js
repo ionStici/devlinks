@@ -10,11 +10,11 @@ import { createClient } from "@/utils/supabase/server";
 export async function login(formData) {
   const supabase = createClient();
 
-  const email = formData.get("email");
+  const email = formData.get("username");
   const password = formData.get("password");
   const userData = { email, password };
 
-  if (!emailRegex.test(email)) throw new Error("Invalid Email");
+  // if (!emailRegex.test(email)) throw new Error("Invalid Email");
   if (!passwordRegex.test(password)) throw new Error("Invalid Password");
 
   const { error } = await supabase.auth.signInWithPassword(userData);
@@ -27,12 +27,12 @@ export async function login(formData) {
 export async function signUp(formData) {
   const supabase = createClient();
 
-  const email = formData.get("email");
+  const email = formData.get("username");
   const password = formData.get("new-password");
   const repeatPassword = formData.get("repeat-password");
   const userData = { email, password };
 
-  if (!emailRegex.test(email)) throw new Error("Invalid Email");
+  // if (!emailRegex.test(email)) throw new Error("Invalid Email");
   if (!passwordRegex.test(password)) throw new Error("Invalid Password");
   if (password !== repeatPassword) throw new Error("Passwords do not match");
 
