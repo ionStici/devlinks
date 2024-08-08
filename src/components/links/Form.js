@@ -32,15 +32,12 @@ export default function Form({ links: serverLinks }) {
 
       {clientLinks.length === 0 && <GetStarted />}
 
-      <form
-        action={updateLinks}
-        className="flex flex-col flex-grow mx-6 md:mx-10"
-      >
+      <form action={updateLinks} className="flex flex-col flex-grow">
         <Reorder.Group
           axis="y"
           onReorder={setClientLinks}
           values={clientLinks}
-          className="space-y-6"
+          className="space-y-6 mx-6 md:mx-10"
         >
           {clientLinks.map((link, i) => {
             return (
@@ -56,9 +53,8 @@ export default function Form({ links: serverLinks }) {
             );
           })}
         </Reorder.Group>
+        <Button active={clientLinks.length > 0}>Save</Button>
       </form>
-
-      {/* <Button>Save</Button> */}
     </>
   );
 }

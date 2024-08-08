@@ -31,6 +31,8 @@ export async function updateLinks(formData) {
     return acc;
   }, []);
 
+  console.log(links);
+
   const { error } = await supabase.auth.updateUser({
     data: { links },
   });

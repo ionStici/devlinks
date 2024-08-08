@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useOutsideClick } from "@/hooks/useOutsideClick";
 import { Reorder, useDragControls } from "framer-motion";
 import { useState } from "react";
@@ -17,30 +16,23 @@ export default function LinkInput({
   const platform = link.split("%")[0];
   const url = link.split("%")[1];
 
-  const [newUrl, setNewUrl] = useState("");
+  const platformData = allPlatforms.find(({ platform: p }) => p === platform);
+  const icon = platformData.icon;
+  const placeholder = platformData.placeholder;
 
-  const icon = allPlatforms.find((p) => p.platform === platform).icon;
   const dragControls = useDragControls();
-
-  const [isOpen, setIsOpen] = useState(false);
   const ref = useOutsideClick(() => setIsOpen(false), false);
+  const [isOpen, setIsOpen] = useState(false);
 
   const changePlatform = ({ target }) => {
     setClientLinks((prev) => {
       const newLinks = [...prev];
 
       const potentialUrl = serverLinks
-        .find((link) => {
-          return link.split("%")[0] === target.textContent;
-        })
+        .find((link) => link.split("%")[0] === target.textContent)
         ?.split("%")[1];
 
-      console.log(potentialUrl);
-
-      newLinks[index] = `${target.textContent}%${
-        potentialUrl ? potentialUrl : ""
-      }`;
-
+      newLinks[index] = `${target.textContent}%${potentialUrl || ""}`;
       return newLinks;
     });
   };
@@ -75,69 +67,55 @@ export default function LinkInput({
           </button>
         </div>
 
-        <div className="relative mb-3">
+        <div className="mb-3">
           <p className="block text-dark_grey text-xs mb-1">Platform</p>
-
           <button
-            className="flex items-center w-full h-12 rounded-lg border border-borders bg-white px-4"
+            className="flex items-center w-full min-h-12 py-2 rounded-lg border border-borders bg-white px-4 text-left"
             type="button"
             onClick={() => setIsOpen((p) => !p)}
           >
-            <Image
-              className="mr-3"
-              src={icon}
-              alt="Platform Logo"
-              width={16}
-              height={16}
-            />
-            <span className="text-dark_grey text-base">{platform}</span>
-            <Image
-              className={`ml-auto transition ${isOpen ? "rotate-180" : ""}`}
-              src="/assets/icon-chevron-down.svg"
-              alt="Arrow"
-              width={14}
-              height={9}
-            />
+            {/* prettier-ignore */}
+            <ReactSVG src={icon} className="fill-grey mr-3" beforeInjection={(svg) => { svg.setAttribute("aria-label", `${platform} Logo`); }} />
+            <span className="text-dark_grey text-base mr-3">{platform}</span>
+            {/* prettier-ignore */}
+            <ReactSVG className={`ml-auto transition ${isOpen ? "rotate-180" : ""}`} src="/assets/icon-chevron-down.svg" beforeInjection={(svg) => { svg.setAttribute("aria-label", 'Arrow'); }} />
           </button>
-
-          {isOpen && (
-            <div
-              className="absolute z-10 top-[84px] w-full overflow-y-scroll no-scrollbar bg-white rounded-lg border border-borders shadow-dropDown"
-              ref={ref}
-            >
-              <ul className="px-4 py-1 divide-y divide-borders">
-                {unusedPlatforms.map((p) => {
-                  return (
-                    <li key={p.platform}>
-                      <button
-                        className="w-full h-12 flex items-center justify-start text-left gap-3 text-base text-dark_grey hover:text-purple group"
-                        type="button"
-                        onClick={changePlatform}
-                      >
-                        <ReactSVG
-                          className="fill-grey group-hover:fill-purple pointer-events-none"
-                          src={p.icon}
-                        />
-                        {p.platform}
-                      </button>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-          )}
+          <div className="relative">
+            {isOpen && (
+              <div
+                className="absolute z-10 top-4 w-full bg-white rounded-lg border border-borders shadow-dropDown"
+                ref={ref}
+              >
+                <ul className="px-4 py-1 divide-y divide-borders">
+                  {unusedPlatforms.map((p) => {
+                    return (
+                      <li key={p.platform}>
+                        <button
+                          className="w-full h-12 flex items-center justify-start gap-3 text-left text-base text-dark_grey hover:text-purple group"
+                          type="button"
+                          onClick={changePlatform}
+                        >
+                          {/* prettier-ignore */}
+                          <ReactSVG src={p.icon} className="fill-grey group-hover:fill-purple pointer-events-none" beforeInjection={(svg) => { svg.setAttribute("aria-label", `${p.platform} Logo`); }} />
+                          {p.platform}
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="relative">
-          <label className="block text-dark_grey text-xs mb-1">
-            <span>Link</span>
-          </label>
+          <label className="block text-dark_grey text-xs mb-1">Link</label>
           <input
-            className="w-full h-12 rounded-lg border border-borders pl-[44px]"
+            className="w-full h-12 rounded-lg border border-borders pl-[44px] text-base text-dark_grey placeholder-dark_grey/50"
             type="text"
             name={platform}
             defaultValue={url}
-            onChange={({ target }) => setNewUrl(target.value)}
+            placeholder={placeholder}
           />
           {/* prettier-ignore */}
           <ReactSVG className="absolute left-4 bottom-4" src="/assets/icon-link.svg" beforeInjection={(svg) => { svg.setAttribute("aria-label", "Link"); }} />
