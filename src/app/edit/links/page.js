@@ -1,7 +1,5 @@
 import { getUser } from "@/actions/auth";
-import AddLinkButton from "@/components/links/AddLinkButton";
 import Form from "@/components/links/Form";
-import GetStarted from "@/components/links/GetStarted";
 import Heading from "@/components/ui/Heading";
 
 export const metadata = { title: "Add Links" };
@@ -15,8 +13,7 @@ export default async function Page() {
         title="Customize your links"
         text="Add/edit/remove links below and then share all your profiles with the world!"
       />
-      <AddLinkButton />
-      {/* <GetStarted /> */}
+
       <Form links={data.links} />
     </section>
   );

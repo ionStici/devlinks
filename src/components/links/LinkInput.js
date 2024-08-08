@@ -4,22 +4,43 @@ import { ReactSVG } from "react-svg";
 import Image from "next/image";
 import { useState } from "react";
 import { useOutsideClick } from "@/hooks/useOutsideClick";
+import { Reorder, useDragControls } from "framer-motion";
 
-export default function LinkInput({ link }) {
-  const test1 = Object.keys(link);
-  const test2 = Object.values(link);
-  console.log(test1, test2);
+export default function LinkInput({
+  index,
+  link,
+  setClientLinks,
+  platforms,
+  remaining,
+  controls,
+}) {
+  const platform = link.split("%")[0];
+  const url = link.split("%")[1];
 
   const [isOpen, setIsOpen] = useState(false);
-  const [currentPlatform, setCurrentPlatform] = useState("GitHub");
-  const icon = platforms.filter((p) => p.platform === currentPlatform)[0].icon;
+
+  const icon = platforms.find((p) => p.platform === platform).icon;
 
   const handleClick = ({ target }) => {
-    setCurrentPlatform(target.textContent);
-    setIsOpen(false);
+    console.log(target.textContent);
+
+    setClientLinks((prev) => {
+      const test = [...prev];
+      test[index] = { [target.textContent]: "url" };
+      return test;
+    });
+    // setIsOpen(false);
   };
 
-  const ref = useOutsideClick(() => setIsOpen(false));
+  const handleRemoveLink = ({ target }) => {
+    const test = [...prev];
+    test[index] = { [target.textContent]: "url" };
+    return test;
+  };
+
+  const ref = useOutsideClick(() => setIsOpen(false), false);
+
+  const dragControls = useDragControls();
 
   return (
     <div className="bg-light_grey rounded-xl p-5">
@@ -30,9 +51,13 @@ export default function LinkInput({ link }) {
         >
           {/* prettier-ignore */}
           <ReactSVG src="/assets/icon-drag-and-drop.svg" beforeInjection={(svg) => { svg.setAttribute("aria-label", "Drag and Drop"); }} />
-          <span>Link #1</span>
+          <span>Link #{index + 1}</span>
         </button>
-        <button type="button" className="text-grey text-base">
+        <button
+          onClick={handleRemoveLink}
+          type="button"
+          className="text-grey text-base"
+        >
           Remove
         </button>
       </div>
@@ -52,7 +77,7 @@ export default function LinkInput({ link }) {
             width={16}
             height={16}
           />
-          <span className="text-dark_grey text-base">{currentPlatform}</span>
+          <span className="text-dark_grey text-base">{platform}</span>
           <Image
             className={`ml-auto transition ${isOpen ? "rotate-180" : ""}`}
             src="/assets/icon-chevron-down.svg"
@@ -66,7 +91,7 @@ export default function LinkInput({ link }) {
           <div className="overflow-hidden" ref={ref}>
             <div className="absolute z-10 top-[84px] w-full h-[343px] overflow-y-scroll no-scrollbar bg-white rounded-lg border border-borders shadow-dropDown">
               <ul className="px-4 pt-3">
-                {platforms.map((p) => {
+                {remaining.map((p) => {
                   return (
                     <li
                       key={p.platform}
@@ -99,7 +124,8 @@ export default function LinkInput({ link }) {
         <input
           className="w-full h-12 rounded-lg border border-borders pl-[44px]"
           type="text"
-          name={currentPlatform}
+          name={platform}
+          defaultValue={url}
         />
         {/* prettier-ignore */}
         <ReactSVG className="absolute left-4 bottom-4" src="/assets/icon-link.svg" beforeInjection={(svg) => { svg.setAttribute("aria-label", "Link"); }} />
@@ -107,20 +133,3 @@ export default function LinkInput({ link }) {
     </div>
   );
 }
-
-const platforms = [
-  { platform: "GitHub", icon: "/assets/icon-github.svg" },
-  { platform: "Frontend Mentor", icon: "/assets/icon-frontend-mentor.svg" },
-  { platform: "Twitter", icon: "/assets/icon-twitter.svg" },
-  { platform: "LinkedIn", icon: "/assets/icon-linkedin.svg" },
-  { platform: "YouTube", icon: "/assets/icon-youtube.svg" },
-  { platform: "Facebook", icon: "/assets/icon-facebook.svg" },
-  { platform: "Twitch", icon: "/assets/icon-twitch.svg" },
-  { platform: "Dev.to", icon: "/assets/icon-devto.svg" },
-  { platform: "Codewars", icon: "/assets/icon-codewars.svg" },
-  { platform: "Codepen", icon: "/assets/icon-codepen.svg" },
-  { platform: "freeCodeCamp", icon: "/assets/icon-freecodecamp.svg" },
-  { platform: "GitLab", icon: "/assets/icon-gitlab.svg" },
-  { platform: "Hashnode", icon: "/assets/icon-hashnode.svg" },
-  { platform: "Stack Overflow", icon: "/assets/icon-stack-overflow.svg" },
-];

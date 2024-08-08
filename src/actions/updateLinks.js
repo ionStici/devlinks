@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/utils/supabase/server";
+import { revalidatePath } from "next/cache";
 
 const platforms = [
   "GitHub",
@@ -19,7 +20,7 @@ const platforms = [
   "Stack Overflow",
 ];
 
-export async function addLink(formData) {
+export async function updateLinks(formData) {
   const supabase = createClient();
 
   const links = platforms.reduce((acc, p) => {
@@ -34,9 +35,5 @@ export async function addLink(formData) {
 
   if (error) throw new Error(error.message);
 
-  // const platform = formData.get("platform");
-  // const url = formData.get("url");
-
-  // const newLink = { platform, url };
-  // console.log(newLink);
+  revalidatePath("edit/links");
 }
