@@ -1,0 +1,16 @@
+export const platforms = [
+  { platform: "GitHub", icon: "/assets/icon-github.svg" },
+  { platform: "Frontend Mentor", icon: "/assets/icon-frontend-mentor.svg" },
+  { platform: "Twitter", icon: "/assets/icon-twitter.svg" },
+  { platform: "LinkedIn", icon: "/assets/icon-linkedin.svg" },
+  { platform: "YouTube", icon: "/assets/icon-youtube.svg" },
+  { platform: "Facebook", icon: "/assets/icon-facebook.svg" },
+  { platform: "Twitch", icon: "/assets/icon-twitch.svg" },
+  { platform: "Dev.to", icon: "/assets/icon-devto.svg" },
+  { platform: "Codewars", icon: "/assets/icon-codewars.svg" },
+  { platform: "Codepen", icon: "/assets/icon-codepen.svg" },
+  { platform: "freeCodeCamp", icon: "/assets/icon-freecodecamp.svg" },
+  { platform: "GitLab", icon: "/assets/icon-gitlab.svg" },
+  { platform: "Hashnode", icon: "/assets/icon-hashnode.svg" },
+  { platform: "Stack Overflow", icon: "/assets/icon-stack-overflow.svg" },
+];

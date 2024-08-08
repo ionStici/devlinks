@@ -23,9 +23,11 @@ const platforms = [
 export async function updateLinks(formData) {
   const supabase = createClient();
 
-  const links = platforms.reduce((acc, p) => {
-    const url = formData.get(p);
-    if (url) acc.push({ [`${p}`]: url });
+  console.log(formData);
+
+  const links = platforms.reduce((acc, platform) => {
+    const url = formData.get(platform);
+    if (url) acc.push(`${platform}%${url}`);
     return acc;
   }, []);
 
