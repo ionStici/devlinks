@@ -1,9 +1,9 @@
-import Image from "next/image";
 import { getUser } from "@/actions/auth";
+import { platforms } from "@/data/platforms";
+import Image from "next/image";
 
 export default async function PhoneMockup() {
-  const user = await getUser();
-  const { user_metadata } = user;
+  const { user_metadata } = await getUser();
   const { email, firstName, lastName, image, links } = user_metadata;
   const imgUrl = `https://jkyhtwrybkepbzpwanme.supabase.co/storage/v1/object/public/avatars/${image}`;
 
@@ -15,6 +15,7 @@ export default async function PhoneMockup() {
           alt="Phone Mockup"
           width={308}
           height={632}
+          priority={true}
         />
 
         {image && (
@@ -25,6 +26,7 @@ export default async function PhoneMockup() {
               fill
               className="object-cover rounded-full"
               sizes="96px"
+              priority={true}
             />
           </div>
         )}
@@ -44,10 +46,39 @@ export default async function PhoneMockup() {
         )}
 
         {links.length > 0 && (
-          <ul>
-            {links.map((link) => (
-              <li></li>
-            ))}
+          <ul className="absolute left-[50%] top-[279px] translate-x-[-50%] w-[250px] max-h-[302px] overflow-scroll no-scrollbar space-y-5 bg-white">
+            {links.map((link) => {
+              const platform = link.split("%")[0];
+              const url = link.split("%")[1];
+              const { icon, color } = platforms.find(
+                ({ platform: p }) => p === platform
+              );
+
+              return (
+                <li key={link}>
+                  <a
+                    href={url}
+                    target="_blank"
+                    style={{ backgroundColor: color }}
+                    className={`w-[237px] h-[44px] px-4 mx-auto flex items-center gap-2 rounded-lg ${
+                      platform === "Frontend Mentor"
+                        ? "border border-borders text-dark_grey"
+                        : "text-white"
+                    }`}
+                  >
+                    <Image
+                      className="fill-white stroke-white"
+                      src={`/icons/${icon}`}
+                      alt={`${platform} Logo`}
+                      width={20}
+                      height={20}
+                      priority={true}
+                    />
+                    <span className="text-base">{platform}</span>
+                  </a>
+                </li>
+              );
+            })}
           </ul>
         )}
       </div>

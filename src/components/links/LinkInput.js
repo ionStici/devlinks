@@ -82,7 +82,7 @@ export default function LinkInput({
           <p className="block text-dark_grey text-xs mb-1">Platform</p>
           <button
             className={`flex items-center w-full min-h-12 py-2 rounded-lg border border-borders bg-white px-4 text-left transition focus:outline-none ${
-              isOpen
+              isOpen || unusedPlatforms.length === 0
                 ? ""
                 : "hover:border-purple hover:shadow-input focus:border-purple"
             }`}
