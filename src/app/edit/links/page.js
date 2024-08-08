@@ -13,6 +13,7 @@ export default async function Page() {
         title="Customize your links"
         text="Add/edit/remove links below and then share all your profiles with the world!"
       />
+
       <Form links={data.links} />
     </>
   );
