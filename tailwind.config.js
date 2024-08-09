@@ -8,6 +8,9 @@ module.exports = {
   theme: {
     extend: {
       revert: "revert",
+      screens: {
+        xs: "400px",
+      },
     },
     colors: {
       black: "#000",

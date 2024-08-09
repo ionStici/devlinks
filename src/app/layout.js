@@ -4,7 +4,7 @@ import "./globals.css";
 const sans = Instrument_Sans({ subsets: ["latin"] });
 
 export const metadata = {
-  title: { template: "%s // Link Sharing App", default: "Link Sharing App" },
+  title: { template: "%s // DevLinks", default: "DevLinks" },
   description: "Frontend Mentor Challenge | Guru Difficulty",
 };
 

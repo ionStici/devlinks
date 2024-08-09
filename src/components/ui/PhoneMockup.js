@@ -1,6 +1,7 @@
 import { getUser } from "@/actions/auth";
 import { platforms } from "@/data/platforms";
 import Image from "next/image";
+import PlatformLink from "./PlatformLink";
 
 export default async function PhoneMockup() {
   const { user_metadata } = await getUser();
@@ -48,7 +49,7 @@ export default async function PhoneMockup() {
         {links.length > 0 && (
           <ul
             tabIndex={-1}
-            className="py-1 absolute left-[50%] top-[275px] translate-x-[-50%] w-[260px] max-h-[302px] overflow-scroll no-scrollbar space-y-5 bg-white"
+            className="py-1 absolute left-[50%] top-[275px] translate-x-[-50%] w-[260px] max-h-[310px] overflow-scroll no-scrollbar space-y-5 bg-white"
           >
             {links.map((link) => {
               const platform = link.split("%")[0];
@@ -58,28 +59,14 @@ export default async function PhoneMockup() {
               );
 
               return (
-                <li key={link}>
-                  <a
-                    href={url}
-                    target="_blank"
-                    style={{ backgroundColor: color }}
-                    className={`w-[237px] h-[44px] px-4 mx-auto flex items-center gap-2 rounded-lg transition hover:scale-x-105 focus:outline-none focus:ring-2 focus:ring-purple focus:ring-offset-2 ${
-                      platform === "Frontend Mentor"
-                        ? "border border-borders text-dark_grey"
-                        : "text-white"
-                    }`}
-                  >
-                    <Image
-                      className="fill-white stroke-white"
-                      src={`/icons${icon}`}
-                      alt={`${platform} Logo`}
-                      width={20}
-                      height={20}
-                      priority={true}
-                    />
-                    <span className="text-base">{platform}</span>
-                  </a>
-                </li>
+                <PlatformLink
+                  key={link}
+                  platform={platform}
+                  url={url}
+                  icon={icon}
+                  color={color}
+                  height="44px"
+                />
               );
             })}
           </ul>
