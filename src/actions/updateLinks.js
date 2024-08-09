@@ -30,11 +30,12 @@ export async function updateLinks(formData) {
       );
     });
 
-  const { error } = await supabase.auth.updateUser({
+  const { data, error } = await supabase.auth.updateUser({
     data: { links },
   });
 
   if (error) throw new Error(error.message);
 
+  // const username = data.user.email;
   revalidatePath("edit/links");
 }

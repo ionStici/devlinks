@@ -22,7 +22,7 @@ export default async function PhoneMockup() {
           <div className="absolute left-[50%] translate-x-[-50%] top-[60px] size-[104px] border-4 border-purple rounded-full">
             <Image
               src={imgUrl}
-              alt="Profile Picture"
+              alt={`${firstName} ${lastName} Profile Picture`}
               fill
               className="object-cover rounded-full"
               sizes="96px"

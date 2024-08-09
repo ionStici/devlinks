@@ -20,6 +20,7 @@ module.exports = {
       light_grey: "#fafafa",
       white: "#fff",
       red: "#FF3939",
+      empty: "#eee",
       transparent: "transparent",
     },
     boxShadow: {
@@ -29,6 +30,7 @@ module.exports = {
       dropDown: "0 0 32px rgba(0,0,0,.25)",
       remove: "0 2px 0 red",
       none: "none",
+      profileBox: "0 0 32px rgba(0,0,0, 0.15)",
     },
   },
 };
