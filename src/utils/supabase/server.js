@@ -18,7 +18,8 @@ export function createClient() {
               cookieStore.set(name, value, options)
             );
           } catch (err) {
-            throw new Error(err.message);
+            console.error(err);
+            // throw new Error(err.message);
           }
         },
       },

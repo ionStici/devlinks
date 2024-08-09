@@ -3,19 +3,21 @@
 // await new Promise((res) => setTimeout(res, 2500));
 
 import { redirect } from "next/navigation";
-import { emailRegex, passwordRegex } from "@/utils/regex";
+import { usernameRegex, passwordRegex } from "@/utils/regex";
 import { createClient } from "@/utils/supabase/server";
 
 // Login
 export async function login(formData) {
   const supabase = createClient();
 
-  const email = formData.get("username");
+  const username = formData.get("username");
   const password = formData.get("password");
-  const userData = { email, password };
 
-  // if (!emailRegex.test(email)) throw new Error("Invalid Email");
+  if (!usernameRegex.test(username)) throw new Error("Invalid Username");
   if (!passwordRegex.test(password)) throw new Error("Invalid Password");
+
+  const email = `/@${username}`;
+  const userData = { email, password };
 
   const { error } = await supabase.auth.signInWithPassword(userData);
   if (error) throw new Error(error.message);
@@ -27,14 +29,16 @@ export async function login(formData) {
 export async function signUp(formData) {
   const supabase = createClient();
 
-  const email = formData.get("username");
+  const username = formData.get("username");
   const password = formData.get("new-password");
   const repeatPassword = formData.get("repeat-password");
-  const userData = { email, password };
 
-  // if (!emailRegex.test(email)) throw new Error("Invalid Email");
+  if (!usernameRegex.test(username)) throw new Error("Invalid Username");
   if (!passwordRegex.test(password)) throw new Error("Invalid Password");
   if (password !== repeatPassword) throw new Error("Passwords do not match");
+
+  const email = `/@${username}`;
+  const userData = { email, password };
 
   const { error } = await supabase.auth.signUp(userData);
   if (error) throw new Error(error.message);

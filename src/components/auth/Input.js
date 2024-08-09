@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { emailRegex, passwordRegex } from "@/utils/regex";
+import { usernameRegex, passwordRegex } from "@/utils/regex";
 
 const emailIcon = "/assets/icon-email.svg";
 const passwordIcon = "/assets/icon-password.svg";
@@ -10,14 +10,11 @@ const passwordIcon = "/assets/icon-password.svg";
 export default function Input({ label, type, name, placeholder, autofill }) {
   const icon = type === "text" ? emailIcon : passwordIcon;
 
-  const [input, setInput] = useState(() => {
-    // TEST DATA
-    return type === "text" ? "dev/@developer" : "qazwsxedc";
-  });
+  const [input, setInput] = useState("");
   const [isValid, setIsValid] = useState(true);
 
   const handleValidation = () => {
-    if (type === "text") setIsValid(emailRegex.test(input));
+    if (type === "text") setIsValid(usernameRegex.test(input));
     if (type === "password") setIsValid(passwordRegex.test(input));
   };
 
@@ -41,7 +38,7 @@ export default function Input({ label, type, name, placeholder, autofill }) {
         value={input}
         onBlur={handleValidation}
         onFocus={() => setIsValid(true)}
-        className={`border border-borders h-12 rounded-lg pl-[44px] text-base focus:outline-none focus:shadow-input focus:border-purple hover:border-purple ${
+        className={`border border-borders h-12 rounded-lg pl-[44px] text-base placeholder-dark_grey/50 focus:outline-none focus:shadow-input focus:border-purple hover:border-purple ${
           isValid === false ? "!border-red hover:border-red" : ""
         }`}
       />
@@ -54,7 +51,7 @@ export default function Input({ label, type, name, placeholder, autofill }) {
       />
       {isValid === false && (
         <p className="absolute text-red text-xs right-0 top-0 md:top-9 md:right-4">
-          {type === "text" ? "Invalid Email" : "Invalid Password"}
+          {type === "text" ? "Invalid Username" : "Invalid Password"}
         </p>
       )}
     </div>

@@ -5,7 +5,7 @@ import Image from "next/image";
 export default async function PhoneMockup() {
   const { user_metadata } = await getUser();
   const { email, firstName, lastName, image, links } = user_metadata;
-  const imgUrl = `https://jkyhtwrybkepbzpwanme.supabase.co/storage/v1/object/public/avatars/${image}`;
+  const imgUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/${image}`;
 
   return (
     <section className="hidden lg:flex items-center justify-center rounded-xl shadow-section bg-white md:h-[834px] min-w-[348px] max-w-[560px] flex-grow">

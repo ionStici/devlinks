@@ -5,7 +5,7 @@ import { useState } from "react";
 import { ReactSVG } from "react-svg";
 
 export default function UploadPicture({ img }) {
-  const imgUrl = `https://jkyhtwrybkepbzpwanme.supabase.co/storage/v1/object/public/avatars/${img}`;
+  const imgUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/${img}`;
   const [preview, setPreview] = useState(() => (img ? imgUrl : null));
   const [error, setError] = useState("");
 

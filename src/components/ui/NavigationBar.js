@@ -21,7 +21,7 @@ export default function NavigationBar({ username }) {
         <NavLink pathname={pathname} isTablet={isTablet} href="/edit/profile" />
       </ul>
 
-      <NavLink pathname="preview" isTablet={isTablet} href={`/${username}`} />
+      <NavLink pathname="preview" isTablet={isTablet} href={username} />
     </nav>
   );
 }

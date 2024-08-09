@@ -21,7 +21,7 @@ export default function Input({ type, name, label, value, placeholder }) {
         {label}
       </label>
       <input
-        className={`w-full h-12 px-4 rounded-lg border border-borders text-base text-dark_grey sm:w-[344px] sm:ml-auto focus:outline-none focus:shadow-input focus:border-purple hover:border-purple ${
+        className={`w-full h-12 px-4 rounded-lg border border-borders text-base text-dark_grey placeholder-dark_grey/50 sm:w-[344px] sm:ml-auto focus:outline-none focus:shadow-input focus:border-purple hover:border-purple ${
           !isValid ? "!border-red hover:border-red" : ""
         }`}
         name={name}
