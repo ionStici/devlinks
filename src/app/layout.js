@@ -5,13 +5,17 @@ const sans = Instrument_Sans({ subsets: ["latin"] });
 
 export const metadata = {
   title: { template: "%s // DevLinks", default: "DevLinks" },
-  description: "Frontend Mentor Challenge | Guru Difficulty",
+  description: "Links Sharing App // Frontend Mentor Challenge",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${sans.className} bg-light_grey`}>{children}</body>
+      <body
+        className={`w-screen flex items-center justify-center bg-light_grey ${sans.className} text-base`}
+      >
+        <div className="flex-grow">{children}</div>
+      </body>
     </html>
   );
 }

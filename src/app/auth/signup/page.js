@@ -1,16 +1,20 @@
-import Header from "@/components/auth/Header";
-import Footer from "@/components/auth/Footer";
-import Form from "@/components/auth/Form";
-import Input from "@/components/auth/Input";
-
-import { signUp } from "@/actions/auth";
+import { signUp, getUser } from "@/actions/auth";
+import { redirect } from "next/navigation";
+import Header from "../_components/Header";
+import Form from "../_components/Form";
+import Input from "../_components/Input";
+import Footer from "../_components/Footer";
 
 export const metadata = {
-  title: "Sign Up",
-  description: "Create a new devlinks account",
+  title: "Create your devlinks account",
+  description:
+    "Join devlinks and build your personalized profile with all your software development social links. Share your journey, connect with others, and showcase your work.",
 };
 
-export default function Page() {
+export default async function Page() {
+  const user = await getUser();
+  if (user) redirect("/edit/profile");
+
   return (
     <>
       <Header
@@ -22,18 +26,18 @@ export default function Page() {
           label="Username"
           type="text"
           name="username"
-          placeholder="e.g. developer"
+          placeholder="e.g. codeWizard"
           autofill="username"
         />
         <Input
-          label="Create password"
+          label="Create Password"
           type="password"
           name="new-password"
           placeholder="At least 8 characters"
           autofill="new-password"
         />
         <Input
-          label="Confirm password"
+          label="Confirm Password"
           type="password"
           name="repeat-password"
           placeholder="At least 8 characters"
@@ -43,7 +47,11 @@ export default function Page() {
           Password must contain at least 8 characters
         </p>
       </Form>
-      <Footer text="Already have an account?" btn="Login" href="/auth/login" />
+      <Footer
+        content="Already have an account?"
+        btnText="Login"
+        href="/auth/login"
+      />
     </>
   );
 }

@@ -1,14 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { passwordRegex, usernameRegex } from "@/utils/regex";
 import Image from "next/image";
-import { usernameRegex, passwordRegex } from "@/utils/regex";
+import { useState } from "react";
 
-const emailIcon = "/assets/icon-email.svg";
+const usernameIcon = "/assets/icon-username.svg";
 const passwordIcon = "/assets/icon-password.svg";
 
 export default function Input({ label, type, name, placeholder, autofill }) {
-  const icon = type === "text" ? emailIcon : passwordIcon;
+  const icon = type === "text" ? usernameIcon : passwordIcon;
 
   const [input, setInput] = useState("");
   const [isValid, setIsValid] = useState(true);
@@ -44,13 +44,13 @@ export default function Input({ label, type, name, placeholder, autofill }) {
       />
       <Image
         src={icon}
-        alt="Email"
+        alt={name}
         width={16}
         height={16}
         className="absolute left-4 bottom-4 pointer-events-none"
       />
       {isValid === false && (
-        <p className="absolute text-red text-xs right-0 top-0 md:top-9 md:right-4">
+        <p className="absolute text-red text-xs right-0 top-0 sm:top-8 sm:right-4 sm:pl-1 sm:bg-white sm:py-1">
           {type === "text" ? "Invalid Username" : "Invalid Password"}
         </p>
       )}

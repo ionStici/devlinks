@@ -6,12 +6,7 @@ module.exports = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {
-      revert: "revert",
-      screens: {
-        xs: "400px",
-      },
-    },
+    extend: { screens: { xs: "400px" } },
     colors: {
       black: "#000",
       purple: "#633CFF",
@@ -27,13 +22,26 @@ module.exports = {
       transparent: "transparent",
     },
     boxShadow: {
+      none: "none",
       input: "0 0 32px rgba(99, 60, 255, .25)",
       section: "0px 8px 24px rgba(149, 157, 165, 0.2)",
       box: "rgba(0, 0, 0, 0.16) 0px 1px 4px inset",
       dropDown: "0 0 32px rgba(0,0,0,.25)",
       remove: "0 2px 0 red",
-      none: "none",
       profileBox: "0 0 32px rgba(0,0,0, 0.15)",
     },
   },
+  plugins: [
+    function ({ addUtilities }) {
+      addUtilities({
+        ".no-scrollbar": {
+          "-ms-overflow-style": "none",
+          "scrollbar-width": "none",
+        },
+        ".no-scrollbar::-webkit-scrollbar": {
+          display: "none",
+        },
+      });
+    },
+  ],
 };

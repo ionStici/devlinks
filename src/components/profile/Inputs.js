@@ -8,23 +8,23 @@ export default function Inputs({ data }) {
       <Input
         type="text"
         name="firstName"
-        label="First name*"
+        label="First Name"
         value={firstName}
         placeholder="e.g. John"
       />
       <Input
         type="text"
         name="lastName"
-        label="Last name*"
+        label="Last Name"
         value={lastName}
         placeholder="e.g. Appleseed"
       />
       <Input
-        type="email"
+        type="text"
         name="email"
-        label="Email"
+        label="About You"
         value={email}
-        placeholder="e.g. email@example.com"
+        placeholder="e.g. Web Developer"
       />
     </div>
   );

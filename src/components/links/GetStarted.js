@@ -8,7 +8,7 @@ export default function GetStarted() {
       </div>
       <div className="text-center max-w-[488px] mx-auto">
         <h2 className="mb-6 text-2xl font-bold sm:text-3xl">
-          Let's get you started
+          Let&apos;s get you started
         </h2>
         <p className="text-base text-grey font-normal">
           Use the “Add new link” button to get started. Once you have more than

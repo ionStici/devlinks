@@ -1,17 +1,8 @@
 "use server";
 
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@/supabase/server";
 import { revalidatePath } from "next/cache";
 import { emailRegex, nameRegex } from "@/utils/regex";
-
-// // // // // // // // // // // // // // // // // // // //
-
-async function deleteImage(path) {
-  const supabase = createClient();
-  await supabase.storage.from("avatars").remove([path]);
-}
-
-// // // // // // // // // // // // // // // // // // // //
 
 export async function updateProfile(formData) {
   const supabase = createClient();
@@ -20,10 +11,10 @@ export async function updateProfile(formData) {
   const image = formData.get("picture");
   const firstName = formData.get("firstName");
   const lastName = formData.get("lastName");
-  const email = formData.get("email").slice(0, 50);
+  const email = formData.get("email").slice(0, 150);
 
   // Input validation
-  if (!emailRegex.test(email)) throw new Error("Invalid Email");
+  // if (!emailRegex.test(email)) throw new Error("Invalid Email");
   if (!nameRegex.test(firstName)) throw new Error("Invalid First Name");
   if (!nameRegex.test(lastName)) throw new Error("Invalid Last Name");
   if (image.size > 750000) throw new Error("The image is too large");
@@ -40,7 +31,9 @@ export async function updateProfile(formData) {
 
   // Upload Image
   const currentImage = data.user.user_metadata.image;
-  if (image.size > 0 && currentImage) await deleteImage(currentImage);
+  if (image.size > 0 && currentImage) {
+    await supabase.storage.from("avatars").remove([currentImage]);
+  }
 
   if (image.size > 0) {
     const imageName = `${Math.random()}-${image.name}`
@@ -63,5 +56,3 @@ export async function updateProfile(formData) {
   // Revalidate Path
   revalidatePath("/edit/profile");
 }
-
-// // // // // // // // // // // // // // // // // // // //

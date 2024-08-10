@@ -1,10 +1,8 @@
 "use server";
 
-// await new Promise((res) => setTimeout(res, 2500));
-
 import { redirect } from "next/navigation";
 import { usernameRegex, passwordRegex } from "@/utils/regex";
-import { createClient } from "@/utils/supabase/server";
+import { createClient } from "@/supabase/server";
 
 // Login
 export async function login(formData) {
@@ -16,10 +14,9 @@ export async function login(formData) {
   if (!usernameRegex.test(username)) throw new Error("Invalid Username");
   if (!passwordRegex.test(password)) throw new Error("Invalid Password");
 
-  const email = `/@${username}`;
-  const userData = { email, password };
+  const newUser = { email: `/@${username}`, password };
 
-  const { error } = await supabase.auth.signInWithPassword(userData);
+  const { error } = await supabase.auth.signInWithPassword(newUser);
   if (error) throw new Error(error.message);
 
   redirect("/edit/profile");
@@ -37,14 +34,13 @@ export async function signUp(formData) {
   if (!passwordRegex.test(password)) throw new Error("Invalid Password");
   if (password !== repeatPassword) throw new Error("Passwords do not match");
 
-  const email = `/@${username}`;
-  const userData = { email, password };
+  const userData = { email: `/@${username}`, password };
 
   const { error } = await supabase.auth.signUp(userData);
   if (error) throw new Error(error.message);
 
   await supabase.auth.updateUser({
-    data: { email: "", firstName: "", lastName: "", image: "", links: [] },
+    data: { firstName: "", lastName: "", about: "", image: "", links: [] },
   });
 
   redirect("/edit/profile");
@@ -54,7 +50,7 @@ export async function signUp(formData) {
 export async function logOut() {
   const supabase = createClient();
 
-  let { error } = await supabase.auth.signOut();
+  const { error } = await supabase.auth.signOut();
 
   if (error) throw new Error(error.message);
 
@@ -68,4 +64,30 @@ export async function getUser() {
   const { data } = await supabase.auth.getUser();
 
   return data?.user;
+}
+
+// Reset Password
+export async function resetPassword(formData) {
+  const supabase = createClient();
+
+  const password = formData.get("current-password");
+  const newPassword = formData.get("new-password");
+
+  if (!passwordRegex.test(password)) throw new Error("Invalid Password");
+  if (!passwordRegex.test(newPassword)) throw new Error("Invalid New Password");
+
+  const { error } = await supabase.auth.updateUser({
+    password: newPassword,
+  });
+
+  if (error) throw new Error(error.message);
+
+  redirect("/edit/profile");
+}
+
+// Delete Account
+export async function deleteAccount(formData) {
+  const supabase = createClient();
+
+  const password = formData.get("current-password");
 }

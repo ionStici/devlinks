@@ -1,16 +1,20 @@
-import Header from "@/components/auth/Header";
-import Footer from "@/components/auth/Footer";
-import Form from "@/components/auth/Form";
-import Input from "@/components/auth/Input";
-
-import { login } from "@/actions/auth";
+import { login, getUser } from "@/actions/auth";
+import { redirect } from "next/navigation";
+import Header from "../_components/Header";
+import Form from "../_components/Form";
+import Input from "../_components/Input";
+import Footer from "../_components/Footer";
 
 export const metadata = {
-  title: "Login",
-  description: "Log in to your account",
+  title: "Log in to your devlinks account",
+  description:
+    "Access your devlinks profile to manage your personal details and share your software development journey with the world.",
 };
 
-export default function Page() {
+export default async function Page() {
+  const user = await getUser();
+  if (user) redirect("/edit/profile");
+
   return (
     <>
       <Header
@@ -22,7 +26,7 @@ export default function Page() {
           label="Username"
           type="text"
           name="username"
-          placeholder="e.g. developer"
+          placeholder="e.g. codeWizard"
           autofill="username"
         />
         <Input
@@ -34,8 +38,8 @@ export default function Page() {
         />
       </Form>
       <Footer
-        text="Don't have an account?"
-        btn="Create account"
+        content="Don't have an account?"
+        btnText="Create account"
         href="/auth/signup"
       />
     </>

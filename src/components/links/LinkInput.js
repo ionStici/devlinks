@@ -90,7 +90,7 @@ export default function LinkInput({
             onClick={openDropDown}
           >
             {/* prettier-ignore */}
-            <ReactSVG src={icon} className="fill-grey mr-3" beforeInjection={(svg) => { svg.setAttribute("aria-label", `${platform} Logo`); }} />
+            <ReactSVG src={icon} className="fill-grey mr-3 w-4 h-4" beforeInjection={(svg) => { svg.setAttribute("aria-label", `${platform} Logo`); }} />
             <span className="text-dark_grey text-base mr-3">{platform}</span>
             {/* prettier-ignore */}
             <ReactSVG className={`ml-auto transition ${isOpen ? "rotate-180" : ""}`} src="/assets/icon-chevron-down.svg" beforeInjection={(svg) => { svg.setAttribute("aria-label", 'Arrow'); }} />
@@ -111,7 +111,7 @@ export default function LinkInput({
                           onClick={changePlatform}
                         >
                           {/* prettier-ignore */}
-                          <ReactSVG src={p.icon} className="fill-grey group-hover:fill-purple pointer-events-none" beforeInjection={(svg) => { svg.setAttribute("aria-label", `${p.platform} Logo`); }} />
+                          <ReactSVG src={p.icon} className="w-4 h-4 fill-grey group-hover:fill-purple pointer-events-none" beforeInjection={(svg) => { svg.setAttribute("aria-label", `${p.platform} Logo`); }} />
                           {p.platform}
                         </button>
                       </li>

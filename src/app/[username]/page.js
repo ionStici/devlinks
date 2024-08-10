@@ -30,17 +30,25 @@ export default async function Page({ params }) {
   const imgUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/${image}`;
 
   return (
-    <div>
-      <nav>
-        <Link href="/edit/links">Back to Editor</Link>
+    <>
+      <div className="hidden xs:block rounded-b-[32px] absolute top-0 left-0 w-screen h-[357px] bg-purple"></div>
+      <nav className="relative z-10 flex items-center justify-between h-[78px] py-4 px-6 xs:mt-6 xs:mb-[142px] bg-white rounded-xl max-w-[1392px] mx-auto">
+        <Link
+          className="flex items-center justify-center w-[160px] h-[46px] rounded-lg border border-purple text-purple"
+          href="/edit/links"
+        >
+          Back to Editor
+        </Link>
+        <button className="w-[160px] h-[46px] rounded-lg bg-purple text-white">
+          Share Link
+        </button>
       </nav>
 
-      <div className="bg-white min-h-dvh xs:min-h-auto xs:bg-transparent">
-        <section className="max-w-[350px] min-h-[569px] mx-auto bg-white pt-11 pb-12 xs:rounded-3xl xs:shadow-profileBox">
+      <div className="relative z-10 bg-white min-h-dvh xs:min-h-auto xs:bg-transparent">
+        <section className="max-w-[350px] min-h-[570px] mx-auto bg-white pt-14 xs:pt-11 pb-12 xs:rounded-3xl xs:shadow-profileBox">
           <div
-            className={`relative border-4 rounded-full w-[112px] h-[112px] mx-auto mb-[29px] ${
-              image ? "border-purple" : "border-transparent"
-            }`}
+            className={`relative border-4 rounded-full w-[112px] h-[112px] mx-auto mb-[21px] 
+            ${image ? "border-purple" : "border-transparent"}`}
           >
             <Image
               className="object-cover rounded-full"
@@ -52,13 +60,13 @@ export default async function Page({ params }) {
             />
           </div>
 
-          <div className="text-center px-4 mb-14">
+          <div className="text-center px-6 mb-14">
             <h1 className="mb-2 font-bold text-[2rem] leading-10 text-dark_grey">
               {firstName || lastName
                 ? `${firstName} ${lastName}`
                 : username.split("@")[1]}
             </h1>
-            <p className="text-base text-grey">{email}</p>
+            <p className="text-base font-normal text-grey">{email}</p>
           </div>
 
           {links.length > 0 && (
@@ -88,6 +96,6 @@ export default async function Page({ params }) {
           )}
         </section>
       </div>
-    </div>
+    </>
   );
 }
