@@ -1,9 +1,9 @@
-import { login, getUser } from "@/actions/auth";
 import { redirect } from "next/navigation";
-import Header from "../_components/Header";
-import Form from "../_components/Form";
-import Input from "../_components/Input";
+import { getUser, login } from "../_actions/auth";
 import Footer from "../_components/Footer";
+import Form from "../_components/Form";
+import Header from "../_components/Header";
+import Input from "../_components/Input";
 
 export const metadata = {
   title: "Log in to your devlinks account",

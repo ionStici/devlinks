@@ -1,5 +1,5 @@
-import { deleteAccount, getUser } from "@/actions/auth";
 import { redirect } from "next/navigation";
+import { deleteAccount, getUser } from "../_actions/auth";
 import Footer from "../_components/Footer";
 import Form from "../_components/Form";
 import Header from "../_components/Header";
@@ -29,6 +29,7 @@ export default async function Page() {
           placeholder="Confirm password to continue"
           autofill="current-password"
         />
+        <input type="hidden" name="user-id" value={user.id} />
       </Form>
       <Footer
         username={user.email.slice(1)}

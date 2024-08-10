@@ -1,14 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { nameRegex, emailRegex } from "@/utils/regex";
+import { nameRegex } from "@/utils/regex";
 
 export default function Input({ type, name, label, value, placeholder }) {
   const [input, setInput] = useState(value ? value : "");
   const [isValid, setIsValid] = useState(true);
 
   const handleValidation = () => {
-    if (name === "email") setIsValid(emailRegex.test(input));
+    // if (name === "email") setIsValid(emailRegex.test(input));
     if (type === "text") setIsValid(nameRegex.test(input));
   };
 

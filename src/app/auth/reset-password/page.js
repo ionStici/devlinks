@@ -1,5 +1,5 @@
-import { getUser, resetPassword } from "@/actions/auth";
 import { redirect } from "next/navigation";
+import { getUser, resetPassword } from "../_actions/auth";
 import Footer from "../_components/Footer";
 import Form from "../_components/Form";
 import Header from "../_components/Header";
@@ -35,6 +35,7 @@ export default async function Page() {
           placeholder="At least 8 characters"
           autofill="new-password"
         />
+        <input type="hidden" name="username" value={user.email} />
       </Form>
       <Footer
         content="Changed your mind?"
