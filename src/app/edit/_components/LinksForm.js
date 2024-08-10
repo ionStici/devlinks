@@ -1,16 +1,16 @@
 "use client";
 
-import { updateLinks } from "@/app/auth/_actions/updateLinks";
 import { platforms as allPlatforms } from "@/data/platforms";
 import { Reorder } from "framer-motion";
 import { useState } from "react";
-import SaveButton from "../edit/SaveButton";
+import { updateLinks } from "../_actions/updateLinks";
 import GetStarted from "./GetStarted";
 import LinkInput from "./LinkInput";
+import SaveButton from "./SaveButton";
 
-export default function Form({ links: serverLinks }) {
+export default function LinksForm({ links: serverLinks }) {
   const [clientLinks, setClientLinks] = useState([...serverLinks]);
-  const newOrder = clientLinks.map((link) => link.split("%")[0]);
+  const sorted = clientLinks.map((link) => link.split("%")[0]);
 
   const usedPlatforms = clientLinks.map((link) => link.split("%")[0]);
 
@@ -45,7 +45,7 @@ export default function Form({ links: serverLinks }) {
       {clientLinks.length === 0 && <GetStarted />}
 
       <form action={updateLinks} className="flex flex-col flex-grow">
-        <input type="hidden" name="order" value={newOrder} />
+        <input type="hidden" name="sorted" value={sorted} />
         <Reorder.Group
           axis="y"
           onReorder={setClientLinks}

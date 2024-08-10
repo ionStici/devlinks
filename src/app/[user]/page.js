@@ -7,11 +7,11 @@ import Link from "next/link";
 import PlatformLink from "@/ui/PlatformLink";
 
 export async function generateMetadata({ params }) {
-  return { title: `${params.username.split("%40")[1]} Profile` };
+  return { title: `${params.user.split("%40")[1]} Profile` };
 }
 
 export default async function Page({ params }) {
-  const paramUsername = params.username.split("%40")[1];
+  const paramUsername = params.user.split("%40")[1];
   let data;
 
   const loggedInUser = await getUser();
@@ -26,8 +26,10 @@ export default async function Page({ params }) {
   if (!data) notFound();
 
   const { email: username } = data;
-  const { email, firstName, lastName, image, links } = data.user_metadata;
+  const { firstName, lastName, about, image, links } = data.user_metadata;
   const imgUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/${image}`;
+
+  console.log(about.length);
 
   return (
     <>
@@ -35,7 +37,7 @@ export default async function Page({ params }) {
       <nav className="relative z-10 flex items-center justify-between h-[78px] py-4 px-6 xs:mt-6 xs:mb-[142px] bg-white rounded-xl max-w-[1392px] mx-auto">
         <Link
           className="flex items-center justify-center w-[160px] h-[46px] rounded-lg border border-purple text-purple"
-          href="/edit/links"
+          href="/edit/profile"
         >
           Back to Editor
         </Link>
@@ -66,7 +68,7 @@ export default async function Page({ params }) {
                 ? `${firstName} ${lastName}`
                 : username.split("@")[1]}
             </h1>
-            <p className="text-base font-normal text-grey">{email}</p>
+            <p className="text-base font-normal text-grey">{about}</p>
           </div>
 
           {links.length > 0 && (
@@ -75,7 +77,7 @@ export default async function Page({ params }) {
                 const platform = link.split("%")[0];
                 const url = link.split("%")[1];
 
-                const { icon, color } = platforms.find(
+                const { icon, iconMod, color } = platforms.find(
                   ({ platform: title }) => {
                     return title === platform;
                   }
@@ -86,7 +88,7 @@ export default async function Page({ params }) {
                     key={link}
                     platform={platform}
                     url={url}
-                    icon={icon}
+                    icons={[icon, iconMod]}
                     color={color}
                     height="56px"
                   />

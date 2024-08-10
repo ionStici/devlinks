@@ -2,40 +2,48 @@
 
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
-import { platformsRegex } from "@/utils/regex";
+import { platforms as allPlatforms } from "@/data/platforms";
 
-// prettier-ignore
-const platforms = ["GitHub", "Frontend Mentor", "Twitter", "LinkedIn", "YouTube", "Facebook", "Twitch", "Dev.to", "Codewars", "Codepen", "freeCodeCamp", "GitLab", "Hashnode", "Stack Overflow", ];
+const platforms = allPlatforms.map(({ platform }) => platform);
+const domains = allPlatforms.map(({ domain }) => domain);
+const protocol = "https://";
 
 export async function updateLinks(formData) {
   const supabase = createClient();
 
-  const newOrder = formData.get("order").split(",");
+  // Retrieve sorted reference
+  const sorted = formData.get("sorted").split(",");
 
-  const links = platforms
-    .reduce((acc, platform, index) => {
-      const url = formData.get(platform);
+  // Prepare data
+  const unsortedLinks = platforms.reduce((acc, platform, index) => {
+    const input = formData.get(platform);
+    if (input === null) return acc;
+    if (input === "") return acc;
 
-      if (formData.has(platform)) {
-        if (!platformsRegex[index].test(url))
-          throw new Error(`Invalid URL for ${platform}`);
-      }
+    const domain = domains[index];
 
-      if (url) acc.push(`${platform}%${url}`);
-      return acc;
-    }, [])
-    .sort((a, b) => {
-      return (
-        newOrder.indexOf(a.split("%")[0]) - newOrder.indexOf(b.split("%")[0])
-      );
-    });
+    // Validate input
+    if (formData.has(platform) && !input.includes(domain)) {
+      throw new Error(`Invalid URL for ${platform}`);
+    }
 
-  const { data, error } = await supabase.auth.updateUser({
-    data: { links },
+    // Create the url
+    const userPath = input.split(domain)[1];
+    const link = `${platform}%${protocol}${domain}${userPath}`;
+    acc.push(link);
+
+    return acc;
+  }, []);
+
+  // Sort the array
+  const links = unsortedLinks.sort((a, b) => {
+    return sorted.indexOf(a.split("%")[0]) - sorted.indexOf(b.split("%")[0]);
   });
 
+  // Update the user with new links
+  const { error } = await supabase.auth.updateUser({ data: { links } });
   if (error) throw new Error(error.message);
 
-  // const username = data.user.email;
-  revalidatePath("edit/links");
+  // Revalidate the page with new data
+  revalidatePath("/edit/links");
 }

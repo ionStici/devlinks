@@ -2,7 +2,7 @@
 
 import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
-import { emailRegex, nameRegex } from "@/utils/regex";
+import { aboutYouRegex, nameRegex } from "@/utils/regex";
 
 export async function updateProfile(formData) {
   const supabase = createClient();
@@ -11,10 +11,10 @@ export async function updateProfile(formData) {
   const image = formData.get("picture");
   const firstName = formData.get("firstName");
   const lastName = formData.get("lastName");
-  const email = formData.get("email").slice(0, 150);
+  const about = formData.get("about").slice(0, 125);
 
   // Input validation
-  // if (!emailRegex.test(email)) throw new Error("Invalid Email");
+  if (!aboutYouRegex.test(about)) throw new Error("Invalid Bio");
   if (!nameRegex.test(firstName)) throw new Error("Invalid First Name");
   if (!nameRegex.test(lastName)) throw new Error("Invalid Last Name");
   if (image.size > 750000) throw new Error("The image is too large");
@@ -24,32 +24,32 @@ export async function updateProfile(formData) {
 
   // Update metadata
   const { data, error } = await supabase.auth.updateUser({
-    data: { email, firstName, lastName },
+    data: { firstName, lastName, about },
   });
-
   if (error) throw new Error(error.message);
 
-  // Upload Image
+  // Delete current image from supabase bucket if: new image exists && the user already has image
   const currentImage = data.user.user_metadata.image;
   if (image.size > 0 && currentImage) {
     await supabase.storage.from("avatars").remove([currentImage]);
   }
 
   if (image.size > 0) {
+    // Create new image name
     const imageName = `${Math.random()}-${image.name}`
       .replace("/", "")
       .slice(2);
 
+    // Upload the new image to supabase bucket
     const { data: imgData, error: imgError } = await supabase.storage
       .from("avatars")
       .upload(imageName, image, { cacheControl: "3600", upsert: false });
-
     if (imgError) throw new Error(imgError.message);
 
+    // Update user's data with new image path
     const { error: storePathError } = await supabase.auth.updateUser({
       data: { image: imgData.path },
     });
-
     if (storePathError) throw new Error(storePathError.message);
   }
 

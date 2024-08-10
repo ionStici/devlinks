@@ -15,7 +15,7 @@ export default function LinkInput({
   const url = link.split("%")[1];
 
   const platformData = allPlatforms.find(({ platform: p }) => p === platform);
-  const { icon, placeholder, regex } = platformData;
+  const { icon, placeholder, domain } = platformData;
 
   const dragControls = useDragControls();
   const ref = useOutsideClick(() => setIsOpen(false), false);
@@ -26,7 +26,8 @@ export default function LinkInput({
   const handleValidation = () => {
     if (input === "") {
       setInputError("Can't be empty");
-    } else if (!regex.test(input)) setInputError("Invalid URL");
+    }
+    // else if (!regex.test(input)) setInputError("Invalid URL");
   };
 
   const changePlatform = ({ target }) => {

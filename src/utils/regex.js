@@ -1,8 +1,11 @@
 // prettier-ignore
-export const platformsRegex = [ /^https:\/\/(www\.)?github\.com/, /^https:\/\/(www\.)?frontendmentor\.io/, /^https:\/\/(www\.)?twitter\.com/, /^https:\/\/(www\.)?linkedin\.com/, /^https:\/\/(www\.)?youtube\.com/, /^https:\/\/(www\.)?facebook\.com/, /^https:\/\/(www\.)?twitch\.tv/, /^https:\/\/(www\.)?dev\.to/, /^https:\/\/(www\.)?codewars\.com/, /^https:\/\/(www\.)?codepen\.io/, /^https:\/\/(www\.)?freecodecamp\.org/, /^https:\/\/(www\.)?gitlab\.com/, /^https:\/\/(www\.)?hashnode\.com/, /^https:\/\/(www\.)?stackoverflow\.com/, ];
+export const aboutYouRegex = /^$|^[a-zA-Z0-9\s!@#$%^&*()_+=\-[\]{};':"\\|,.<>\/?`~]{1,125}$/;
+// 1. Empty string allowed & Total length 1-125 characters.
+// 2. Can include: Lowercase/uppercase letters, numbers, and special characters: !@#$%^&*()_+=-[]{};':"\\|,.<>/?~
 
-export const nameRegex = /^$|^[a-zA-Zà-ÿÀ-ß'`-]{1,50}$/;
-export const aboutRegex = "";
+export const nameRegex = /^$|^[a-zA-Zà-ÿÀ-ß'`-]{1,25}$/;
+// 1. Empty string allowed & If not empty, the string must be between 1 and 25 chars long
+// 2. Can include: Uppercase/Lowercase Accented Characters + Special Characters '`-
 
 // prettier-ignore
 export const usernameRegex = /^(?=.{4,16}$)(?!.*--)(?=.*[a-zA-Z])[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*$/;

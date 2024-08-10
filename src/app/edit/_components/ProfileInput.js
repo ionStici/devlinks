@@ -1,6 +1,6 @@
 "use client";
 
-import { nameRegex } from "@/utils/regex";
+import { nameRegex, aboutYouRegex } from "@/utils/regex";
 import { useState } from "react";
 
 export default function ProfileInput({
@@ -14,8 +14,9 @@ export default function ProfileInput({
   const [isValid, setIsValid] = useState(true);
 
   const handleValidation = () => {
-    // if (name === "email") setIsValid(emailRegex.test(input));
-    if (type === "text") setIsValid(nameRegex.test(input));
+    if (name === "about") setIsValid(aboutYouRegex.test(input));
+    if (name === "lastName") setIsValid(nameRegex.test(input));
+    if (name === "firstName") setIsValid(nameRegex.test(input));
   };
 
   return (
@@ -40,8 +41,8 @@ export default function ProfileInput({
         onFocus={() => setIsValid(true)}
       />
       {!isValid && (
-        <p className="absolute right-1 top-0 sm:top-[6px] sm:right-3 text-xs sm:text-sm text-red sm:bg-white sm:py-2 pointer-events-none">
-          Invalid {name === "email" ? "Email" : "Name"}
+        <p className="absolute right-1 top-0 sm:top-[6px] sm:right-3 pl-2 text-xs sm:text-sm text-red sm:bg-white sm:py-2 pointer-events-none">
+          Invalid {name === "about" ? "Bio" : "Name"}
         </p>
       )}
     </div>

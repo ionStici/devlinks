@@ -1,7 +1,8 @@
 import { getUser } from "@/app/edit/_actions/auth";
 import Heading from "@/app/edit/_components/Heading";
-// import Form from "@/components/links/Form";
+import LinksForm from "../_components/LinksForm";
 
+// d
 export const metadata = { title: "Add Links" };
 
 export default async function Page() {
@@ -13,8 +14,7 @@ export default async function Page() {
         title="Customize your links"
         text="Add/edit/remove links below and then share all your profiles with the world!"
       />
-
-      {/* <Form links={data.links} /> */}
+      <LinksForm links={data.links} />
     </>
   );
 }

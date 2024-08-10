@@ -12,6 +12,7 @@ export default function UploadPicture({ img }) {
   const handleFileChange = ({ target }) => {
     const img = target.files[0];
     setError("");
+
     setPreview(() => {
       try {
         if (img.size > 750000) setError("The image is too large");

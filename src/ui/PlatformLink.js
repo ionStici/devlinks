@@ -18,7 +18,7 @@ export default function PlatformLink({ platform, url, icons, color, height }) {
         target="_blank"
         style={{ backgroundColor: color }}
         className={`flex items-center justify-start gap-2 max-w-[237px] mx-auto px-4 rounded-lg transition focus:outline-none focus:ring-2 focus:ring-purple focus:ring-offset-2
-        ${isSmall ? "h-[44px]" : "h-[56px]"}
+        ${isSmall ? "h-11" : "h-[56px]"}
         ${isFem ? "border border-borders text-dark_grey" : "text-white"}`}
       >
         {/* prettier-ignore */}

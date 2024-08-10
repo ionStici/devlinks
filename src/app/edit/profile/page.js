@@ -1,15 +1,16 @@
 import { getUser } from "@/app/edit/_actions/auth";
 import { updateProfile } from "@/app/edit/_actions/updateProfile";
 import Heading from "@/app/edit/_components/Heading";
-import UploadPicture from "@/app/edit/_components/UploadPicture";
 import SaveButton from "@/app/edit/_components/SaveButton";
+import UploadPicture from "@/app/edit/_components/UploadPicture";
 import ProfileInput from "../_components/ProfileInput";
 
+// 2
 export const metadata = { title: "Profile Details" };
 
 export default async function Page() {
   const user = await getUser();
-  const { email, firstName, lastName } = user.user_metadata;
+  const { firstName, lastName, about } = user.user_metadata;
 
   return (
     <>
@@ -36,9 +37,9 @@ export default async function Page() {
           />
           <ProfileInput
             type="text"
-            name="email"
+            name="about"
             label="About You"
-            value={email}
+            value={about}
             placeholder="e.g. Web Developer"
           />
         </div>
