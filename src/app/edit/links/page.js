@@ -1,4 +1,4 @@
-import { getUser } from "@/app/edit/_actions/auth";
+import { getUser, logOut } from "@/app/edit/_actions/auth";
 import Heading from "@/app/edit/_components/Heading";
 import LinksForm from "../_components/LinksForm";
 
@@ -14,6 +14,9 @@ export default async function Page() {
         title="Customize your links"
         text="Add/edit/remove links below and then share all your profiles with the world!"
       />
+      <form action={logOut}>
+        <button>dsa</button>
+      </form>
       <LinksForm links={data.links} />
     </>
   );

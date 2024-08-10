@@ -41,7 +41,7 @@ export async function updateLinks(formData) {
   });
 
   // Update the user with new links
-  const { error } = await supabase.auth.updateUser({ data: { links } });
+  const { data, error } = await supabase.auth.updateUser({ data: { links } });
   if (error) throw new Error(error.message);
 
   // Revalidate the page with new data
