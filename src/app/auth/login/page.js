@@ -4,6 +4,7 @@ import Footer from "../_components/Footer";
 import Form from "../_components/Form";
 import Header from "../_components/Header";
 import Input from "../_components/Input";
+import Layout from "../_components/Layout";
 
 export const metadata = {
   title: "Log in to your devlinks account",
@@ -16,7 +17,7 @@ export default async function Page() {
   if (user) redirect("/edit/profile");
 
   return (
-    <>
+    <Layout>
       <Header
         heading="Login"
         content="Add your details below to get back into the app"
@@ -42,6 +43,6 @@ export default async function Page() {
         btnText="Create account"
         href="/auth/signup"
       />
-    </>
+    </Layout>
   );
 }

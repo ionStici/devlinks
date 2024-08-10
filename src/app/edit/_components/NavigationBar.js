@@ -1,11 +1,10 @@
 "use client";
 
-import Logo from "@/ui/Logo";
-import NavLink from "./NavLink";
-import Link from "next/link";
-
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import Logo from "@/ui/Logo";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
+import NavLink from "./NavLink";
 
 export default function NavigationBar({ username }) {
   const isTablet = useMediaQuery("(min-width: 768px)");

@@ -1,11 +1,9 @@
-import { getUser } from "@/app/edit/_actions/auth";
 import { platforms } from "@/data/platforms";
-import Image from "next/image";
 import PlatformLink from "@/ui/PlatformLink";
+import Image from "next/image";
 
-export default async function PhoneMockup() {
-  const { user_metadata } = await getUser();
-  const { email, firstName, lastName, image, links } = user_metadata;
+export default async function PhoneMockup({ user }) {
+  const { firstName, lastName, about, image, links } = user;
   const imgUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/${image}`;
 
   return (
@@ -40,9 +38,9 @@ export default async function PhoneMockup() {
           </div>
         )}
 
-        {email && (
+        {about && (
           <div className="absolute left-[50%] translate-x-[-50%] top-[210px] w-[250px] text-center bg-white">
-            <p className="truncate text-grey text-sm">{email}</p>
+            <p className="truncate text-grey text-sm">{about}</p>
           </div>
         )}
 
@@ -54,8 +52,10 @@ export default async function PhoneMockup() {
             {links.map((link) => {
               const platform = link.split("%")[0];
               const url = link.split("%")[1];
-              const { icon, color } = platforms.find(
-                ({ platform: p }) => p === platform
+              const { icon, iconMod, color } = platforms.find(
+                ({ platform: platformName }) => {
+                  return platformName === platform;
+                }
               );
 
               return (
@@ -63,7 +63,7 @@ export default async function PhoneMockup() {
                   key={link}
                   platform={platform}
                   url={url}
-                  icon={icon}
+                  icons={[icon, iconMod]}
                   color={color}
                   height="44px"
                 />

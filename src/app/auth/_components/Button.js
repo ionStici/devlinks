@@ -10,7 +10,7 @@ export default function Button({ children }) {
   if (children === "Create new account") pendingText = "Creating Account...";
   if (children === "Login") pendingText = "Logging In...";
   if (children === "Delete Account") pendingText = "Deleting...";
-  if (children === "Reset Password") pendingText = "Resetting...";
+  if (children === "Change Password") pendingText = "Changing...";
 
   return (
     <button

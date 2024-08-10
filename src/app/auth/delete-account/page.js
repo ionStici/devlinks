@@ -4,6 +4,7 @@ import Footer from "../_components/Footer";
 import Form from "../_components/Form";
 import Header from "../_components/Header";
 import Input from "../_components/Input";
+import Layout from "../_components/Layout";
 
 export const metadata = {
   title: "Delete Your Account",
@@ -16,7 +17,7 @@ export default async function Page() {
   if (!user) redirect("/auth/login");
 
   return (
-    <>
+    <Layout>
       <Header
         heading="Delete Your Account"
         content="This action is permanent and cannot be undone. Please confirm if you want to proceed."
@@ -35,6 +36,6 @@ export default async function Page() {
         username={user.email.slice(1)}
         content="account will be permanently deleted."
       />
-    </>
+    </Layout>
   );
 }

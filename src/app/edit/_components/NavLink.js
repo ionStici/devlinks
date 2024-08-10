@@ -1,8 +1,8 @@
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
 import { ReactSVG } from "react-svg";
 
-const linkIcon = "/assets/icon-link.svg";
+const linkIcon = "/assets/icon-links-header.svg";
 const profileIcon = "/assets/icon-profile-details-header.svg";
 const previewIcon = "/assets/icon-preview-header.svg";
 
@@ -34,17 +34,8 @@ export default function NavLink({ pathname, isTablet, href }) {
         href={href}
         tabIndex={`${pathname === href ? "-1" : "0"}`}
       >
-        <ReactSVG
-          src={icon}
-          className={`${
-            pathname === href
-              ? "fill-purple"
-              : "fill-grey group-hover:fill-purple"
-          } `}
-          beforeInjection={(svg) => {
-            svg.setAttribute("aria-label", ariaLabel);
-          }}
-        />
+        {/* prettier-ignore */}
+        <ReactSVG src={icon} className={`${ pathname === href ? "fill-purple" : "fill-grey group-hover:fill-purple" } `} beforeInjection={(svg) => { svg.setAttribute("aria-label", ariaLabel); }} />
         {isTablet && linkText}
       </Link>
     </li>

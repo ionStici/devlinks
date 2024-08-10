@@ -4,6 +4,7 @@ import Footer from "../_components/Footer";
 import Form from "../_components/Form";
 import Header from "../_components/Header";
 import Input from "../_components/Input";
+import Layout from "../_components/Layout";
 
 export const metadata = {
   title: "Create your devlinks account",
@@ -16,7 +17,7 @@ export default async function Page() {
   if (user) redirect("/edit/profile");
 
   return (
-    <>
+    <Layout>
       <Header
         heading="Create account"
         content="Let's get you started sharing links!"
@@ -52,6 +53,6 @@ export default async function Page() {
         btnText="Login"
         href="/auth/login"
       />
-    </>
+    </Layout>
   );
 }

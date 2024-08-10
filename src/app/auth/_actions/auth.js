@@ -5,7 +5,7 @@ import { usernameRegex, passwordRegex } from "@/utils/regex";
 import { createClient } from "@/utils/supabase/server";
 import { adminAuthClient } from "@/utils/supabase/admin";
 
-// Login
+// LOGIN //
 export async function login(formData) {
   const supabase = createClient();
 
@@ -28,7 +28,7 @@ export async function login(formData) {
   redirect("/edit/profile");
 }
 
-// Sign Up
+// SIGN UP //
 export async function signUp(formData) {
   const supabase = createClient();
 
@@ -58,7 +58,7 @@ export async function signUp(formData) {
   redirect("/edit/profile");
 }
 
-// Get User
+// GET USER //
 export async function getUser() {
   const supabase = createClient();
 
@@ -69,8 +69,8 @@ export async function getUser() {
   return data?.user;
 }
 
-// Reset Password
-export async function resetPassword(formData) {
+// CHANGE PASSWORD //
+export async function changePassword(formData) {
   const supabase = createClient();
 
   // Retrieve form data
@@ -89,17 +89,17 @@ export async function resetPassword(formData) {
   });
   if (checkError) throw new Error("Incorrect Password");
 
-  // Reset Password
-  const { error: resetError } = await supabase.auth.updateUser({
+  // Change Password
+  const { error } = await supabase.auth.updateUser({
     password: newPassword,
   });
-  if (resetError) throw new Error(resetError.message);
+  if (error) throw new Error(error.message);
 
   // Redirect to profile
   redirect("/edit/profile");
 }
 
-// Delete Account
+// DELETE ACCOUNT //
 export async function deleteAccount(formData) {
   const supabase = createClient();
 

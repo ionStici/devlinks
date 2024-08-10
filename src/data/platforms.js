@@ -9,6 +9,7 @@ export const platforms = [
   {
     platform: "Frontend Mentor",
     icon: "/platforms/icon-frontend-mentor.svg",
+    iconMod: "/platforms/icon-frontend-mentor-color.svg",
     placeholder: "https://www.frontendmentor.io/profile/mattstuddert",
     regex: /^https:\/\/(www\.)?frontendmentor\.io/,
     color: "#FFFFFF",
@@ -51,6 +52,7 @@ export const platforms = [
   {
     platform: "Dev.to",
     icon: "/platforms/icon-devto.svg",
+    iconMod: "/platforms/icon-devto-white.svg",
     placeholder: "https://dev.to/lissy93",
     regex: /^https:\/\/(www\.)?dev\.to/,
     color: "#333333",
