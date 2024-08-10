@@ -1,14 +1,15 @@
-import { getUser } from "@/actions/auth";
-import { updateProfile } from "@/actions/updateProfile";
-import Heading from "@/components/edit/Heading";
-import SaveButton from "@/components/edit/SaveButton";
-import Inputs from "@/components/profile/Inputs";
-import UploadPicture from "@/components/profile/UploadPicture";
+import { getUser } from "@/app/edit/_actions/auth";
+import { updateProfile } from "@/app/edit/_actions/updateProfile";
+import Heading from "@/app/edit/_components/Heading";
+import UploadPicture from "@/app/edit/_components/UploadPicture";
+import SaveButton from "@/app/edit/_components/SaveButton";
+import ProfileInput from "../_components/ProfileInput";
 
 export const metadata = { title: "Profile Details" };
 
 export default async function Page() {
   const user = await getUser();
+  const { email, firstName, lastName } = user.user_metadata;
 
   return (
     <>
@@ -18,7 +19,29 @@ export default async function Page() {
       />
       <form action={updateProfile} className="flex flex-col flex-grow">
         <UploadPicture img={user.user_metadata.image} />
-        <Inputs data={user.user_metadata} />
+        <div className="flex flex-col gap-3 mx-6 md:mx-10 p-5 bg-light_grey rounded-xl">
+          <ProfileInput
+            type="text"
+            name="firstName"
+            label="First Name"
+            value={firstName}
+            placeholder="e.g. John"
+          />
+          <ProfileInput
+            type="text"
+            name="lastName"
+            label="Last Name"
+            value={lastName}
+            placeholder="e.g. Appleseed"
+          />
+          <ProfileInput
+            type="text"
+            name="email"
+            label="About You"
+            value={email}
+            placeholder="e.g. Web Developer"
+          />
+        </div>
         <SaveButton />
       </form>
     </>

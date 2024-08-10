@@ -1,6 +1,6 @@
 "use client";
 
-import { updateLinks } from "@/actions/updateLinks";
+import { updateLinks } from "@/app/auth/_actions/updateLinks";
 import { platforms as allPlatforms } from "@/data/platforms";
 import { Reorder } from "framer-motion";
 import { useState } from "react";

@@ -1,9 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { nameRegex } from "@/utils/regex";
+import { useState } from "react";
 
-export default function Input({ type, name, label, value, placeholder }) {
+export default function ProfileInput({
+  type,
+  name,
+  label,
+  value,
+  placeholder,
+}) {
   const [input, setInput] = useState(value ? value : "");
   const [isValid, setIsValid] = useState(true);
 

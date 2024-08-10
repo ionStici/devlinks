@@ -1,10 +1,10 @@
-import { getUser } from "@/actions/auth";
-import { getUserByUsername } from "@/actions/getUserByUsername";
+import { getUser } from "@/app/edit/_actions/auth";
+import { getUserByUsername } from "./_actions/getUserByUsername";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { platforms } from "@/data/platforms";
 import Link from "next/link";
-import PlatformLink from "@/components/ui/PlatformLink";
+import PlatformLink from "@/ui/PlatformLink";
 
 export async function generateMetadata({ params }) {
   return { title: `${params.username.split("%40")[1]} Profile` };

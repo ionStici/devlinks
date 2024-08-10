@@ -1,6 +1,6 @@
-import { getUser } from "@/actions/auth";
-import NavigationBar from "@/components/ui/NavigationBar";
-import PhoneMockup from "@/components/ui/PhoneMockup";
+import { getUser } from "@/app/edit/_actions/auth";
+import NavigationBar from "./_components/NavigationBar";
+import PhoneMockup from "./_components/PhoneMockup";
 import { redirect } from "next/navigation";
 
 export default async function Layout({ children }) {

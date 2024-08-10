@@ -1,7 +1,7 @@
-import { getUser } from "@/actions/auth";
+import { getUser } from "@/app/edit/_actions/auth";
 import { platforms } from "@/data/platforms";
 import Image from "next/image";
-import PlatformLink from "./PlatformLink";
+import PlatformLink from "@/ui/PlatformLink";
 
 export default async function PhoneMockup() {
   const { user_metadata } = await getUser();

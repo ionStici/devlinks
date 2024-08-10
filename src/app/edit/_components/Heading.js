@@ -1,4 +1,4 @@
-import { logOut } from "@/actions/auth";
+import { logOut } from "@/app/edit/_actions/auth";
 
 export default async function Heading({ title, text }) {
   return (

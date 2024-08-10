@@ -1,6 +1,6 @@
 "use client";
 
-import TinySpinner from "@/components/ui/TinySpinner";
+import TinySpinner from "@/ui/TinySpinner";
 import { useFormStatus } from "react-dom";
 
 export default function Button({ children }) {
