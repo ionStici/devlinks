@@ -19,10 +19,10 @@ export default function NotFound() {
       <div className="sm:bg-white sm:p-10 sm:rounded-xl sm:shadow-section">
         <section className="flex flex-col items-center justify-center text-center">
           <h1 className="text-2xl font-semibold text-dark_grey mb-5 border-b-2 border-red px-2">
-            404 - Page Not Found
+            Profile Not Found
           </h1>
           <p className="text-grey text-xl mb-10">
-            Whoops! This link is missing in action.
+            This user does not appear to have an account.
           </p>
           <button
             onClick={() => router.back()}

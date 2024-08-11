@@ -23,7 +23,7 @@ export async function updateLinks(formData) {
 
     // If 'Website', return whatever value
     if (formData.has(platform) && platform === "Website") {
-      acc.push(`${platform}%${input}`);
+      acc.push(`${platform}%${input.slice(0, 50)}`);
       return acc;
     }
 
@@ -34,7 +34,7 @@ export async function updateLinks(formData) {
     if (!domain) throw new Error(`Invalid URL for ${platform}`);
 
     // Create the url
-    const userPath = input.split(domain)[1];
+    const userPath = input.split(domain)[1].replaceAll(" ", "").slice(0, 50);
     const link = `${platform}%${protocol}${domain}${userPath}`;
     acc.push(link);
 
