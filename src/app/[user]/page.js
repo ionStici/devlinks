@@ -42,7 +42,7 @@ export default async function Page({ params }) {
       <div className="relative bg-white min-h-dvh xs:flex xs:items-center xs:justify-center xs:pt-[175px] xs:pb-[200px]">
         <section className="relative w-full xs:max-w-[350px] min-h-[570px] mx-auto bg-white pt-14 xs:pt-12 pb-12 xs:rounded-3xl xs:shadow-profileBox">
           <LogoTop />
-          {isLoggedInUser && <Navigation />}
+          {/* {isLoggedInUser && <Navigation />} */}
           {image && (
             <div className="xs:shadow-layout absolute z-10 top-0 left-0 w-full h-[125px] bg-purple xs:rounded-t-3xl" />
           )}
