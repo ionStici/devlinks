@@ -22,8 +22,9 @@ export default function RootLayout({ children }) {
         <Toaster
           position="bottom-center"
           toastOptions={{
-            duration: 3000,
+            duration: 32000,
             style: {
+              maxWidth: "500px",
               background: "#333",
               color: "#fff",
               fontWeight: "600",

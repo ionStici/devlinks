@@ -11,13 +11,13 @@ export default function Page() {
           <Link href="/auth/signup">Sign Up</Link>
         </li>
         <li>
-          <Link href="/edit/links">Links</Link>
+          <Link href="/edit/links">Edit Links</Link>
         </li>
         <li>
-          <Link href="/edit/profile">Login</Link>
+          <Link href="/edit/profile">Edit Profile</Link>
         </li>
         <li>
-          <Link href="/auth/reset-password">Reset Password</Link>
+          <Link href="/auth/change-password">Change Password</Link>
         </li>
         <li>
           <Link href="/auth/delete-account">Delete Account</Link>
