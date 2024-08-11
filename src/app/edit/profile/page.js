@@ -5,8 +5,11 @@ import SaveButton from "@/app/edit/_components/SaveButton";
 import UploadPicture from "@/app/edit/_components/UploadPicture";
 import ProfileInput from "../_components/ProfileInput";
 
-// 2
-export const metadata = { title: "Profile Details" };
+export const metadata = {
+  title: "Edit Your Profile",
+  description:
+    "Customize your devlinks profile by adding a profile picture, updating your name, and sharing more about yourself. View a live preview of your profile as you make changes.",
+};
 
 export default async function Page() {
   const user = await getUser();

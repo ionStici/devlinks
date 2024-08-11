@@ -21,7 +21,7 @@ export default function LinksForm({ links: serverLinks }) {
 
   const addNewLink = () => {
     setClientLinks((prev) => {
-      if (prev.length === 14) return prev;
+      if (prev.length === allPlatforms.length) return prev;
 
       const platform = unusedPlatforms[0].platform;
 

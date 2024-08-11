@@ -1,6 +1,7 @@
 "use server";
 
 import { adminAuthClient } from "@/utils/supabase/admin";
+import { createClient } from "@/utils/supabase/server";
 
 export async function getUserByUsername(paramUsername, perPage = 1000) {
   const { data: listOfUsers, error } = await adminAuthClient.listUsers({
@@ -15,4 +16,12 @@ export async function getUserByUsername(paramUsername, perPage = 1000) {
   });
 
   return user;
+}
+
+export async function getUser() {
+  const supabase = createClient();
+
+  const { data } = await supabase.auth.getUser();
+
+  return data?.user;
 }

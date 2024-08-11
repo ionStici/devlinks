@@ -15,7 +15,7 @@ export default function LinkInput({
   const url = link.split("%")[1];
 
   const platformData = allPlatforms.find(({ platform: p }) => p === platform);
-  const { icon, placeholder, domain } = platformData;
+  const { icon, placeholder, domains } = platformData;
 
   const dragControls = useDragControls();
   const ref = useOutsideClick(() => setIsOpen(false), false);
@@ -24,10 +24,11 @@ export default function LinkInput({
   const [inputError, setInputError] = useState("");
 
   const handleValidation = () => {
-    if (input === "") {
-      setInputError("Can't be empty");
+    if (domains === null || input === "") return;
+
+    if (!domains.some((domain) => input.includes(domain))) {
+      setInputError("Invalid URL");
     }
-    // else if (!regex.test(input)) setInputError("Invalid URL");
   };
 
   const changePlatform = ({ target }) => {
@@ -132,7 +133,7 @@ export default function LinkInput({
             Link
           </label>
           <input
-            className={`w-full h-12 rounded-lg border border-borders pl-[44px] text-base text-dark_grey placeholder-dark_grey/50 transition hover:border-purple hover:shadow-input focus:outline-none focus:border-purple ${
+            className={`w-full h-12 rounded-lg border border-borders pl-[44px] pr-3 text-base text-dark_grey placeholder-dark_grey/50 transition hover:border-purple hover:shadow-input focus:outline-none focus:border-purple ${
               inputError ? "!border-red !shadow-none" : ""
             }`}
             type="text"
@@ -145,7 +146,7 @@ export default function LinkInput({
             onFocus={() => setInputError(false)}
           />
           {inputError && (
-            <p className="absolute right-0 top-0 sm:top-auto sm:bottom-4 sm:right-3 text-red text-xs">
+            <p className="absolute right-0 top-0 sm:top-auto sm:bottom-2 sm:py-2 sm:right-3 text-red text-xs sm:bg-white">
               {inputError}
             </p>
           )}

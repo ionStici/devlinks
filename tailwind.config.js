@@ -1,9 +1,8 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/ui/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: { screens: { xs: "400px" } },
@@ -29,6 +28,7 @@ module.exports = {
       dropDown: "0 0 32px rgba(0,0,0,.25)",
       remove: "0 2px 0 red",
       profileBox: "0 0 32px rgba(0,0,0, 0.15)",
+      layout: "rgba(0, 0, 0, 0.15) 0px 15px 25px inset",
     },
   },
   plugins: [

@@ -1,10 +1,8 @@
-import { getUser } from "@/app/edit/_actions/auth";
-import { getUserByUsername } from "./_actions/getUserByUsername";
+import { platforms } from "@/data/platforms";
+import PlatformLink from "@/ui/PlatformLink";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { platforms } from "@/data/platforms";
-import Link from "next/link";
-import PlatformLink from "@/ui/PlatformLink";
+import { getUser, getUserByUsername } from "./_actions/getUser";
 
 export async function generateMetadata({ params }) {
   return { title: `${params.user.split("%40")[1]} Profile` };
@@ -17,7 +15,8 @@ export default async function Page({ params }) {
   const loggedInUser = await getUser();
   const loggedInUsername = loggedInUser?.email?.split("@")[1];
 
-  if (loggedInUser && paramUsername === loggedInUsername) data = loggedInUser;
+  const isLoggedInUser = loggedInUser && paramUsername === loggedInUsername;
+  if (isLoggedInUser) data = loggedInUser;
 
   if (!data) {
     data = await getUserByUsername(paramUsername);
@@ -29,37 +28,29 @@ export default async function Page({ params }) {
   const { firstName, lastName, about, image, links } = data.user_metadata;
   const imgUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/${image}`;
 
-  console.log(about.length);
-
   return (
     <>
-      <div className="hidden xs:block rounded-b-[32px] absolute top-0 left-0 w-screen h-[357px] bg-purple"></div>
-      <nav className="relative z-10 flex items-center justify-between h-[78px] py-4 px-6 xs:mt-6 xs:mb-[142px] bg-white rounded-xl max-w-[1392px] mx-auto">
-        <Link
-          className="flex items-center justify-center w-[160px] h-[46px] rounded-lg border border-purple text-purple"
-          href="/edit/profile"
-        >
-          Back to Editor
-        </Link>
-        <button className="w-[160px] h-[46px] rounded-lg bg-purple text-white">
-          Share Link
-        </button>
-      </nav>
+      <div className="relative bg-white min-h-dvh xs:flex xs:items-center xs:justify-center xs:pt-20 xs:pb-[250px]">
+        {isLoggedInUser && <nav></nav>}
 
-      <div className="relative z-10 bg-white min-h-dvh xs:min-h-auto xs:bg-transparent">
-        <section className="max-w-[350px] min-h-[570px] mx-auto bg-white pt-14 xs:pt-11 pb-12 xs:rounded-3xl xs:shadow-profileBox">
+        <section className="relative w-full xs:max-w-[350px] min-h-[570px] mx-auto bg-white pt-14 xs:pt-12 pb-12 xs:rounded-3xl xs:shadow-profileBox">
+          {image && (
+            <div className="xs:shadow-layout absolute z-10 top-0 left-0 w-full h-[125px] bg-purple xs:rounded-t-3xl" />
+          )}
           <div
-            className={`relative border-4 rounded-full w-[112px] h-[112px] mx-auto mb-[21px] 
-            ${image ? "border-purple" : "border-transparent"}`}
+            className={`relative z-30 p-1 rounded-full size-[120px] mx-auto mb-[21px]
+            ${image ? "bg-purple" : "bg-transparent"}`}
           >
-            <Image
-              className="object-cover rounded-full"
-              src={image ? imgUrl : `/assets/default-profile-picture.svg`}
-              alt={`${username} profile picture`}
-              fill
-              sizes="104px"
-              priority={true}
-            />
+            <div className="relative z-40 size-full border-4 border-white rounded-full">
+              <Image
+                className="object-cover rounded-full z-50"
+                src={image ? imgUrl : `/assets/default-profile-picture.svg`}
+                alt={`${username} profile picture`}
+                fill
+                sizes="104px"
+                priority={true}
+              />
+            </div>
           </div>
 
           <div className="text-center px-6 mb-14">
