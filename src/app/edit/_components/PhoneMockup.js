@@ -47,7 +47,7 @@ export default async function PhoneMockup({ user }) {
         {links.length > 0 && (
           <ul
             tabIndex={-1}
-            className="py-1 absolute left-[50%] top-[275px] translate-x-[-50%] w-[260px] max-h-[310px] overflow-scroll no-scrollbar space-y-5 bg-white"
+            className="py-1 absolute left-[50%] top-[275px] translate-x-[-50%] w-[237px] max-h-[310px] overflow-scroll no-scrollbar space-y-5 bg-white"
           >
             {links.map((link) => {
               const platform = link.split("%")[0];

@@ -1,13 +1,12 @@
 "use client";
 
+import { updateLinks } from "@/actions/profile";
 import { platforms as allPlatforms } from "@/data/platforms";
 import { Reorder } from "framer-motion";
 import { useState } from "react";
-// import { updateLinks } from "../_actions/updateLinks";
-import { updateLinks } from "@/actions/profile";
+import FooterButtons from "./FooterButtons";
 import GetStarted from "./GetStarted";
 import LinkInput from "./LinkInput";
-import FooterButtons from "./FooterButtons";
 
 export default function LinksForm({ links: serverLinks }) {
   const [clientLinks, setClientLinks] = useState([...serverLinks]);

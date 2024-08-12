@@ -14,7 +14,7 @@ export default function NavigationBar({ username }) {
     <nav className="flex items-center justify-between max-w-[808px] lg:max-w-[1392px] px-[24px] py-[16px] mx-auto mb-4 sm:mb-6 sm:rounded-xl bg-white shadow-section">
       <Link
         href="/"
-        className="rounded-lg transition focus:outline-none focus:ring-2 focus:ring-purple focus:ring-offset-4"
+        className="rounded-lg transition focus:outline-none focus:ring-2 focus:ring-purple -ml-[2px] p-[2px] md:pr-1"
       >
         <Logo size={isTablet ? "medium" : "small"} />
       </Link>

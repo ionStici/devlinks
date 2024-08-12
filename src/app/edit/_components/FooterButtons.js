@@ -9,9 +9,7 @@ import toast from "react-hot-toast";
 
 export default function FooterButtons({ action }) {
   const [isOpen, setIsOpen] = useState(false);
-
   const { pending } = useFormStatus();
-
   const isPending = pending && !isOpen;
 
   const formAction = async (formData) => {

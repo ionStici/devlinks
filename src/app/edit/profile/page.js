@@ -1,6 +1,5 @@
 import { getUser } from "@/actions/auth";
 import { updateProfile } from "@/actions/profile";
-// import { updateProfile } from "../_actions/updateProfile";
 import FooterButtons from "@/app/edit/_components/FooterButtons";
 import Heading from "@/app/edit/_components/Heading";
 import UploadPicture from "@/app/edit/_components/UploadPicture";
