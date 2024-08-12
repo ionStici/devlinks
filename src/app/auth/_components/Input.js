@@ -38,7 +38,7 @@ export default function Input({ label, type, name, placeholder, autofill }) {
         value={input}
         onBlur={handleValidation}
         onFocus={() => setIsValid(true)}
-        className={`border border-borders h-12 rounded-lg pl-[44px] text-base placeholder-dark_grey/50 focus:outline-none focus:shadow-input focus:border-purple hover:border-purple ${
+        className={`border border-borders h-12 rounded-lg pl-[44px] pr-4 text-base placeholder-dark_grey/50 focus:outline-none focus:shadow-input focus:border-purple hover:border-purple ${
           isValid === false ? "!border-red hover:border-red" : ""
         }`}
       />

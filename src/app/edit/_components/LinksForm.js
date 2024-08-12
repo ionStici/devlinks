@@ -44,7 +44,7 @@ export default function LinksForm({ links: serverLinks }) {
 
       {clientLinks.length === 0 && <GetStarted />}
 
-      <form action={updateLinks} className="flex flex-col flex-grow">
+      <form className="flex flex-col flex-grow">
         <input type="hidden" name="sorted" value={sorted} />
         <Reorder.Group
           axis="y"
@@ -66,7 +66,7 @@ export default function LinksForm({ links: serverLinks }) {
             );
           })}
         </Reorder.Group>
-        <FooterButtons />
+        <FooterButtons action={updateLinks} />
       </form>
     </>
   );

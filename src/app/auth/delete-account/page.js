@@ -1,7 +1,6 @@
-import { redirect } from "next/navigation";
-import { deleteAccount, getUser } from "../_actions/auth";
+import { deleteAccount, getUser } from "../../../actions/auth";
+import Button from "../_components/Button";
 import Footer from "../_components/Footer";
-import Form from "../_components/Form";
 import Header from "../_components/Header";
 import Input from "../_components/Input";
 import Layout from "../_components/Layout";
@@ -14,7 +13,6 @@ export const metadata = {
 
 export default async function Page() {
   const user = await getUser();
-  if (!user) redirect("/auth/login");
 
   return (
     <Layout>
@@ -22,7 +20,7 @@ export default async function Page() {
         heading="Delete Your Account"
         content="This action is permanent and cannot be undone. Please confirm if you want to proceed."
       />
-      <Form action={deleteAccount} btnText="Delete Account">
+      <form className="flex flex-col gap-6 mb-6">
         <Input
           label="Current Password"
           type="password"
@@ -31,7 +29,10 @@ export default async function Page() {
           autofill="current-password"
         />
         <input type="hidden" name="user-id" value={user.id} />
-      </Form>
+        <Button action={deleteAccount} pendingText="Deleting...">
+          Delete Account
+        </Button>
+      </form>
       <Footer
         username={user.email.slice(1)}
         content="account will be permanently deleted."

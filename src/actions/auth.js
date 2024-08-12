@@ -1,9 +1,8 @@
 "use server";
 
-import { redirect } from "next/navigation";
-import { usernameRegex, passwordRegex } from "@/utils/regex";
+import { passwordRegex, usernameRegex } from "@/utils/regex";
+import { supabase as supabaseAdmin } from "@/utils/supabase/admin";
 import { createClient } from "@/utils/supabase/server";
-import { adminAuthClient } from "@/utils/supabase/admin";
 
 // LOGIN //
 export async function login(formData) {
@@ -14,18 +13,29 @@ export async function login(formData) {
   const password = formData.get("password");
 
   // Validate data
-  if (!usernameRegex.test(username)) throw new Error("Invalid Username");
-  if (!passwordRegex.test(password)) throw new Error("Invalid Password");
+  if (!usernameRegex.test(username)) {
+    return { ok: false, message: "Invalid Username" };
+  }
+  if (!passwordRegex.test(password)) {
+    return { ok: false, message: "Invalid Password" };
+  }
 
   // Prepare data
   const newUser = { email: `/@${username}`, password };
 
   // Perform login
   const { error } = await supabase.auth.signInWithPassword(newUser);
-  if (error) throw new Error("Invalid Login Credentials");
 
-  // Redirect to profile
-  redirect("/edit/profile");
+  // Login Failed
+  if (error) return { ok: false, message: "Invalid Login Credentials" };
+
+  // Login Successful
+  if (!error) {
+    return {
+      ok: true,
+      message: "Welcome back! You've successfully logged in.",
+    };
+  }
 }
 
 // SIGN UP //
@@ -38,24 +48,42 @@ export async function signUp(formData) {
   const repeatPassword = formData.get("repeat-password");
 
   // Validate data
-  if (!usernameRegex.test(username)) throw new Error("Invalid Username");
-  if (!passwordRegex.test(password)) throw new Error("Invalid Password");
-  if (password !== repeatPassword) throw new Error("Passwords do not match");
+  if (!usernameRegex.test(username)) {
+    return { ok: false, message: "Invalid Username" };
+  }
+  if (!passwordRegex.test(password)) {
+    return { ok: false, message: "Invalid Password" };
+  }
+  if (password !== repeatPassword) {
+    return { ok: false, message: "Passwords do not match" };
+  }
 
   // Prepare data
   const userData = { email: `/@${username}`, password };
 
   // Perform signup
   const { error } = await supabase.auth.signUp(userData);
-  if (error) throw new Error("Sign up unsuccessful. Please try again later.");
+
+  // Signup Failed
+  if (error) {
+    return {
+      ok: false,
+      message: "Sign up unsuccessful. Please try again later.",
+    };
+  }
 
   // Add initial user data
   await supabase.auth.updateUser({
     data: { firstName: "", lastName: "", about: "", image: "", links: [] },
   });
 
-  // Redirect to profile
-  redirect("/edit/profile");
+  // Signup Successful
+  if (!error) {
+    return {
+      ok: true,
+      message: "Account created successfully! Welcome to devlinks.",
+    };
+  }
 }
 
 // GET USER //
@@ -78,27 +106,42 @@ export async function changePassword(formData) {
   const password = formData.get("current-password");
   const newPassword = formData.get("new-password");
 
-  // Check data validity
-  if (!passwordRegex.test(password)) throw new Error("Invalid Password");
-  if (!passwordRegex.test(newPassword)) throw new Error("Invalid New Password");
+  // Validate data
+  if (!passwordRegex.test(password)) {
+    return { ok: false, message: "Invalid Current Password" };
+  }
+  if (!passwordRegex.test(newPassword)) {
+    return { ok: false, message: "Invalid New Password" };
+  }
 
   // Check if password is correct
   const { error: checkError } = await supabase.auth.signInWithPassword({
     email: username,
     password,
   });
-  if (checkError) throw new Error("Incorrect Password");
+
+  // Failed to authenticate
+  if (checkError) {
+    return { ok: false, message: "Incorrect Password" };
+  }
 
   // Change Password
   const { error } = await supabase.auth.updateUser({
     password: newPassword,
   });
+
+  // Failed to change password
   if (error) {
-    throw new Error("Unable to change your password. Please try again.");
+    return {
+      ok: false,
+      message: "Unable to change your password. Please try again.",
+    };
   }
 
-  // Redirect to profile
-  redirect("/edit/profile");
+  // Change Successful
+  if (!error) {
+    return { ok: true, message: "Password updated successfully!" };
+  }
 }
 
 // DELETE ACCOUNT //
@@ -111,21 +154,39 @@ export async function deleteAccount(formData) {
 
   // Check if user is logged in
   const user = await getUser();
-  if (!user) throw new Error("You are logged out");
+  if (!user) {
+    return { ok: false, message: "You are logged out." };
+  }
 
   // Prepare data
   const userData = { email: user.email, password };
 
   // Check if password is correct
   const { error } = await supabase.auth.signInWithPassword(userData);
-  if (error) throw new Error("Incorrect Password");
 
-  // Delete user
-  const { error: deleteError } = await adminAuthClient.deleteUser(userId);
-  if (deleteError) {
-    throw new Error("Account deletion failed. Please try again later.");
+  // Incorrect Password
+  if (error) {
+    return { ok: false, message: "Incorrect Password" };
   }
 
-  // Redirect to login page
-  redirect("/auth/login");
+  // Delete user
+  const { error: deleteError } = await supabaseAdmin.auth.admin.deleteUser(
+    userId
+  );
+
+  // Deletion failed
+  if (deleteError) {
+    return {
+      ok: false,
+      message: "Account deletion failed. Please try again later.",
+    };
+  }
+
+  // Deletion successful
+  if (!deleteError) {
+    return {
+      ok: true,
+      message: "Your account has been deleted. We're sad to see you go.",
+    };
+  }
 }

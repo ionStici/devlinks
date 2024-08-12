@@ -33,14 +33,33 @@ export async function updateSession(request) {
     data: { user },
   } = await supabase.auth.getUser();
 
+  const redirect = (path) => NextResponse.redirect(new URL(path, request.url));
+  const pathname = (path) => request.nextUrl.pathname === path;
+
+  if (
+    user &&
+    (pathname("/") ||
+      pathname("/auth") ||
+      pathname("/auth/login") ||
+      pathname("/auth/signup") ||
+      pathname("/edit"))
+  ) {
+    // Navigable: auth/change-password & auth/delete-account & edit/links & edit/profile & user
+    return redirect("/edit/profile");
+  }
+
   if (
     !user &&
-    !request.nextUrl.pathname.startsWith("/auth/login") &&
-    !request.nextUrl.pathname.startsWith("/auth/signup")
+    (pathname("/") ||
+      pathname("/auth") ||
+      pathname("/auth/change-password") ||
+      pathname("/auth/delete-account") ||
+      pathname("/edit") ||
+      pathname("/edit/profile") ||
+      pathname("/edit/links"))
   ) {
-    const url = request.nextUrl.clone();
-    url.pathname = "/auth/login";
-    return NextResponse.redirect(url);
+    // Navigable: auth/login & auth/signup & user
+    return redirect("/auth/login");
   }
 
   return supabaseResponse;

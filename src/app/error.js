@@ -12,7 +12,6 @@ export default function Error({ error, reset }) {
       >
         <Logo size="large" />
       </Link>
-
       <div className="sm:bg-white sm:p-10 sm:rounded-xl sm:shadow-section">
         <section className="flex flex-col items-center justify-center text-center">
           <p className="text-grey text-base mb-2">
@@ -24,7 +23,7 @@ export default function Error({ error, reset }) {
           <p className="text-grey text-base mb-2">We suggest to</p>
           <button
             onClick={reset}
-            className="w-[200px] h-[46px] rounded-lg bg-purple text-white text-base disabled:bg-borders hover:bg-purple_hover hover:shadow-input transition disabled:shadow-none focus:outline-none focus:ring-[2px] focus:ring-purple focus:ring-offset-2"
+            className="w-[200px] h-[46px] rounded-lg bg-purple text-white text-base hover:bg-purple_hover hover:shadow-input transition focus:outline-none focus:ring-[2px] focus:ring-purple focus:ring-offset-2"
           >
             Try Again!
           </button>

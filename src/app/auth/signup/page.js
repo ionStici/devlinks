@@ -1,7 +1,6 @@
-import { redirect } from "next/navigation";
-import { getUser, signUp } from "../_actions/auth";
+import { signUp } from "../../../actions/auth";
+import Button from "../_components/Button";
 import Footer from "../_components/Footer";
-import Form from "../_components/Form";
 import Header from "../_components/Header";
 import Input from "../_components/Input";
 import Layout from "../_components/Layout";
@@ -13,21 +12,18 @@ export const metadata = {
 };
 
 export default async function Page() {
-  const user = await getUser();
-  if (user) redirect("/edit/profile");
-
   return (
     <Layout>
       <Header
         heading="Create account"
         content="Let's get you started sharing links!"
       />
-      <Form action={signUp} btnText="Create new account">
+      <form className="flex flex-col gap-6 mb-6">
         <Input
           label="Username"
           type="text"
           name="username"
-          placeholder="e.g. codeWizard"
+          placeholder="e.g. code-wizard"
           autofill="username"
         />
         <Input
@@ -47,7 +43,10 @@ export default async function Page() {
         <p className="text-xs text-grey">
           Password must contain at least 8 characters
         </p>
-      </Form>
+        <Button action={signUp} pendingText="Creating Account...">
+          Create new account
+        </Button>
+      </form>
       <Footer
         content="Already have an account?"
         btnText="Login"

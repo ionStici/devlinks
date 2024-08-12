@@ -1,7 +1,6 @@
-import { redirect } from "next/navigation";
-import { getUser, login } from "../_actions/auth";
+import { login } from "../../../actions/auth";
+import Button from "../_components/Button";
 import Footer from "../_components/Footer";
-import Form from "../_components/Form";
 import Header from "../_components/Header";
 import Input from "../_components/Input";
 import Layout from "../_components/Layout";
@@ -13,21 +12,18 @@ export const metadata = {
 };
 
 export default async function Page() {
-  const user = await getUser();
-  if (user) redirect("/edit/profile");
-
   return (
     <Layout>
       <Header
         heading="Login"
         content="Add your details below to get back into the app"
       />
-      <Form action={login} btnText="Login">
+      <form className="flex flex-col gap-6 mb-6">
         <Input
           label="Username"
           type="text"
           name="username"
-          placeholder="e.g. codeWizard"
+          placeholder="e.g. code-wizard"
           autofill="username"
         />
         <Input
@@ -37,7 +33,10 @@ export default async function Page() {
           placeholder="Enter your password"
           autofill="current-password"
         />
-      </Form>
+        <Button action={login} pendingText="Logging In...">
+          Login
+        </Button>
+      </form>
       <Footer
         content="Don't have an account?"
         btnText="Create account"

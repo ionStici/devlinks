@@ -26,7 +26,11 @@ export default async function Page({ params }) {
 
   if (!data) data = await getUserByUsername(paramUsername);
 
-  if (!data) notFound();
+  console.log(params.user.includes("%40"));
+
+  if (!data && params.user.includes("%40")) return "Profile Not Found";
+
+  if (!data && !params.user.includes("%40")) notFound();
 
   const { email: username } = data;
   const { firstName, lastName, about, image, links } = data.user_metadata;

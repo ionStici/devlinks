@@ -14,9 +14,12 @@ export async function updateProfile(formData) {
   const about = formData.get("about").slice(0, 125);
 
   // Input validation
-  if (!aboutYouRegex.test(about)) throw new Error("Invalid Bio");
-  if (!nameRegex.test(firstName)) throw new Error("Invalid First Name");
+  if (!nameRegex.test(firstName)) {
+    return { status: "success", message: "Invalid First Name" };
+  }
+
   if (!nameRegex.test(lastName)) throw new Error("Invalid Last Name");
+  if (!aboutYouRegex.test(about)) throw new Error("Invalid Bio");
   if (image.size > 750000) throw new Error("The image is too large");
   if (image.type.split("/")[0] !== "image" && image.size !== 0) {
     throw new Error("Wrong image format");

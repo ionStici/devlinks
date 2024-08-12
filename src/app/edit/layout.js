@@ -1,11 +1,9 @@
-import { getUser } from "@/app/edit/_actions/auth";
-import { redirect } from "next/navigation";
+import { getUser } from "@/actions/auth";
 import NavigationBar from "./_components/NavigationBar";
 import PhoneMockup from "./_components/PhoneMockup";
 
 export default async function Layout({ children }) {
   const user = await getUser();
-  if (!user) redirect("/auth/login");
 
   return (
     <main className="sm:m-6">

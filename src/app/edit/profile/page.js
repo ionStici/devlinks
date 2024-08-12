@@ -21,7 +21,7 @@ export default async function Page() {
         title="Profile Details"
         text="Add your details to create a personal touch to your profile."
       />
-      <form action={updateProfile} className="flex flex-col flex-grow">
+      <form className="flex flex-col flex-grow">
         <UploadPicture img={user.user_metadata.image} />
         <div className="flex flex-col gap-3 mx-6 md:mx-10 p-5 bg-light_grey rounded-xl">
           <ProfileInput
@@ -46,7 +46,7 @@ export default async function Page() {
             placeholder="e.g. Web Developer"
           />
         </div>
-        <FooterButtons />
+        <FooterButtons action={updateProfile} />
       </form>
     </>
   );

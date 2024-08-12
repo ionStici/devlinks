@@ -17,10 +17,7 @@ export function createClient() {
             cookiesToSet.forEach(({ name, value, options }) =>
               cookieStore.set(name, value, options)
             );
-          } catch (err) {
-            console.error(err);
-            // throw new Error(err.message);
-          }
+          } catch {}
         },
       },
     }
