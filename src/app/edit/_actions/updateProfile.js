@@ -26,7 +26,8 @@ export async function updateProfile(formData) {
   const { data, error } = await supabase.auth.updateUser({
     data: { firstName, lastName, about },
   });
-  if (error) throw new Error(error.message);
+  if (error)
+    throw new Error("Unable to update your profile details. Please try again.");
 
   // Delete current image from supabase bucket if: new image exists && the user already has image
   const currentImage = data.user.user_metadata.image;
@@ -44,13 +45,15 @@ export async function updateProfile(formData) {
     const { data: imgData, error: imgError } = await supabase.storage
       .from("avatars")
       .upload(imageName, image, { cacheControl: "3600", upsert: false });
-    if (imgError) throw new Error(imgError.message);
+    if (imgError)
+      throw new Error("Failed to upload the image. Please try again.");
 
     // Update user's data with new image path
     const { error: storePathError } = await supabase.auth.updateUser({
       data: { image: imgData.path },
     });
-    if (storePathError) throw new Error(storePathError.message);
+    if (storePathError)
+      throw new Error("Failed to upload the image. Please try again.");
   }
 
   // Revalidate Path

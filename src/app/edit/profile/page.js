@@ -1,7 +1,7 @@
 import { getUser } from "@/app/edit/_actions/auth";
 import { updateProfile } from "@/app/edit/_actions/updateProfile";
 import Heading from "@/app/edit/_components/Heading";
-import SaveButton from "@/app/edit/_components/SaveButton";
+import FooterButtons from "@/app/edit/_components/FooterButtons";
 import UploadPicture from "@/app/edit/_components/UploadPicture";
 import ProfileInput from "../_components/ProfileInput";
 
@@ -46,7 +46,7 @@ export default async function Page() {
             placeholder="e.g. Web Developer"
           />
         </div>
-        <SaveButton />
+        <FooterButtons />
       </form>
     </>
   );

@@ -6,7 +6,7 @@ import { useState } from "react";
 import { updateLinks } from "../_actions/updateLinks";
 import GetStarted from "./GetStarted";
 import LinkInput from "./LinkInput";
-import SaveButton from "./SaveButton";
+import FooterButtons from "./FooterButtons";
 
 export default function LinksForm({ links: serverLinks }) {
   const [clientLinks, setClientLinks] = useState([...serverLinks]);
@@ -66,7 +66,7 @@ export default function LinksForm({ links: serverLinks }) {
             );
           })}
         </Reorder.Group>
-        <SaveButton />
+        <FooterButtons />
       </form>
     </>
   );

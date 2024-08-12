@@ -64,12 +64,12 @@ export default function LinkInput({
           <button
             tabIndex={-1}
             type="button"
-            className="flex items-center gap-2 text-grey text-base font-bold"
+            className="select-none flex items-center gap-2 text-grey text-base font-bold"
             onPointerDown={(event) => dragControls.start(event)}
           >
             {/* prettier-ignore */}
-            <ReactSVG src="/assets/icon-drag-and-drop.svg" beforeInjection={(svg) => { svg.setAttribute("aria-label", "Drag and Drop"); }} />
-            <span>Link #{index + 1}</span>
+            <ReactSVG className="select-none" src="/assets/icon-drag-and-drop.svg" beforeInjection={(svg) => { svg.setAttribute("aria-label", "Drag and Drop"); }} />
+            <span className="select-none">Link #{index + 1}</span>
           </button>
           <button
             onClick={removeLink}

@@ -3,9 +3,6 @@ import PlatformLink from "@/ui/PlatformLink";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getUser, getUserByUsername } from "./_actions/getUser";
-import LogoBottom from "./_components/LogoBottom";
-import LogoTop from "./_components/LogoTop";
-import Navigation from "./_components/Navigation";
 
 export async function generateMetadata({ params }) {
   return {
@@ -27,9 +24,7 @@ export default async function Page({ params }) {
 
   if (isLoggedInUser) data = loggedInUser;
 
-  if (!data) {
-    data = await getUserByUsername(paramUsername);
-  }
+  if (!data) data = await getUserByUsername(paramUsername);
 
   if (!data) notFound();
 
@@ -39,36 +34,29 @@ export default async function Page({ params }) {
 
   return (
     <>
-      <div className="relative bg-white min-h-dvh xs:flex xs:items-center xs:justify-center xs:pt-[175px] xs:pb-[200px]">
-        <section className="relative w-full xs:max-w-[350px] min-h-[570px] mx-auto bg-white pt-14 xs:pt-12 pb-12 xs:rounded-3xl xs:shadow-profileBox">
-          <LogoTop />
-          {/* {isLoggedInUser && <Navigation />} */}
-          {image && (
-            <div className="xs:shadow-layout absolute z-10 top-0 left-0 w-full h-[125px] bg-purple xs:rounded-t-3xl" />
-          )}
-          <div
-            className={`relative z-30 p-1 rounded-full size-[120px] mx-auto mb-[21px]
-            ${image ? "bg-purple" : "bg-transparent"}`}
-          >
-            <div className="relative z-40 size-full border-4 border-white rounded-full">
-              <Image
-                className="object-cover rounded-full z-50"
-                src={image ? imgUrl : `/assets/default-profile-picture.svg`}
-                alt={`${username} profile picture`}
-                fill
-                sizes="104px"
-                priority={true}
-              />
-            </div>
+      <div className="flex items-center justify-center min-h-dvh px-6 pt-[100px] pb-[150px] bg-profileGradient">
+        <section className="relative max-w-[375px] min-h-[600px] mx-auto px-6 py-12 flex-grow bg-white rounded-3xl shadow-profileBox">
+          <div className="absolute z-10 top-0 left-0 w-full h-[130px] bg-purple rounded-t-3xl shadow-layout" />
+          <div className="relative z-20 size-[138px] mx-auto mb-[25px] bg-white rounded-full border-4 border-white shadow-profileImage">
+            <Image
+              className="object-cover rounded-full"
+              src={image ? imgUrl : `/assets/default-profile-picture.svg`}
+              alt={`${username} profile picture`}
+              fill
+              sizes="130px"
+              priority={true}
+            />
           </div>
 
-          <div className="text-center px-6 mb-14">
+          <div className="text-center mb-14">
             <h1 className="mb-2 font-bold text-[2rem] leading-10 text-dark_grey">
               {firstName || lastName
                 ? `${firstName} ${lastName}`
                 : username.split("@")[1]}
             </h1>
-            <p className="text-base font-normal text-grey">{about}</p>
+            {about && (
+              <p className="text-base font-normal text-grey">{about}</p>
+            )}
           </div>
 
           {links.length > 0 && (
@@ -76,10 +64,9 @@ export default async function Page({ params }) {
               {links.map((link) => {
                 const platform = link.split("%")[0];
                 const url = link.split("%")[1];
-
                 const { icon, iconMod, color } = platforms.find(
-                  ({ platform: title }) => {
-                    return title === platform;
+                  ({ platform: platformTitle }) => {
+                    return platformTitle === platform;
                   }
                 );
 
@@ -96,7 +83,6 @@ export default async function Page({ params }) {
               })}
             </ul>
           )}
-          <LogoBottom />
         </section>
       </div>
     </>

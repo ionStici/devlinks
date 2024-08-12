@@ -21,9 +21,17 @@ export async function updateLinks(formData) {
     if (input === null) return acc;
     if (input === "") return acc;
 
-    // If 'Website', return whatever value
+    // If 'Website', return whatever value with https:// prefix
     if (formData.has(platform) && platform === "Website") {
-      acc.push(`${platform}%${input.slice(0, 50)}`);
+      const trimmedInput = input.replaceAll(" ", "");
+
+      const link = (
+        trimmedInput.startsWith("https://")
+          ? trimmedInput
+          : "https://" + trimmedInput
+      ).slice(0, 50);
+
+      acc.push(`${platform}%${link}`);
       return acc;
     }
 
@@ -48,7 +56,7 @@ export async function updateLinks(formData) {
 
   // Update the user with new links
   const { error } = await supabase.auth.updateUser({ data: { links } });
-  if (error) throw new Error(error.message);
+  if (error) throw new Error("Failed to save your links. Please try again.");
 
   // Revalidate the page with new data
   revalidatePath("/edit/links");

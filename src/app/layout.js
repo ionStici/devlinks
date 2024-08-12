@@ -6,11 +6,11 @@ const sans = Instrument_Sans({ subsets: ["latin"] });
 
 export const metadata = {
   title: {
-    template: "%s // DevLinks",
-    default: "DevLinks | Centralize Your Developer Presence",
+    template: "%s // devlinks",
+    default: "devlinks | Centralize Your Developer Presence",
   },
   description:
-    "Build and customize your DevLinks profile to share all your developer-related links in one place. Seamlessly connect your GitHub, LinkedIn, and other platforms with a single, sharable URL.",
+    "Build and customize your devlinks profile to share all your developer-related links in one place. Seamlessly connect your GitHub, LinkedIn, and other platforms with a single, sharable URL.",
 };
 
 export default function RootLayout({ children }) {

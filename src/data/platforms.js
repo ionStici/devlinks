@@ -7,19 +7,19 @@ export const platforms = [
     color: "#1A1A1A",
   },
   {
-    platform: "Website",
-    icon: "/platforms/icon-website.svg",
-    placeholder: "Your personal website",
-    domains: null,
-    color: "#5fad56",
-  },
-  {
     platform: "Frontend Mentor",
     icon: "/platforms/icon-frontend-mentor.svg",
     iconMod: "/platforms/icon-frontend-mentor-color.svg",
     placeholder: "https://www.frontendmentor.io/profile/mattstuddert",
     domains: ["frontendmentor.io"],
     color: "#FFFFFF",
+  },
+  {
+    platform: "Website",
+    icon: "/platforms/icon-website.svg",
+    placeholder: "Your personal website",
+    domains: null,
+    color: "#5fad56",
   },
   {
     platform: "Twitter",

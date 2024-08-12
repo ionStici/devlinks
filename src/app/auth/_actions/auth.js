@@ -22,7 +22,7 @@ export async function login(formData) {
 
   // Perform login
   const { error } = await supabase.auth.signInWithPassword(newUser);
-  if (error) throw new Error(error.message);
+  if (error) throw new Error("Invalid Login Credentials");
 
   // Redirect to profile
   redirect("/edit/profile");
@@ -47,7 +47,7 @@ export async function signUp(formData) {
 
   // Perform signup
   const { error } = await supabase.auth.signUp(userData);
-  if (error) throw new Error(error.message);
+  if (error) throw new Error("Sign up unsuccessful. Please try again later.");
 
   // Add initial user data
   await supabase.auth.updateUser({
@@ -93,7 +93,9 @@ export async function changePassword(formData) {
   const { error } = await supabase.auth.updateUser({
     password: newPassword,
   });
-  if (error) throw new Error(error.message);
+  if (error) {
+    throw new Error("Unable to change your password. Please try again.");
+  }
 
   // Redirect to profile
   redirect("/edit/profile");
@@ -120,7 +122,9 @@ export async function deleteAccount(formData) {
 
   // Delete user
   const { error: deleteError } = await adminAuthClient.deleteUser(userId);
-  if (deleteError) throw new Error(deleteError.message);
+  if (deleteError) {
+    throw new Error("Account deletion failed. Please try again later.");
+  }
 
   // Redirect to login page
   redirect("/auth/login");
