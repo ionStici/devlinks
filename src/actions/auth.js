@@ -3,6 +3,7 @@
 import { passwordRegex, usernameRegex } from "@/utils/regex";
 import { supabase as supabaseAdmin } from "@/utils/supabase/admin";
 import { createClient } from "@/utils/supabase/server";
+import { redirect } from "next/navigation";
 
 // LOGIN //
 export async function login(formData) {
@@ -95,6 +96,15 @@ export async function getUser() {
 
   // Return user if logged in, otherwise null
   return data?.user;
+}
+
+// LOG OUT //
+export async function logOut() {
+  const supabase = createClient();
+
+  const { error } = await supabase.auth.signOut();
+
+  if (!error) redirect("/auth/login");
 }
 
 // CHANGE PASSWORD //

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useOutsideClick } from "@/hooks/useOutsideClick";
 import { FiLogOut, FiTrash2 } from "react-icons/fi";
 import { TbPasswordFingerprint } from "react-icons/tb";
-import { logOut } from "../_actions/auth";
+import { logOut } from "@/actions/auth";
 
 export default function ActionButtons({ setIsOpen }) {
   const ref = useOutsideClick(() => setIsOpen(false), false);
@@ -17,7 +17,7 @@ export default function ActionButtons({ setIsOpen }) {
       <ul className="divide-y divide-borders text-base">
         <li className="text-dark_grey">
           <button
-            className="flex items-center w-full gap-[10px] px-4 py-2 group transition hover:text-purple bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-purple focus:scale-105 active:ring-0 active:scale-100 relative focus:z-10"
+            className="flex items-center w-full gap-[10px] px-4 py-2 group transition hover:text-purple bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-purple focus:scale-105 relative focus:z-10"
             formAction={logOut}
           >
             <FiLogOut className="w-5 h-5 transition stroke-grey group-hover:stroke-purple" />
@@ -26,7 +26,7 @@ export default function ActionButtons({ setIsOpen }) {
         </li>
         <li className="text-dark_grey">
           <Link
-            className="flex items-center w-full gap-[10px] px-4 py-2 group transition hover:text-purple bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-purple focus:scale-105 active:ring-0 active:scale-100 relative focus:z-10"
+            className="flex items-center w-full gap-[10px] px-4 py-2 group transition hover:text-purple bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-purple focus:scale-105 relative focus:z-10"
             href="/auth/change-password"
           >
             <TbPasswordFingerprint className="w-5 h-5 transition stroke-grey group-hover:stroke-purple" />
@@ -35,7 +35,7 @@ export default function ActionButtons({ setIsOpen }) {
         </li>
         <li className="text-red">
           <Link
-            className="flex items-center w-full gap-[10px] px-4 py-2 group transition bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-red focus:scale-105 active:ring-0 active:scale-100 relative focus:z-10"
+            className="flex items-center w-full gap-[10px] px-4 py-2 group transition bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-red focus:scale-105 relative focus:z-10"
             href="/auth/delete-account"
           >
             <FiTrash2 className="w-5 h-5 transition stroke-red" />

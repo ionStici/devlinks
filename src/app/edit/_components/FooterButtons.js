@@ -5,15 +5,19 @@ import { useState } from "react";
 import ActionButtons from "./ActionButtons";
 import TinySpinner from "@/ui/TinySpinner";
 import { useFormStatus } from "react-dom";
+import toast from "react-hot-toast";
 
 export default function FooterButtons({ action }) {
   const [isOpen, setIsOpen] = useState(false);
+
   const { pending } = useFormStatus();
 
   const isPending = pending && !isOpen;
 
-  const test = async (formData) => {
-    const res = await action(formData);
+  const formAction = async (formData) => {
+    const { ok, message } = await action(formData);
+    if (!ok) toast.error(message);
+    if (ok) toast.success(message);
   };
 
   return (
@@ -37,7 +41,7 @@ export default function FooterButtons({ action }) {
           />
         </button>
         <button
-          formAction={test}
+          formAction={formAction}
           disabled={isPending}
           className="flex items-center justify-center h-[46px] w-full xs:w-[91px] bg-purple rounded-lg text-white text-base hover:bg-purple_hover hover:shadow-input transition focus:outline-none focus:ring-[2px] focus:ring-purple focus:ring-offset-2 disabled:bg-borders disabled:shadow-none"
         >

@@ -3,7 +3,8 @@
 import { platforms as allPlatforms } from "@/data/platforms";
 import { Reorder } from "framer-motion";
 import { useState } from "react";
-import { updateLinks } from "../_actions/updateLinks";
+// import { updateLinks } from "../_actions/updateLinks";
+import { updateLinks } from "@/actions/profile";
 import GetStarted from "./GetStarted";
 import LinkInput from "./LinkInput";
 import FooterButtons from "./FooterButtons";

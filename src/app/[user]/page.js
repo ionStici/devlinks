@@ -2,7 +2,7 @@ import { platforms } from "@/data/platforms";
 import PlatformLink from "@/ui/PlatformLink";
 import Image from "next/image";
 import { notFound } from "next/navigation";
-import { getUser, getUserByUsername } from "./_actions/getUser";
+import { getUser, getUserByUsername } from "../../actions/getUser";
 
 export async function generateMetadata({ params }) {
   return {
