@@ -1,5 +1,3 @@
-"use client";
-
 import Logo from "@/ui/Logo";
 import Link from "next/link";
 

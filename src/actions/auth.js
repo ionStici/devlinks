@@ -27,10 +27,10 @@ export async function login(formData) {
   // Perform login
   const { error } = await supabase.auth.signInWithPassword(newUser);
 
-  // Login Failed
+  // Login failed
   if (error) return { ok: false, message: "Invalid Login Credentials" };
 
-  // Login Successful
+  // Login successful
   if (!error) {
     return {
       ok: true,

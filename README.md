@@ -48,8 +48,8 @@ The project is currently live and accessible at [devlinks.fun](https://www.devli
 src/
 |-- actions/            # Next.js Server Actions
 |-- app/                # Next.js App Router
-|   |-- segment/        # Page
-|   |-- segment/_components/  # React components specific to the segment page
+|   |-- segment/        # Page segment
+|   |-- segment/_components/  # Page specific components
 |-- hooks/              # Custom React Hooks
 |-- ui/                 # Common React UI components
 |-- data/               # Client data used by the app

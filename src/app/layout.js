@@ -17,7 +17,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`w-screen flex items-center justify-center bg-light_grey ${sans.className} text-base`}
+        className={`w-screen flex items-center justify-center overflow-x-hidden bg-light_grey ${sans.className} text-base`}
       >
         <Toaster
           position="bottom-center"
@@ -25,11 +25,13 @@ export default function RootLayout({ children }) {
             duration: 5000,
             style: {
               maxWidth: "500px",
+              paddingLeft: "16px",
+              borderRadius: "12px",
               background: "#333",
               color: "#fff",
-              fontWeight: "600",
               fontSize: "16px",
-              paddingLeft: "16px",
+              fontWeight: "600",
+              lineHeight: "24px",
             },
           }}
         />
