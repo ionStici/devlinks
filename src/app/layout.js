@@ -1,5 +1,6 @@
 import { Instrument_Sans } from "next/font/google";
 import { Toaster } from "react-hot-toast";
+import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 
 const sans = Instrument_Sans({ subsets: ["latin"] });
@@ -34,6 +35,7 @@ export default function RootLayout({ children }) {
           }}
         />
         <div className="flex-grow">{children}</div>
+        <Analytics />
       </body>
     </html>
   );
