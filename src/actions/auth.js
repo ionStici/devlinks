@@ -47,6 +47,7 @@ export async function signUp(formData) {
   const username = formData.get("username");
   const password = formData.get("new-password");
   const repeatPassword = formData.get("repeat-password");
+  const terms = formData.get("terms");
 
   // Validate data
   if (!usernameRegex.test(username)) {
@@ -57,6 +58,13 @@ export async function signUp(formData) {
   }
   if (password !== repeatPassword) {
     return { ok: false, message: "Passwords do not match" };
+  }
+  if (!(terms === "on")) {
+    return {
+      ok: false,
+      message:
+        "Please agree to the Terms and Conditions before creating your account.",
+    };
   }
 
   // Prepare data

@@ -22,9 +22,9 @@ export default function RootLayout({ children }) {
         <Toaster
           position="bottom-center"
           toastOptions={{
-            duration: 5000,
+            duration: 4000,
             style: {
-              maxWidth: "500px",
+              maxWidth: "650px",
               paddingLeft: "16px",
               borderRadius: "12px",
               background: "#333",

@@ -4,6 +4,7 @@ import Footer from "../_components/Footer";
 import Header from "../_components/Header";
 import Input from "../_components/Input";
 import Layout from "../_components/Layout";
+import TermsCheckbox from "../_components/TermsCheckbox";
 
 export const metadata = {
   title: "Create your devlinks account",
@@ -40,9 +41,10 @@ export default async function Page() {
           placeholder="At least 8 characters"
           autofill="new-password"
         />
-        <p className="text-xs text-grey">
+        <p className="text-xs text-grey -mt-4">
           Password must contain at least 8 characters
         </p>
+        <TermsCheckbox />
         <Button action={signUp} pendingText="Creating Account...">
           Create new account
         </Button>
