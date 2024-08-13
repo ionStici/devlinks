@@ -22,7 +22,7 @@ export default function ActionButtons({ setIsOpen }) {
             href="/terms"
           >
             <TiDocumentText className="w-5 h-5 transition fill-grey group-hover:fill-purple" />
-            <span>Usage of Service</span>
+            <span>Terms of Service</span>
           </Link>
         </li>
         <li className="text-dark_grey">

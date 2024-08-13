@@ -110,8 +110,10 @@ export async function getUser() {
 export async function logOut() {
   const supabase = createClient();
 
+  // Perform log out
   const { error } = await supabase.auth.signOut();
 
+  // If log out successful, redirect to /auth/login
   if (!error) redirect("/auth/login");
 }
 

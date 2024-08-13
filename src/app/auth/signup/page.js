@@ -1,6 +1,7 @@
 import { signUp } from "../../../actions/auth";
 import Button from "../_components/Button";
 import Footer from "../_components/Footer";
+import Form from "../_components/Form";
 import Header from "../_components/Header";
 import Input from "../_components/Input";
 import Layout from "../_components/Layout";
@@ -19,7 +20,7 @@ export default async function Page() {
         heading="Create account"
         content="Let's get you started sharing links!"
       />
-      <form className="flex flex-col gap-6 mb-6">
+      <Form>
         <Input
           label="Username"
           type="text"
@@ -41,14 +42,14 @@ export default async function Page() {
           placeholder="At least 8 characters"
           autofill="new-password"
         />
-        <p className="text-xs text-grey -mt-4">
+        <p className="text-xs text-grey -mt-3">
           Password must contain at least 8 characters
         </p>
         <TermsCheckbox />
         <Button action={signUp} pendingText="Creating Account...">
           Create new account
         </Button>
-      </form>
+      </Form>
       <Footer
         content="Already have an account?"
         btnText="Login"

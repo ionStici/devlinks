@@ -1,5 +1,10 @@
 import Link from "next/link";
-import Logo from "@/ui/Logo";
+
+export const metadata = {
+  title: "Terms and Conditions",
+  description:
+    "Read the Terms and Conditions for using devlinks, our friendly link-sharing platform. Understand your rights, responsibilities, and how we work together to keep devlinks a safe and enjoyable space for everyone.",
+};
 
 export default function Page() {
   return (
@@ -14,7 +19,7 @@ export default function Page() {
       </div>
 
       <div>
-        <h2 className="text-2xl font-semibold mb-5">Welcome to devlinks!</h2>
+        <h2 className="text-2xl font-semibold mb-2">Welcome to devlinks!</h2>
         <p>
           Thank you for using devlinks, a fun and easy way to create your
           personalized developer profile. These Terms and Conditions

@@ -3,7 +3,8 @@ import Logo from "@/ui/Logo";
 import PlatformLink from "@/ui/PlatformLink";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getUser, getUserByUsername } from "../../actions/getUserByUsername";
+import { getUserByUsername } from "../../actions/getUserByUsername";
+import { getUser } from "@/actions/auth";
 import ProfileNotFound from "./_components/ProfileNotFound";
 import ProfilePicture from "./_components/ProfilePicture";
 

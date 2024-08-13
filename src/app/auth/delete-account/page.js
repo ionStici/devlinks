@@ -1,6 +1,7 @@
 import { deleteAccount, getUser } from "../../../actions/auth";
 import Button from "../_components/Button";
 import Footer from "../_components/Footer";
+import Form from "../_components/Form";
 import GoBackLink from "../_components/GoBackLink";
 import Header from "../_components/Header";
 import Input from "../_components/Input";
@@ -22,7 +23,7 @@ export default async function Page() {
         heading="Delete Your Account"
         content="This action is permanent and cannot be undone. Please confirm if you want to proceed."
       />
-      <form className="flex flex-col gap-6 mb-6">
+      <Form>
         <Input
           label="Current Password"
           type="password"
@@ -34,7 +35,7 @@ export default async function Page() {
         <Button action={deleteAccount} pendingText="Deleting...">
           Delete Account
         </Button>
-      </form>
+      </Form>
       <Footer
         username={user.email.slice(1)}
         content="account will be permanently deleted."

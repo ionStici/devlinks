@@ -1,6 +1,7 @@
 import { changePassword, getUser } from "../../../actions/auth";
 import Button from "../_components/Button";
 import Footer from "../_components/Footer";
+import Form from "../_components/Form";
 import GoBackLink from "../_components/GoBackLink";
 import Header from "../_components/Header";
 import Input from "../_components/Input";
@@ -21,7 +22,7 @@ export default async function Page() {
         heading="Change Password"
         content="Securely change your devlinks password."
       />
-      <form className="flex flex-col gap-6 mb-6">
+      <Form>
         <Input
           label="Current Password"
           type="password"
@@ -40,7 +41,7 @@ export default async function Page() {
         <Button action={changePassword} pendingText="Changing...">
           Change Password
         </Button>
-      </form>
+      </Form>
       <Footer
         content="Changed your mind?"
         btnText={`${user.email.slice(1)}`}

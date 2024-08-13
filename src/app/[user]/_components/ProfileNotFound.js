@@ -16,7 +16,11 @@ export default function ProfileNotFound({ username }) {
             Profile Not Found
           </h1>
           <p className="text-grey text-xl mb-10">
-            It seems {username} doesn&apos;t have a devlinks profile yet.
+            <span>Looks like </span>
+            <span className="text-purple font-semibold">
+              {username ? username : "this guy"}
+            </span>
+            <span> doesn&apos;t have a devlinks profile yet.</span>
           </p>
           <Link
             href="/"

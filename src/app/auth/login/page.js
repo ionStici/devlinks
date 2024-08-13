@@ -1,6 +1,7 @@
 import { login } from "../../../actions/auth";
 import Button from "../_components/Button";
 import Footer from "../_components/Footer";
+import Form from "../_components/Form";
 import Header from "../_components/Header";
 import Input from "../_components/Input";
 import Layout from "../_components/Layout";
@@ -18,7 +19,7 @@ export default async function Page() {
         heading="Login"
         content="Add your details below to get back into the app"
       />
-      <form className="flex flex-col gap-6 mb-6">
+      <Form>
         <Input
           label="Username"
           type="text"
@@ -36,7 +37,7 @@ export default async function Page() {
         <Button action={login} pendingText="Logging In...">
           Login
         </Button>
-      </form>
+      </Form>
       <Footer
         content="Don't have an account?"
         btnText="Create account"

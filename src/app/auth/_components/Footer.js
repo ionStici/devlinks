@@ -5,7 +5,12 @@ export default function Footer({ username, content, btnText, href }) {
     <footer className="text-center sm:flex sm:justify-center sm:gap-1">
       <p className="text-grey text-base">
         {username && (
-          <span className="text-purple font-semibold">{username} </span>
+          <Link
+            href={`/${username}`}
+            className="text-purple font-semibold rounded-[4px] px-[2px] mr-[2px] focus:outline-none focus:ring-1 focus:ring-purple"
+          >
+            {username}
+          </Link>
         )}
         <span>{content}</span>
       </p>

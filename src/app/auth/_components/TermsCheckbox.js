@@ -9,11 +9,11 @@ export default function TermsCheckbox() {
         name="terms"
         id="terms"
       />
-      <label htmlFor="terms">
-        I agree to the{" "}
+      <label htmlFor="terms" className="text-sm">
+        <span>I agree to the </span>
         <Link
-          className="text-sm text-purple px-[1px] rounded-sm focus:outline-none focus:ring-[1px] focus:ring-purple"
           href="/terms"
+          className="text-purple px-[1px] rounded-sm focus:outline-none focus:ring-[1px] focus:ring-purple"
         >
           Terms and Conditions.
         </Link>
