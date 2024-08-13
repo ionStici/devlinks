@@ -44,7 +44,8 @@ export async function updateSession(request) {
       pathname("/auth/signup") ||
       pathname("/edit"))
   ) {
-    // Navigable: auth/change-password & auth/delete-account & edit/links & edit/profile & user
+    // Navigable: auth/change-password & auth/delete-account & edit/links & edit/profile
+    // Generic: terms & user
     return redirect("/edit/profile");
   }
 
@@ -58,7 +59,8 @@ export async function updateSession(request) {
       pathname("/edit/profile") ||
       pathname("/edit/links"))
   ) {
-    // Navigable: auth/login & auth/signup & user
+    // Navigable: auth/login & auth/signup
+    // Generic: terms & user
     return redirect("/auth/login");
   }
 

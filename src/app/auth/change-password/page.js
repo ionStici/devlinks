@@ -1,6 +1,7 @@
 import { changePassword, getUser } from "../../../actions/auth";
 import Button from "../_components/Button";
 import Footer from "../_components/Footer";
+import GoBackLink from "../_components/GoBackLink";
 import Header from "../_components/Header";
 import Input from "../_components/Input";
 import Layout from "../_components/Layout";
@@ -15,6 +16,7 @@ export default async function Page() {
 
   return (
     <Layout>
+      <GoBackLink />
       <Header
         heading="Change Password"
         content="Securely change your devlinks password."
