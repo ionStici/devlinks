@@ -6,8 +6,9 @@ import { FiLogOut, FiTrash2 } from "react-icons/fi";
 import { TbPasswordFingerprint } from "react-icons/tb";
 import { logOut } from "@/actions/auth";
 import { TiDocumentText } from "react-icons/ti";
+import TinySpinner from "@/ui/TinySpinner";
 
-export default function ActionButtons({ setIsOpen }) {
+export default function ActionButtons({ setIsOpen, logOutPending }) {
   const ref = useOutsideClick(() => setIsOpen(false), false);
 
   return (
@@ -38,9 +39,13 @@ export default function ActionButtons({ setIsOpen }) {
           <button
             className="flex items-center w-full gap-[10px] px-4 py-2 group transition hover:text-purple bg-white rounded-lg focus:outline-none focus:ring-2 focus:ring-purple focus:scale-105 relative focus:z-10"
             formAction={logOut}
+            disabled={logOutPending}
           >
             <FiLogOut className="w-5 h-5 transition stroke-grey group-hover:stroke-purple" />
             <span>Log Out</span>
+            {logOutPending && (
+              <TinySpinner classes="ml-1 !border-t-purple !border-borders" />
+            )}
           </button>
         </li>
 

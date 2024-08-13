@@ -10,7 +10,9 @@ import toast from "react-hot-toast";
 export default function FooterButtons({ action }) {
   const [isOpen, setIsOpen] = useState(false);
   const { pending } = useFormStatus();
-  const isPending = pending && !isOpen;
+
+  const savePending = pending && !isOpen;
+  const logOutPending = pending && isOpen;
 
   const formAction = async (formData) => {
     const { ok, message } = await action(formData);
@@ -23,7 +25,9 @@ export default function FooterButtons({ action }) {
       <div aria-hidden="true" className="md:h-10" />
       <div className="border-t border-borders mt-6 mb-4 md:mb-6 md:mt-auto" />
       <div className="relative flex xs:justify-end gap-4 mx-6 md:mx-10">
-        {isOpen && <ActionButtons setIsOpen={setIsOpen} />}
+        {isOpen && (
+          <ActionButtons setIsOpen={setIsOpen} logOutPending={logOutPending} />
+        )}
         <button
           aria-label="Profile Actions"
           type="button"
@@ -40,10 +44,10 @@ export default function FooterButtons({ action }) {
         </button>
         <button
           formAction={formAction}
-          disabled={isPending}
+          disabled={savePending}
           className="flex items-center justify-center h-[46px] w-full xs:w-[91px] bg-purple rounded-lg text-white text-base hover:bg-purple_hover hover:shadow-input transition focus:outline-none focus:ring-[2px] focus:ring-purple focus:ring-offset-2 disabled:bg-borders disabled:shadow-none"
         >
-          {isPending ? <TinySpinner /> : "Save"}
+          {savePending ? <TinySpinner /> : "Save"}
         </button>
       </div>
     </>
