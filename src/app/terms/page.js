@@ -11,8 +11,11 @@ export default function Page() {
     <section className="flex flex-col gap-10 max-w-[720px] px-6 py-20 mx-auto text-dark_grey">
       <div>
         <h1 className="text-3xl font-bold">
-          <Link className="text-purple" href="/">
-            devlinks{" "}
+          <Link
+            className="text-purple px-1 -ml-1 mr-[6px] rounded-md focus:outline-none focus:ring-2 focus:ring-purple"
+            href="/"
+          >
+            devlinks
           </Link>
           <span>| Terms and Conditions</span>
         </h1>

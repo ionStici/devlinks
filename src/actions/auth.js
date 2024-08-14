@@ -202,6 +202,11 @@ export async function deleteAccount(formData) {
     };
   }
 
+  // Delete the user's profile picture
+  if (user.user_metadata.image) {
+    await supabase.storage.from("avatars").remove([user.user_metadata.image]);
+  }
+
   // Deletion successful
   if (!deleteError) {
     return {

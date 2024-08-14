@@ -31,13 +31,13 @@ export default async function Page() {
           placeholder="Confirm password to continue"
           autofill="current-password"
         />
-        <input type="hidden" name="user-id" value={user.id} />
+        <input type="hidden" name="user-id" value={user?.id} />
         <Button action={deleteAccount} pendingText="Deleting...">
           Delete Account
         </Button>
       </Form>
       <Footer
-        username={user.email.slice(1)}
+        username={user?.email?.slice(1)}
         content="account will be permanently deleted."
       />
     </Layout>
