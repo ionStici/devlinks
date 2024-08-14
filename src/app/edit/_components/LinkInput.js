@@ -26,7 +26,7 @@ export default function LinkInput({
   const handleValidation = () => {
     if (domains === null || input === "") return;
 
-    if (!domains.some((domain) => input.includes(domain))) {
+    if (!domains.some((domain) => input.toLowerCase().includes(domain))) {
       setInputError("Invalid URL");
     }
   };

@@ -109,7 +109,7 @@ export async function updateLinks(formData) {
 
     // If 'Website', return whatever value with https:// prefix
     if (formData.has(platform) && platform === "Website") {
-      const trimmedInput = input.replaceAll(" ", "");
+      const trimmedInput = input.replaceAll(" ", "").toLowerCase();
 
       const link = (
         trimmedInput.startsWith("https://")
@@ -122,23 +122,30 @@ export async function updateLinks(formData) {
     }
 
     // Check input domain
-    const domain = domains[index].find((domain) => input.includes(domain));
+    const domain = domains[index].find((domain) =>
+      input.toLowerCase().includes(domain)
+    );
 
-    // If not valid domain, pass a INVALID flag
+    // If not valid domain, pass a "INVALID" flag
     if (!domain) {
       acc.push(`INVALID${platform}`);
       return acc;
     }
 
     // Create the url
-    const userPath = input.split(domain)[1].replaceAll(" ", "").slice(0, 50);
+    const userPath = input
+      .toLowerCase()
+      .split(domain)[1]
+      .replaceAll(" ", "")
+      .slice(0, 50);
+
     const link = `${platform}%${protocol}${domain}${userPath}`;
     acc.push(link);
 
     return acc;
   }, []);
 
-  // Check if INVALID flag
+  // Check for "INVALID" flags
   const invalidLink = unsortedLinks
     .find((link) => link.startsWith("INVALID"))
     ?.split("INVALID")[1];
