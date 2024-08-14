@@ -59,7 +59,7 @@ export async function updateSession(request) {
       pathname("/edit/profile") ||
       pathname("/edit/links"))
   ) {
-    // Navigable: auth/login & auth/signup
+    // Navigable: home & auth/login & auth/signup
     // Generic: terms & user
     return redirect("/auth/login");
   }

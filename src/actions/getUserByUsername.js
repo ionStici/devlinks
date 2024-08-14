@@ -8,7 +8,11 @@ export async function getUserByUsername(paramUsername, perPage = 1000) {
     perPage: perPage,
   });
 
-  if (error) throw new Error("Failed to load the user data");
+  if (error)
+    return {
+      ok: false,
+      message: "Failed to load the user data",
+    };
 
   const user = listOfUsers.users.find((user) => {
     return user.email.split("@")[1] === paramUsername;
