@@ -5,7 +5,7 @@ import HeroSection from "./_components/HeroSection";
 
 export default function page() {
   return (
-    <div className="bg-light_grey md:px-10 md:py-20">
+    <div className="bg-light_grey md:p-10">
       <main
         id="home"
         className="max-w-[1100px] mx-auto bg-white shadow-section rounded-2xl"

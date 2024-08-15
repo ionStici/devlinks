@@ -1,0 +1,15 @@
+{
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "devlinks-gold.vercel.app"
+        }
+      ],
+      "destination": "https://devlinks.fun/$1",
+      "statusCode": 301
+    }
+  ]
+}
