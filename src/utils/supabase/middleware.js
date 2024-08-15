@@ -45,14 +45,14 @@ export async function updateSession(request) {
       pathname("/edit"))
   ) {
     // Navigable: auth/change-password & auth/delete-account & edit/links & edit/profile
-    // Generic: terms & user
+    // Generic: terms & users
     return redirect("/edit/profile");
   }
 
   if (
     !user &&
-    (pathname("/") ||
-      pathname("/auth") ||
+    // (pathname("/") ||
+    (pathname("/auth") ||
       pathname("/auth/change-password") ||
       pathname("/auth/delete-account") ||
       pathname("/edit") ||
@@ -60,7 +60,7 @@ export async function updateSession(request) {
       pathname("/edit/links"))
   ) {
     // Navigable: home & auth/login & auth/signup
-    // Generic: terms & user
+    // Generic: terms & users
     return redirect("/auth/login");
   }
 

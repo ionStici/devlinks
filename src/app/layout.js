@@ -1,6 +1,6 @@
+import { Analytics } from "@vercel/analytics/react";
 import { Instrument_Sans } from "next/font/google";
 import { Toaster } from "react-hot-toast";
-import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 
 const sans = Instrument_Sans({ subsets: ["latin"] });

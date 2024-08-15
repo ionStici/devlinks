@@ -18,7 +18,7 @@ export default function CtaSection() {
       </Link>
 
       <p className="text-borders text-center md:text-lg">
-        Get started in minutes. It's free and easy to use.
+        Get started in minutes. It&apos;s free and easy to use.
       </p>
     </section>
   );

@@ -14,7 +14,7 @@ export default function FeaturesSection() {
         <h2 className="text-3xl font-bold md:text-4xl">How devlinks Works</h2>
       </div>
 
-      <div className="flex flex-col gap-28">
+      <div className="flex flex-col gap-36 md:gap-30">
         <Feature
           num="01"
           title="Build a Profile That Showcases Your Skills"
