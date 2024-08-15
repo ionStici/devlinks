@@ -16,8 +16,12 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${sans.className} text-base text-dark_grey`}>
+    <html
+      lang="en"
+      className={`${sans.className} text-base text-dark_grey scroll-smooth`}
+    >
       <body className="w-screen flex items-center justify-center overflow-x-hidden bg-light_grey">
+        {/* <body className="w-screen flex items-center justify-center overflow-x-hidden"> */}
         <Toaster
           position="bottom-center"
           toastOptions={{
