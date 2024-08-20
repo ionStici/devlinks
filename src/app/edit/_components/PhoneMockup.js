@@ -1,5 +1,5 @@
 import { platforms } from "@/data/platforms";
-import PlatformLink from "@/ui/PlatformLink";
+import PlatformLink from "@/components/ui/PlatformLink";
 import Image from "next/image";
 
 export default async function PhoneMockup({ user }) {

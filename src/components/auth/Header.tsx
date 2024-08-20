@@ -1,4 +1,9 @@
-export default function Header({ heading, content }) {
+type HeaderProps = {
+  heading: string;
+  content: string;
+};
+
+export default function Header({ heading, content }: HeaderProps) {
   return (
     <header className="mb-10">
       <h1 className="text-dark_grey mb-2 text-2xl font-bold sm:text-[32px] sm:leading-10">

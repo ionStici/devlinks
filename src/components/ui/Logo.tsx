@@ -1,6 +1,10 @@
 import Image from "next/image";
 
-export default function Logo({ size }) {
+type LogoProps = {
+  size: string;
+};
+
+export default function Logo({ size }: LogoProps) {
   return (
     <>
       {size === "large" && (

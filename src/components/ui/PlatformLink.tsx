@@ -2,7 +2,21 @@
 
 import { ReactSVG } from "react-svg";
 
-export default function PlatformLink({ platform, url, icons, color, height }) {
+type PlatformLinkProps = {
+  platform: string;
+  url: string;
+  icons: string[];
+  color: string;
+  height: string;
+};
+
+export default function PlatformLink({
+  platform,
+  url,
+  icons,
+  color,
+  height,
+}: PlatformLinkProps) {
   const isFem = platform === "Frontend Mentor";
   const isDevto = platform === "Dev.to";
   const isSmall = height === "44px" ? true : false;

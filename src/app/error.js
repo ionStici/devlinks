@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import Logo from "@/ui/Logo";
+import Logo from "@/components/ui/Logo";
 
 export default function Error({ error, reset }) {
   return (

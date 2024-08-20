@@ -1,13 +1,14 @@
-import { signUp } from "../../../actions/auth";
-import Button from "../_components/Button";
-import Footer from "../_components/Footer";
-import Form from "../_components/Form";
-import Header from "../_components/Header";
-import Input from "../_components/Input";
-import Layout from "../_components/Layout";
-import TermsCheckbox from "../_components/TermsCheckbox";
+import { signUp } from "@/actions/auth";
+import Button from "@/components/auth/Button";
+import Footer from "@/components/auth/Footer";
+import Form from "@/components/auth/Form";
+import Header from "@/components/auth/Header";
+import Input from "@/components/auth/Input";
+import Layout from "@/components/auth/Layout";
+import TermsCheckbox from "@/components/auth/TermsCheckbox";
+import { type Metadata } from "next";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Create your devlinks account",
   description:
     "Join devlinks and build your personalized profile with all your software development social links. Share your journey, connect with others, and showcase your work.",
@@ -22,25 +23,25 @@ export default async function Page() {
       />
       <Form>
         <Input
-          label="Username"
-          type="text"
-          name="username"
-          placeholder="e.g. code-wizard"
-          autofill="username"
+          label="Email Address"
+          type="email"
+          name="email"
+          placeholder="e.g. alex@email.com"
+          autoComplete="email"
         />
         <Input
           label="Create Password"
           type="password"
           name="new-password"
           placeholder="At least 8 characters"
-          autofill="new-password"
+          autoComplete="new-password"
         />
         <Input
           label="Confirm Password"
           type="password"
           name="repeat-password"
           placeholder="At least 8 characters"
-          autofill="new-password"
+          autoComplete="new-password"
         />
         <p className="text-xs text-grey -mt-3">
           Password must contain at least 8 characters
@@ -50,11 +51,7 @@ export default async function Page() {
           Create new account
         </Button>
       </Form>
-      <Footer
-        content="Already have an account?"
-        btnText="Login"
-        href="/auth/login"
-      />
+      <Footer text="Already have an account?" btn="Login" href="/auth/login" />
     </Layout>
   );
 }

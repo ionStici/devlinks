@@ -1,57 +1,64 @@
 "use server";
 
-import { passwordRegex, usernameRegex } from "@/utils/regex";
+import { generateUsername } from "unique-username-generator";
+import { passwordRegex, emailRegex } from "@/utils/regex";
 import { supabase as supabaseAdmin } from "@/utils/supabase/admin";
 import { createClient } from "@/utils/supabase/server";
+import { type User } from "@supabase/supabase-js";
 import { redirect } from "next/navigation";
 
-// LOGIN //
-export async function login(formData) {
+// Types
+type userData = {
+  email: string;
+  password: string;
+};
+
+// // // // // LOGIN // // // // //
+export async function login(
+  formData: FormData
+): Promise<{ ok: boolean; message: string }> {
   const supabase = createClient();
 
   // Retrieve form data
-  const username = formData.get("username");
-  const password = formData.get("password");
+  const email = formData.get("email") as string;
+  const password = formData.get("password") as string;
 
   // Validate data
-  if (!usernameRegex.test(username)) {
-    return { ok: false, message: "Invalid Username" };
+  if (!emailRegex.test(email)) {
+    return { ok: false, message: "Invalid Email" };
   }
   if (!passwordRegex.test(password)) {
     return { ok: false, message: "Invalid Password" };
   }
 
   // Prepare data
-  const newUser = { email: `/@${username}`, password };
+  const userData: userData = { email, password };
 
   // Perform login
-  const { error } = await supabase.auth.signInWithPassword(newUser);
+  const { error } = await supabase.auth.signInWithPassword(userData);
 
   // Login failed
   if (error) return { ok: false, message: "Invalid Login Credentials" };
 
   // Login successful
-  if (!error) {
-    return {
-      ok: true,
-      message: "Welcome back! You've successfully logged in.",
-    };
-  }
+  return { ok: true, message: "Welcome back! You've successfully logged in." };
 }
 
-// SIGN UP //
-export async function signUp(formData) {
+// // // // // SIGN UP // // // // //
+export async function signUp(
+  formData: FormData
+): Promise<{ ok: boolean; message: string }> {
   const supabase = createClient();
 
   // Retrieve form data
-  const username = formData.get("username");
-  const password = formData.get("new-password");
-  const repeatPassword = formData.get("repeat-password");
+  const email = formData.get("email") as string;
+  const password = formData.get("new-password") as string;
+  const repeatPassword = formData.get("repeat-password") as string;
   const terms = formData.get("terms");
 
   // Validate data
-  if (!usernameRegex.test(username)) {
-    return { ok: false, message: "Invalid Username" };
+  if (!emailRegex.test(email)) {
+    return { ok: false, message: "Invalid Email" };
   }
   if (!passwordRegex.test(password)) {
     return { ok: false, message: "Invalid Password" };
@@ -67,57 +74,50 @@ export async function signUp(formData) {
     };
   }
 
-  // Prepare data
-  const userData = { email: `/@${username}`, password };
+  // Prepare new user data
+  const userData: userData = { email, password };
 
   // Perform signup
-  const { error } = await supabase.auth.signUp(userData);
+  const {
+    data: { user: newUser },
+    error: singUpError,
+  } = await supabase.auth.signUp(userData);
 
   // Signup Failed
-  if (error) {
+  if (singUpError) {
+    if (singUpError.code === "user_already_exists") {
+      return {
+        ok: false,
+        message: "User already exists. Please try a different email address.",
+      };
+    }
+
     return {
       ok: false,
       message: "Sign up unsuccessful. Please try again later.",
     };
   }
 
-  // Add initial user data
-  await supabase.auth.updateUser({
-    data: { firstName: "", lastName: "", about: "", image: "", links: [] },
-  });
+  // Signup Successful & Add user row
+  if (newUser) {
+    const username = generateUsername("", 2, 10);
+    await supabase.from("usersData").insert([{ userId: newUser.id, username }]);
+  }
 
   // Signup Successful
-  if (!error) {
-    return {
-      ok: true,
-      message: "Account created successfully! Welcome to devlinks.",
-    };
-  }
+  return {
+    ok: true,
+    message: "Account created successfully! Welcome to devlinks.",
+  };
 }
 
-// GET USER //
-export async function getUser() {
-  const supabase = createClient();
+// // // // // // // // // // // // // // // // // // // //
+// // // // // // // // // // // // // // // // // // // //
+// // // // // // // // // // // // // // // // // // // //
+// // // // // // // // // // // // // // // // // // // //
+// // // // // // // // // // // // // // // // // // // //
 
-  // Get the current logged in user
-  const { data } = await supabase.auth.getUser();
-
-  // Return user if logged in, otherwise null
-  return data?.user;
-}
-
-// LOG OUT //
-export async function logOut() {
-  const supabase = createClient();
-
-  // Perform log out
-  const { error } = await supabase.auth.signOut();
-
-  // If log out successful, redirect to /auth/login
-  if (!error) redirect("/auth/login");
-}
-
-// CHANGE PASSWORD //
+// // // // // CHANGE PASSWORD // // // // //
 export async function changePassword(formData) {
   const supabase = createClient();
 
@@ -164,7 +164,7 @@ export async function changePassword(formData) {
   }
 }
 
-// DELETE ACCOUNT //
+// // // // // DELETE ACCOUNT // // // // //
 export async function deleteAccount(formData) {
   const supabase = createClient();
 
@@ -214,4 +214,26 @@ export async function deleteAccount(formData) {
       message: "Your account has been deleted. We're sad to see you go.",
     };
   }
+}
+
+// // // // // GET USER // // // // //
+export async function getUser(): Promise<User | null> {
+  const supabase = createClient();
+
+  // Get the current logged in user
+  const { data } = await supabase.auth.getUser();
+
+  // Return user if logged in, otherwise null
+  return data?.user;
+}
+
+// // // // // LOG OUT // // // // //
+export async function logOut(): Promise<void> {
+  const supabase = createClient();
+
+  // Perform log out
+  const { error } = await supabase.auth.signOut();
+
+  // If log out successful, redirect to /auth/login
+  if (!error) redirect("/auth/login");
 }

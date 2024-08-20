@@ -3,6 +3,9 @@ export const aboutYouRegex = /^$|^[a-zA-Z0-9\s!@#$%^&*()_+=\-[\]{};':"\\|,.<>\/?
 // 1. Empty string allowed & Total length 1-125 characters.
 // 2. Can include: Lowercase/uppercase letters, numbers, and special characters: !@#$%^&*()_+=-[]{};':"\\|,.<>/?~
 
+// prettier-ignore
+export const emailRegex = /^[A-Za-z0-9._%+-]{1,50}@[A-Za-z0-9.-]{1,25}\.[A-Za-z]{2,}/;
+
 export const nameRegex = /^$|^[a-zA-Zà-ÿÀ-ß'`-]{1,15}$/;
 // 1. Empty string allowed & If not empty, the string must be between 1 and 15 chars long
 // 2. Can include: Uppercase/Lowercase Accented Characters + Special Characters '`-

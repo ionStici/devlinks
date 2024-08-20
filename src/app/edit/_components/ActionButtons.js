@@ -6,7 +6,8 @@ import { FiLogOut, FiTrash2 } from "react-icons/fi";
 import { TbPasswordFingerprint } from "react-icons/tb";
 import { logOut } from "@/actions/auth";
 import { TiDocumentText } from "react-icons/ti";
-import TinySpinner from "@/ui/TinySpinner";
+
+import TinySpinner from "@/components/ui/TinySpinner";
 
 export default function ActionButtons({ setIsOpen, logOutPending }) {
   const ref = useOutsideClick(() => setIsOpen(false), false);

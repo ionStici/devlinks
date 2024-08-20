@@ -1,4 +1,4 @@
-import Logo from "@/ui/Logo";
+import Logo from "@/components/ui/Logo";
 import Link from "next/link";
 
 export default function NotFound() {

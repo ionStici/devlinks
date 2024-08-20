@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import ActionButtons from "./ActionButtons";
-import TinySpinner from "@/ui/TinySpinner";
+import TinySpinner from "@/components/ui/TinySpinner";
 import { useFormStatus } from "react-dom";
 import toast from "react-hot-toast";
 

@@ -13,7 +13,7 @@ export const metadata = {
 
 export default async function Page() {
   const user = await getUser();
-  const { firstName, lastName, about } = user.user_metadata;
+  // const { firstName, lastName, about } = user.user_metadata;
 
   return (
     <>
@@ -28,21 +28,24 @@ export default async function Page() {
             type="text"
             name="firstName"
             label="First Name"
-            value={firstName}
+            // value={firstName}
+            value={"test"}
             placeholder="e.g. John"
           />
           <ProfileInput
             type="text"
             name="lastName"
             label="Last Name"
-            value={lastName}
+            // value={lastName}
+            value={"test"}
             placeholder="e.g. Appleseed"
           />
           <ProfileInput
             type="text"
             name="about"
             label="About You"
-            value={about}
+            // value={about}
+            value={"about"}
             placeholder="e.g. Web Developer"
           />
         </div>

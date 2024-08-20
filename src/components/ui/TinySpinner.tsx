@@ -1,4 +1,8 @@
-export default function TinySpinner({ classes }) {
+type TinySpinner = {
+  classes?: string;
+};
+
+export default function TinySpinner({ classes }: TinySpinner) {
   return (
     <div
       role="status"

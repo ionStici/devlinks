@@ -51,7 +51,8 @@ export async function updateSession(request) {
 
   if (
     !user &&
-    (pathname("/auth") ||
+    (pathname("/") ||
+      pathname("/auth") ||
       pathname("/auth/change-password") ||
       pathname("/auth/delete-account") ||
       pathname("/edit") ||
