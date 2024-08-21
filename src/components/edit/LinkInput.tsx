@@ -1,7 +1,22 @@
 import { useOutsideClick } from "@/hooks/useOutsideClick";
+import { type PlatformsData } from "@/types/types";
 import { Reorder, useDragControls } from "framer-motion";
-import { useState } from "react";
+import {
+  useState,
+  type Dispatch,
+  type MouseEvent,
+  type SetStateAction,
+} from "react";
 import { ReactSVG } from "react-svg";
+
+type LinkInputProps = {
+  index: number;
+  link: string;
+  allPlatforms: PlatformsData;
+  unusedPlatforms: PlatformsData;
+  setClientLinks: Dispatch<SetStateAction<string[]>>;
+  serverLinks: string[];
+};
 
 export default function LinkInput({
   index,
@@ -10,36 +25,40 @@ export default function LinkInput({
   setClientLinks,
   allPlatforms,
   unusedPlatforms,
-}) {
+}: LinkInputProps) {
   const platform = link.split("%")[0];
   const url = link.split("%")[1];
 
-  const platformData = allPlatforms.find(({ platform: p }) => p === platform);
+  const platformData = allPlatforms.find(({ platform: p }) => p === platform)!;
   const { icon, placeholder, domains } = platformData;
 
   const dragControls = useDragControls();
   const ref = useOutsideClick<HTMLDivElement>(() => setIsOpen(false), false);
+
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState(url);
   const [inputError, setInputError] = useState("");
 
   const handleValidation = () => {
-    if (domains === null || input === "") return;
+    if (domains.length === 0 || input === "") return;
 
     if (!domains.some((domain) => input.toLowerCase().includes(domain))) {
       setInputError("Invalid URL");
     }
   };
 
-  const changePlatform = ({ target }) => {
-    setClientLinks((prev) => {
+  const changePlatform = (event: MouseEvent<HTMLButtonElement>) => {
+    const buttonElement = event.currentTarget as HTMLButtonElement;
+    const platformName = buttonElement.textContent || "";
+
+    setClientLinks((prev: string[]) => {
       const newLinks = [...prev];
 
       const potentialUrl = serverLinks
-        .find((link) => link.split("%")[0] === target.textContent)
+        .find((link) => link.split("%")[0] === platformName)
         ?.split("%")[1];
 
-      newLinks[index] = `${target.textContent}%${potentialUrl || ""}`;
+      newLinks[index] = `${platformName}%${potentialUrl || ""}`;
       return newLinks;
     });
   };
@@ -143,7 +162,7 @@ export default function LinkInput({
             placeholder={placeholder}
             onChange={({ target }) => setInput(target.value)}
             onBlur={handleValidation}
-            onFocus={() => setInputError(false)}
+            onFocus={() => setInputError("")}
           />
           {inputError && (
             <p className="absolute right-0 top-0 sm:top-auto sm:bottom-2 sm:py-2 sm:right-3 text-red text-xs sm:bg-white">

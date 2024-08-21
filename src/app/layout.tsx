@@ -22,9 +22,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${sans.className} text-base text-dark_grey`}>
-      <body>
+      <body className="sm:w-screen sm:flex sm:items-center sm:justify-center sm:overflow-x-hidden">
         <ToasterConfig />
-        {children}
+        <div className="sm:flex-grow">{children}</div>
         <Analytics mode="development" />
       </body>
     </html>

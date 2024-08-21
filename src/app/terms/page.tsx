@@ -1,6 +1,7 @@
 import Link from "next/link";
+import { type Metadata } from "next";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Terms and Conditions",
   description:
     "Read the Terms and Conditions for using devlinks, our friendly link-sharing platform. Understand your rights, responsibilities, and how we work together to keep devlinks a safe and enjoyable space for everyone.",
@@ -8,7 +9,7 @@ export const metadata = {
 
 export default function Page() {
   return (
-    <section className="flex flex-col gap-10 max-w-[720px] px-6 py-20 mx-auto text-dark_grey">
+    <section className="flex flex-col gap-10 max-w-[720px] px-6 py-20 mx-auto text-dark_grey ">
       <div>
         <h1 className="text-3xl font-bold">
           <Link

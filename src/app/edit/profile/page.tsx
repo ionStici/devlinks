@@ -1,6 +1,8 @@
+import { logOut } from "@/actions/auth";
 import { getUserData } from "@/actions/getUserData";
 import { updateProfile } from "@/actions/updateProfile";
-import FooterButtons from "@/components/edit/FooterButtons";
+import Buttons from "@/components/edit/Buttons";
+import Footer from "@/components/edit/Footer";
 import Heading from "@/components/edit/Heading";
 import ProfileInput from "@/components/edit/ProfileInput";
 import UploadPicture from "@/components/edit/UploadPicture";
@@ -46,7 +48,9 @@ export default async function Page() {
             placeholder="e.g. Wizard by profession"
           />
         </div>
-        <FooterButtons action={updateProfile} />
+        <Footer>
+          <Buttons action={updateProfile} logOutAction={logOut} />
+        </Footer>
       </form>
     </>
   );

@@ -11,7 +11,7 @@ export default async function PageLayout({ children }: LayoutProps) {
   const userData = await getUserData();
 
   return (
-    <main className="sm:m-6">
+    <main className="sm:p-6 min-h-dvh bg-light_grey">
       <NavigationBar username={userData.username} />
       <div className="max-w-[1392px] flex gap-6 m-4 sm:m-0 md:mx-auto">
         <PhoneMockup userData={userData} />

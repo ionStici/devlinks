@@ -18,8 +18,8 @@ export default function ProfileInput({
   value,
   placeholder,
 }: ProfileInputProps) {
-  const [input, setInput] = useState(value ? value : "");
-  const [isValid, setIsValid] = useState(true);
+  const [input, setInput] = useState<string>(value ? value : "");
+  const [isValid, setIsValid] = useState<boolean>(true);
 
   const handleValidation = () => {
     if (name === "username") setIsValid(usernameRegex.test(input));

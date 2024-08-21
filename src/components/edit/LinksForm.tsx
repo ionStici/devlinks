@@ -1,23 +1,33 @@
 "use client";
 
-import { updateLinks } from "@/actions/profile";
+import { logOut } from "@/actions/auth";
+import { updateLinks } from "@/actions/updateLinks";
 import { platforms as allPlatforms } from "@/data/platforms";
 import { Reorder } from "framer-motion";
 import { useState } from "react";
-import FooterButtons from "./FooterButtons";
+import Buttons from "./Buttons";
+import Footer from "./Footer";
 import GetStarted from "./GetStarted";
 import LinkInput from "./LinkInput";
+import { PlatformsData } from "@/types/types";
 
-export default function LinksForm({ links: serverLinks }) {
-  const [clientLinks, setClientLinks] = useState([...serverLinks]);
+type LinksFormProps = {
+  links: string[];
+};
+
+export default function LinksForm({ links: serverLinks }: LinksFormProps) {
+  const [clientLinks, setClientLinks] = useState<string[]>([...serverLinks]);
   const sorted = clientLinks.map((link) => link.split("%")[0]);
 
   const usedPlatforms = clientLinks.map((link) => link.split("%")[0]);
 
-  const unusedPlatforms = allPlatforms.reduce((acc, platform) => {
-    if (!usedPlatforms.includes(platform.platform)) acc.push(platform);
-    return acc;
-  }, []);
+  const unusedPlatforms = allPlatforms.reduce(
+    (acc: PlatformsData, platform) => {
+      if (!usedPlatforms.includes(platform.platform)) acc.push(platform);
+      return acc;
+    },
+    []
+  );
 
   const addNewLink = () => {
     setClientLinks((prev) => {
@@ -66,7 +76,10 @@ export default function LinksForm({ links: serverLinks }) {
             );
           })}
         </Reorder.Group>
-        <FooterButtons action={updateLinks} />
+
+        <Footer>
+          <Buttons action={updateLinks} logOutAction={logOut} />
+        </Footer>
       </form>
     </>
   );

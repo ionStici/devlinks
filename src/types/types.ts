@@ -9,11 +9,13 @@ export type userData = {
   links: string[];
 };
 
-export type PlatformsData = {
+export type PlatformItem = {
   platform: string;
   icon: string;
   iconMod: string;
   placeholder: string;
   domains: string[];
   color: string;
-}[];
+};
+
+export type PlatformsData = PlatformItem[];

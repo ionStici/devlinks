@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState, type ChangeEvent, type KeyboardEvent } from "react";
 import { ReactSVG } from "react-svg";
 
 type UploadPictureProps = {
@@ -10,22 +10,42 @@ type UploadPictureProps = {
 
 export default function UploadPicture({ img }: UploadPictureProps) {
   const imgUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/${img}`;
-  const [preview, setPreview] = useState(() => (img ? imgUrl : null));
-  const [error, setError] = useState("");
+  const [preview, setPreview] = useState<string | null>(() =>
+    img ? imgUrl : null
+  );
+  const [error, setError] = useState<string>("");
 
-  const handleFileChange = ({ target }) => {
-    const img = target.files[0];
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const img = e.target.files?.[0];
     setError("");
 
-    setPreview(() => {
-      try {
-        if (img.size > 750000) setError("The image is too large");
-        if (img.type.split("/")[0] !== "image") setError("Wrong image format");
-        return URL.createObjectURL(img);
-      } catch (error) {
-        console.log(error.message);
-      }
-    });
+    if (img) {
+      setPreview((prevImg) => {
+        try {
+          if (img.size > 750000) {
+            setError("The image is too large");
+            return prevImg;
+          }
+          if (img.type.split("/")[0] !== "image") {
+            setError("Wrong image format");
+            return prevImg;
+          }
+          return URL.createObjectURL(img);
+        } catch (error) {
+          console.log((error as Error).message);
+          return prevImg;
+        }
+      });
+    }
+  };
+
+  const handleKeyDown = (e: KeyboardEvent<HTMLLabelElement>) => {
+    if (e.key === "Enter") {
+      const inputElement = document.getElementById(
+        "picture"
+      ) as HTMLInputElement;
+      inputElement?.click();
+    }
   };
 
   return (
@@ -38,7 +58,7 @@ export default function UploadPicture({ img }: UploadPictureProps) {
         className="block relative w-[193px] h-[193px] mb-6 cursor-pointer sm:flex-shrink-0 sm:mr-6 sm:mb-0 rounded-xl transition focus:outline-none focus:ring-2 focus:ring-purple_hover focus:ring-offset-2 hover:ring-2 hover:ring-purple_hover hover:ring-offset-2"
         htmlFor="picture"
         tabIndex={0}
-        onKeyDown={(e) => (e.key === "Enter" ? e.target.control.click() : "")}
+        onKeyDown={handleKeyDown}
       >
         <input
           className="hidden"

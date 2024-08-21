@@ -133,6 +133,7 @@ export async function logOut(): Promise<void> {
 // // // // // // // // // // // // // // // // // // // //
 // // // // // // // // // // // // // // // // // // // //
 
+/*
 // // // // // CHANGE PASSWORD // // // // //
 export async function changePassword(formData) {
   const supabase = createClient();
@@ -231,3 +232,4 @@ export async function deleteAccount(formData) {
     };
   }
 }
+*/
