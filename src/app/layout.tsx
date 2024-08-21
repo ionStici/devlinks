@@ -25,7 +25,8 @@ export default function RootLayout({
       <body className="sm:w-screen sm:flex sm:items-center sm:justify-center sm:overflow-x-hidden">
         <ToasterConfig />
         <div className="sm:flex-grow">{children}</div>
-        <Analytics mode="development" />
+        <Analytics />
+        {/* <Analytics mode="development" /> */}
       </body>
     </html>
   );
