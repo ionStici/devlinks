@@ -6,11 +6,17 @@ const linkIcon = "/assets/icon-links-header.svg";
 const profileIcon = "/assets/icon-profile-details-header.svg";
 const previewIcon = "/assets/icon-preview-header.svg";
 
-export default function NavLink({ pathname, isTablet, href }) {
+type NavLinkProps = {
+  pathname: string;
+  isTablet: boolean;
+  href: string;
+};
+
+export default function NavLink({ pathname, isTablet, href }: NavLinkProps) {
   if (pathname === "preview")
     return (
       <Link
-        className="border border-purple rounded-lg py-[10px] px-[16px] text-base font-semibold text-purple transition hover:bg-light_purple focus:outline-none focus:bg-light_purple"
+        className="border border-purple rounded-lg py-[10px] px-[15px] text-base font-semibold text-purple transition hover:bg-light_purple focus:outline-none focus:bg-light_purple"
         href={href}
       >
         {isTablet ? (
@@ -32,7 +38,7 @@ export default function NavLink({ pathname, isTablet, href }) {
           pathname === href ? "text-purple focus:!ring-0" : ""
         }`}
         href={href}
-        tabIndex={`${pathname === href ? "-1" : "0"}`}
+        tabIndex={pathname === href ? -1 : 0}
       >
         {/* prettier-ignore */}
         <ReactSVG src={icon} className={`${ pathname === href ? "fill-purple" : "fill-grey group-hover:fill-purple" } `} beforeInjection={(svg) => { svg.setAttribute("aria-label", ariaLabel); }} />

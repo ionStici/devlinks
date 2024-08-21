@@ -1,17 +1,10 @@
 "use server";
 
-import { generateUsername } from "unique-username-generator";
-import { passwordRegex, emailRegex } from "@/utils/regex";
+import { emailRegex, passwordRegex } from "@/utils/regex";
 import { supabase as supabaseAdmin } from "@/utils/supabase/admin";
 import { createClient } from "@/utils/supabase/server";
 import { type User } from "@supabase/supabase-js";
 import { redirect } from "next/navigation";
-
-// Types
-type userData = {
-  email: string;
-  password: string;
-};
 
 // // // // // LOGIN // // // // //
 export async function login(
@@ -32,7 +25,7 @@ export async function login(
   }
 
   // Prepare data
-  const userData: userData = { email, password };
+  const userData = { email, password };
 
   // Perform login
   const { error } = await supabase.auth.signInWithPassword(userData);
@@ -75,7 +68,7 @@ export async function signUp(
   }
 
   // Prepare new user data
-  const userData: userData = { email, password };
+  const userData = { email, password };
 
   // Perform signup
   const {
@@ -100,8 +93,9 @@ export async function signUp(
 
   // Signup Successful & Add user row
   if (newUser) {
-    const username = generateUsername("", 2, 10);
-    await supabase.from("usersData").insert([{ userId: newUser.id, username }]);
+    await supabase
+      .from("usersData")
+      .insert([{ userId: newUser.id, username: newUser.id }]);
   }
 
   // Signup Successful
@@ -109,6 +103,28 @@ export async function signUp(
     ok: true,
     message: "Account created successfully! Welcome to devlinks.",
   };
+}
+
+// // // // // GET USER // // // // //
+export async function getUser(): Promise<User | null> {
+  const supabase = createClient();
+
+  // Get the current logged in user
+  const { data } = await supabase.auth.getUser();
+
+  // Return user object if logged in, otherwise it will be null
+  return data.user;
+}
+
+// // // // // LOG OUT // // // // //
+export async function logOut(): Promise<void> {
+  const supabase = createClient();
+
+  // Perform log out
+  const { error } = await supabase.auth.signOut();
+
+  // If log out successful, redirect to /auth/login
+  if (!error) redirect("/auth/login");
 }
 
 // // // // // // // // // // // // // // // // // // // //
@@ -214,26 +230,4 @@ export async function deleteAccount(formData) {
       message: "Your account has been deleted. We're sad to see you go.",
     };
   }
-}
-
-// // // // // GET USER // // // // //
-export async function getUser(): Promise<User | null> {
-  const supabase = createClient();
-
-  // Get the current logged in user
-  const { data } = await supabase.auth.getUser();
-
-  // Return user if logged in, otherwise null
-  return data?.user;
-}
-
-// // // // // LOG OUT // // // // //
-export async function logOut(): Promise<void> {
-  const supabase = createClient();
-
-  // Perform log out
-  const { error } = await supabase.auth.signOut();
-
-  // If log out successful, redirect to /auth/login
-  if (!error) redirect("/auth/login");
 }

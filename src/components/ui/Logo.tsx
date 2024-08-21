@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 type LogoProps = {
-  size: string;
+  size: "large" | "medium" | "small";
 };
 
 export default function Logo({ size }: LogoProps) {

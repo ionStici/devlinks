@@ -1,7 +1,10 @@
-export const platforms = [
+import { PlatformsData } from "@/types/types";
+
+export const platforms: PlatformsData = [
   {
     platform: "GitHub",
     icon: "/platforms/icon-github.svg",
+    iconMod: "",
     placeholder: "e.g. https://github.com/github",
     domains: ["github.com"],
     color: "#1A1A1A",
@@ -17,13 +20,15 @@ export const platforms = [
   {
     platform: "Website",
     icon: "/platforms/icon-website.svg",
+    iconMod: "",
     placeholder: "Your personal website",
-    domains: null,
+    domains: [],
     color: "#5fad56",
   },
   {
     platform: "Twitter",
     icon: "/platforms/icon-twitter.svg",
+    iconMod: "",
     placeholder: "https://twitter.com/elonmusk",
     domains: ["twitter.com", "x.com"],
     color: "#43B7E9",
@@ -31,6 +36,7 @@ export const platforms = [
   {
     platform: "LinkedIn",
     icon: "/platforms/icon-linkedin.svg",
+    iconMod: "",
     placeholder: "https://www.linkedin.com/in/wesbos/",
     domains: ["linkedin.com"],
     color: "#2D68FF",
@@ -38,6 +44,7 @@ export const platforms = [
   {
     platform: "YouTube",
     icon: "/platforms/icon-youtube.svg",
+    iconMod: "",
     placeholder: "https://www.youtube.com/@youtube",
     domains: ["youtube.com"],
     color: "#EE3939",
@@ -45,6 +52,7 @@ export const platforms = [
   {
     platform: "Facebook",
     icon: "/platforms/icon-facebook.svg",
+    iconMod: "",
     placeholder: "https://www.facebook.com/zuck/",
     domains: ["facebook.com"],
     color: "#2442AC",
@@ -52,6 +60,7 @@ export const platforms = [
   {
     platform: "Twitch",
     icon: "/platforms/icon-twitch.svg",
+    iconMod: "",
     placeholder: "https://www.twitch.tv/twitch",
     domains: ["twitch.tv"],
     color: "#EE3FC8",
@@ -67,6 +76,7 @@ export const platforms = [
   {
     platform: "Codewars",
     icon: "/platforms/icon-codewars.svg",
+    iconMod: "",
     placeholder: "https://www.codewars.com/users/g964",
     domains: ["codewars.com"],
     color: "#8A1A50",
@@ -74,6 +84,7 @@ export const platforms = [
   {
     platform: "Codepen",
     icon: "/platforms/icon-codepen.svg",
+    iconMod: "",
     placeholder: "https://codepen.io/supah",
     domains: ["codepen.io"],
     color: "#141416",
@@ -81,6 +92,7 @@ export const platforms = [
   {
     platform: "freeCodeCamp",
     icon: "/platforms/icon-freecodecamp.svg",
+    iconMod: "",
     placeholder: "https://www.freecodecamp.org/quincylarson",
     domains: ["freecodecamp.org"],
     color: "#302267",
@@ -88,13 +100,15 @@ export const platforms = [
   {
     platform: "GitLab",
     icon: "/platforms/icon-gitlab.svg",
+    iconMod: "",
     placeholder: "https://gitlab.com/gitlab",
-    domains: "gitlab.com",
+    domains: ["gitlab.com"],
     color: "#EB4925",
   },
   {
     platform: "Hashnode",
     icon: "/platforms/icon-hashnode.svg",
+    iconMod: "",
     placeholder: "https://hashnode.com/@atapas",
     domains: ["hashnode.com"],
     color: "#0330D1",
@@ -102,6 +116,7 @@ export const platforms = [
   {
     platform: "Stack Overflow",
     icon: "/platforms/icon-stack-overflow.svg",
+    iconMod: "",
     placeholder: "https://stackoverflow.com/users/100297/martijn-pieters",
     domains: ["stackoverflow.com"],
     color: "#EC7100",

@@ -1,11 +1,11 @@
 "use client";
 
+import TinySpinner from "@/components/ui/TinySpinner";
 import Image from "next/image";
 import { useState } from "react";
-import ActionButtons from "./ActionButtons";
-import TinySpinner from "@/components/ui/TinySpinner";
 import { useFormStatus } from "react-dom";
 import toast from "react-hot-toast";
+import ActionButtons from "./ActionButtons";
 
 export default function FooterButtons({ action }) {
   const [isOpen, setIsOpen] = useState(false);

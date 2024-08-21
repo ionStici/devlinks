@@ -18,7 +18,7 @@ export default function LinkInput({
   const { icon, placeholder, domains } = platformData;
 
   const dragControls = useDragControls();
-  const ref = useOutsideClick(() => setIsOpen(false), false);
+  const ref = useOutsideClick<HTMLDivElement>(() => setIsOpen(false), false);
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState(url);
   const [inputError, setInputError] = useState("");

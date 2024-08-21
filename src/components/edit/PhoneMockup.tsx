@@ -1,9 +1,14 @@
-import { platforms } from "@/data/platforms";
 import PlatformLink from "@/components/ui/PlatformLink";
 import Image from "next/image";
+import { platforms } from "@/data/platforms";
+import { type userData } from "@/types/types";
 
-export default async function PhoneMockup({ user }) {
-  const { firstName, lastName, about, image, links } = user;
+type PhoneMockupProps = {
+  userData: userData;
+};
+
+export default async function PhoneMockup({ userData }: PhoneMockupProps) {
+  const { name, about, image, links } = userData;
   const imgUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/${image}`;
 
   return (
@@ -21,7 +26,7 @@ export default async function PhoneMockup({ user }) {
           <div className="absolute left-[50%] translate-x-[-50%] top-[60px] size-[104px] border-4 border-purple rounded-full">
             <Image
               src={imgUrl}
-              alt={`${firstName} ${lastName} Profile Picture`}
+              alt={`${name} Profile Picture`}
               fill
               className="object-cover rounded-full"
               sizes="96px"
@@ -30,10 +35,10 @@ export default async function PhoneMockup({ user }) {
           </div>
         )}
 
-        {(firstName || lastName) && (
+        {name && (
           <div className="absolute left-[50%] translate-x-[-50%] top-[179px] w-[250px] text-center bg-white ">
             <p className="truncate text-dark_grey text-lg font-semibold">
-              {firstName} {lastName}
+              {name}
             </p>
           </div>
         )}
@@ -45,31 +50,32 @@ export default async function PhoneMockup({ user }) {
         )}
 
         {links.length > 0 && (
-          <ul
-            tabIndex={-1}
-            className="py-1 absolute left-[50%] top-[275px] translate-x-[-50%] w-[237px] max-h-[310px] overflow-scroll no-scrollbar space-y-5 bg-white"
-          >
-            {links.map((link) => {
-              const platform = link.split("%")[0];
-              const url = link.split("%")[1];
-              const { icon, iconMod, color } = platforms.find(
-                ({ platform: platformName }) => {
-                  return platformName === platform;
-                }
-              );
+          <div className="py-1 absolute left-[50%] top-[275px] translate-x-[-50%] w-[250px] max-h-[310px] overflow-scroll no-scrollbar bg-white">
+            <ul tabIndex={-1} className="w-[237px] mx-auto space-y-5">
+              {links.map((link) => {
+                const platform = link.split("%")[0];
+                const url = link.split("%")[1];
+                const height = "44px";
 
-              return (
-                <PlatformLink
-                  key={link}
-                  platform={platform}
-                  url={url}
-                  icons={[icon, iconMod]}
-                  color={color}
-                  height="44px"
-                />
-              );
-            })}
-          </ul>
+                const { icon, iconMod, color } = platforms.find(
+                  ({ platform: platformName }) => {
+                    return platformName === platform;
+                  }
+                )!;
+
+                return (
+                  <PlatformLink
+                    key={link}
+                    platform={platform}
+                    url={url}
+                    icons={[icon, iconMod]}
+                    color={color}
+                    height={height}
+                  />
+                );
+              })}
+            </ul>
+          </div>
         )}
       </div>
     </section>

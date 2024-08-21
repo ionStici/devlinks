@@ -1,6 +1,6 @@
 import { getUser } from "@/actions/auth";
-import Heading from "@/app/edit/_components/Heading";
-import LinksForm from "../_components/LinksForm";
+import Heading from "@/components/edit/Heading";
+import LinksForm from "@/components/edit/LinksForm";
 
 export const metadata = {
   title: "Edit Your Social Links",

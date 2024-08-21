@@ -1,12 +1,16 @@
 "use client";
 
-import { useMediaQuery } from "@/hooks/useMediaQuery";
+import NavLink from "./NavLink";
 import Logo from "@/components/ui/Logo";
 import Link from "next/link";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { usePathname } from "next/navigation";
-import NavLink from "./NavLink";
 
-export default function NavigationBar({ username }) {
+type NavigationBarProps = {
+  username: string;
+};
+
+export default function NavigationBar({ username }: NavigationBarProps) {
   const isTablet = useMediaQuery("(min-width: 768px)");
   const pathname = usePathname();
 
@@ -24,7 +28,7 @@ export default function NavigationBar({ username }) {
         <NavLink pathname={pathname} isTablet={isTablet} href="/edit/profile" />
       </ul>
 
-      <NavLink pathname="preview" isTablet={isTablet} href={username} />
+      <NavLink pathname="preview" isTablet={isTablet} href={`/${username}`} />
     </nav>
   );
 }

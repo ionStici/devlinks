@@ -22,8 +22,7 @@ export default function PlatformLink({
   const isSmall = height === "44px" ? true : false;
 
   let icon = icons[0];
-  if (isFem) icon = icons[1];
-  if (isDevto) icon = icons[1];
+  if (isFem || isDevto) icon = icons[1];
 
   return (
     <li>
