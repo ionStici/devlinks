@@ -1,13 +1,20 @@
 import { Injectable } from '@nestjs/common';
-import { SignInProvider } from './sign-in.provider';
-import { SignInDto } from '../dtos/sign-in.dto';
-import { Response } from 'express';
+import { LoginDto } from '../dtos/login.dto';
+import { LoginProvider } from './login.provider';
+import { RefreshTokensProvider } from './refresh-tokens.provider';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly signInProvider: SignInProvider) {}
+  constructor(
+    private readonly loginProvider: LoginProvider,
+    private readonly refreshTokensProvider: RefreshTokensProvider,
+  ) {}
 
-  public signIn(signInDto: SignInDto, res: Response) {
-    return this.signInProvider.signIn(signInDto, res);
+  public async login(loginDto: LoginDto) {
+    return await this.loginProvider.login(loginDto);
+  }
+
+  public async refreshTokens(refreshToken: string) {
+    return await this.refreshTokensProvider.refreshTokens(refreshToken);
   }
 }

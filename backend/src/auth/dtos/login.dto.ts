@@ -1,9 +1,9 @@
 import { IsEmail, IsNotEmpty } from 'class-validator';
 
-export class SignInDto {
+export class LoginDto {
   @IsEmail({}, { message: 'Wrong email format.' })
   email: string;
 
-  @IsNotEmpty({ message: 'The password is required.' })
+  @IsNotEmpty({ message: 'Password is required.' })
   password: string;
 }

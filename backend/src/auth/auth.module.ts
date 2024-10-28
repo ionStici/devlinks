@@ -6,27 +6,27 @@ import { AuthController } from './auth.controller';
 import jwtConfig from './config/jwt.config';
 import { AuthService } from './providers/auth.service';
 import { BcryptProvider } from './providers/bcrypt.provider';
-import { HashingProvider } from './providers/hashing.provider';
 import { GenerateTokensProvider } from './providers/generate-tokens.provider';
+import { HashingProvider } from './providers/hashing.provider';
 import { RefreshTokensProvider } from './providers/refresh-tokens.provider';
-import { SignInProvider } from './providers/sign-in.provider';
+import { LoginProvider } from './providers/login.provider';
 
 @Module({
-  imports: [
-    ConfigModule.forFeature(jwtConfig),
-    JwtModule.registerAsync(jwtConfig.asProvider()),
-    forwardRef(() => UsersModule),
-  ],
   controllers: [AuthController],
   providers: [
     AuthService,
-    SignInProvider,
-    GenerateTokensProvider,
-    RefreshTokensProvider,
     {
       provide: HashingProvider,
       useClass: BcryptProvider,
     },
+    LoginProvider,
+    GenerateTokensProvider,
+    RefreshTokensProvider,
+  ],
+  imports: [
+    forwardRef(() => UsersModule),
+    ConfigModule.forFeature(jwtConfig),
+    JwtModule.registerAsync(jwtConfig.asProvider()),
   ],
   exports: [AuthService, HashingProvider],
 })

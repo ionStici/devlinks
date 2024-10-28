@@ -1,6 +1,10 @@
 POST http://localhost:3000/auth/login
 Content-Type: application/json
+
 {
   "email": "mike@email.com",
   "password": "P@ssw0rd"
 }
+
+GET http://localhost:3000/auth/get
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoibWlrZUBlbWFpbC5jb20iLCJpYXQiOjE3MzAxMzk2NDYsImV4cCI6MTczMDE0MDU0NiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo1MTczIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDozMDAwIn0.PsztdKv9dYMilD89ZzPfeVD_EmPkfe2NaJ2Z2i3arKc

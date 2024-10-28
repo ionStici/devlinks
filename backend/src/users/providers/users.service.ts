@@ -21,6 +21,6 @@ export class UsersService {
   }
 
   public findUserById(id: number) {
-    return this.findUserByIdProvider.findUserByEmail(id);
+    return this.findUserByIdProvider.findUserById(id);
   }
 }

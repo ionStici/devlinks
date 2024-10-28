@@ -14,7 +14,7 @@ export class FindUserByIdProvider {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  public async findUserByEmail(id: number): Promise<User> {
+  public async findUserById(id: number): Promise<User> {
     let user: undefined | User = undefined;
 
     try {
