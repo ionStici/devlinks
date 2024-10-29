@@ -17,4 +17,6 @@ export class AuthService {
   public async refreshTokens(refreshToken: string) {
     return await this.refreshTokensProvider.refreshTokens(refreshToken);
   }
+
+  public async logout(refreshToken: string) {}
 }
