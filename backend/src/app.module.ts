@@ -1,17 +1,15 @@
-import { ProfilesModule } from './profiles/profiles.module';
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
-import { UsersModule } from './users/users.module';
-import { AuthModule } from './auth/auth.module';
-import databaseConfig from './config/database.config';
-import { ConfigService } from '@nestjs/config';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import environmentValidation from './config/environment.validation';
-import { AuthGuard } from './auth/guards/auth.guard';
-import { AccessTokenGuard } from './auth/guards/access-token.guard';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
-import jwtConfig from './auth/config/jwt.config';
 import { JwtModule } from '@nestjs/jwt';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthModule } from './auth/auth.module';
+import jwtConfig from './auth/config/jwt.config';
+import { AccessTokenGuard } from './auth/guards/access-token.guard';
+import { AuthGuard } from './auth/guards/auth.guard';
+import databaseConfig from './config/database.config';
+import environmentValidation from './config/environment.validation';
+import { UsersModule } from './users/users.module';
 
 const ENV = process.env.NODE_ENV;
 
@@ -19,7 +17,6 @@ const ENV = process.env.NODE_ENV;
   imports: [
     AuthModule,
     UsersModule,
-    ProfilesModule,
     ConfigModule.forFeature(jwtConfig),
     JwtModule.registerAsync(jwtConfig.asProvider()),
     ConfigModule.forRoot({

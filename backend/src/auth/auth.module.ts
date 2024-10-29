@@ -10,6 +10,10 @@ import { GenerateTokensProvider } from './providers/generate-tokens.provider';
 import { HashingProvider } from './providers/hashing.provider';
 import { RefreshTokensProvider } from './providers/refresh-tokens.provider';
 import { LoginProvider } from './providers/login.provider';
+import { LogoutProvider } from './providers/logout.provider';
+import { TokenBlacklist } from './token-blacklist.entity';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   controllers: [AuthController],
@@ -20,6 +24,7 @@ import { LoginProvider } from './providers/login.provider';
       useClass: BcryptProvider,
     },
     LoginProvider,
+    LogoutProvider,
     GenerateTokensProvider,
     RefreshTokensProvider,
   ],
@@ -27,7 +32,9 @@ import { LoginProvider } from './providers/login.provider';
     forwardRef(() => UsersModule),
     ConfigModule.forFeature(jwtConfig),
     JwtModule.registerAsync(jwtConfig.asProvider()),
+    TypeOrmModule.forFeature([TokenBlacklist]),
+    ScheduleModule.forRoot(),
   ],
-  exports: [AuthService, HashingProvider],
+  exports: [AuthService, HashingProvider, LogoutProvider],
 })
 export class AuthModule {}

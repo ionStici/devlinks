@@ -1,8 +1,8 @@
-import { Injectable, Inject } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
-import jwtConfig from '../config/jwt.config';
+import { Inject, Injectable } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
 import { User } from 'src/users/user.entity';
+import jwtConfig from '../config/jwt.config';
 
 type TokenPayload = {
   email?: string;

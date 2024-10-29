@@ -21,29 +21,20 @@ export class AccessTokenGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest<Request>();
+    const accessToken = request.headers.authorization?.split(' ')[1];
 
-    const authHeader = request.headers.authorization;
-
-    if (!authHeader) {
-      throw new UnauthorizedException('Missing authorization header');
+    if (!accessToken) {
+      throw new UnauthorizedException('Missing access token');
     }
-
-    const [bearer, token] = authHeader.split(' ');
-    if (bearer !== 'Bearer' || !token) {
-      throw new UnauthorizedException(
-        'Invalid authorization header format. Expected: Bearer <token>',
-      );
-    }
-
-    if (!token) throw new UnauthorizedException();
 
     try {
-      const payload = await this.jwtService.verifyAsync(token, {
+      const payload = await this.jwtService.verifyAsync(accessToken, {
         ...this.jwtConfiguration,
         ignoreExpiration: false,
       });
 
       request[REQUEST_USER_KEY] = payload;
+
       return true;
     } catch (error) {
       if (error?.name === 'TokenExpiredError') {

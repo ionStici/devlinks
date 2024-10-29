@@ -6,6 +6,10 @@ export const api = axios.create({
   withCredentials: true,
 });
 
+export const publicApi = axios.create({
+  baseURL: "http://localhost:3000",
+});
+
 api.interceptors.request.use((config) => {
   const token = tokenService.getToken();
   if (token) config.headers.Authorization = `Bearer ${token}`;

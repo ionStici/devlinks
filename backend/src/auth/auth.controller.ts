@@ -1,23 +1,21 @@
 import {
-  Controller,
-  Inject,
   Body,
+  Controller,
+  HttpCode,
+  HttpStatus,
+  Inject,
   Post,
   Req,
   Res,
-  Get,
-  HttpCode,
-  HttpStatus,
   UnauthorizedException,
 } from '@nestjs/common';
-import { Request, Response } from 'express';
-import { LoginDto } from './dtos/login.dto';
-import { AuthService } from './providers/auth.service';
-import jwtConfig from './config/jwt.config';
 import { ConfigType } from '@nestjs/config';
-import { REQUEST_USER_KEY } from './constants/auth.constants';
+import { Request, Response } from 'express';
+import jwtConfig from './config/jwt.config';
 import { Auth } from './decorators/auth.decorator';
+import { LoginDto } from './dtos/login.dto';
 import { AuthType } from './enums/auth-type.enum';
+import { AuthService } from './providers/auth.service';
 
 @Controller('auth')
 export class AuthController {
@@ -46,7 +44,9 @@ export class AuthController {
     @Res({ passthrough: true }) response: Response,
   ) {
     const tokens = await this.authService.login(loginDto);
+
     response.cookie('refreshToken', tokens.refreshToken, this.cookieOptions);
+
     return { accessToken: tokens.accessToken };
   }
 
@@ -63,6 +63,13 @@ export class AuthController {
       throw new UnauthorizedException('Refresh token not found');
     }
 
+    const isBlacklisted =
+      await this.authService.isTokenBlacklisted(refreshToken);
+
+    if (isBlacklisted) {
+      throw new UnauthorizedException('Token has been revoked');
+    }
+
     const tokens = await this.authService.refreshTokens(refreshToken);
 
     response.cookie('refreshToken', tokens.refreshToken, this.cookieOptions);
@@ -70,12 +77,18 @@ export class AuthController {
     return { accessToken: tokens.accessToken };
   }
 
+  @Auth(AuthType.None)
   @Post('logout')
+  @HttpCode(HttpStatus.OK)
   async logout(
     @Req() request: Request,
     @Res({ passthrough: true }) response: Response,
   ) {
     const refreshToken = request.cookies?.refreshToken;
+
+    if (!refreshToken) {
+      throw new UnauthorizedException('No tokens provided');
+    }
 
     if (refreshToken) {
       await this.authService.logout(refreshToken);
@@ -84,12 +97,5 @@ export class AuthController {
     response.clearCookie('refreshToken', { ...this.cookieOptions, maxAge: 0 });
 
     return { message: 'Logged out successfully' };
-  }
-
-  @Auth(AuthType.Bearer)
-  @Get('me')
-  async getUser(@Req() request: Request) {
-    const { sub, email } = request[REQUEST_USER_KEY];
-    return { id: sub, email };
   }
 }
