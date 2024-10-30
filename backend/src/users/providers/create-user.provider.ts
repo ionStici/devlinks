@@ -14,7 +14,6 @@ export class CreateUserProvider {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-
     private readonly hashingProvider: HashingProvider,
   ) {}
 
@@ -31,7 +30,7 @@ export class CreateUserProvider {
 
     if (existingUser) {
       throw new ConflictException(
-        'The Email is already in use, try a different address.',
+        'The Email is already in use, try a different email address.',
       );
     }
 

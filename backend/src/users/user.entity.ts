@@ -1,3 +1,4 @@
+import { Profile } from 'src/profiles/profile.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -5,11 +6,13 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   DeleteDateColumn,
+  OneToOne,
+  JoinColumn,
 } from 'typeorm';
 
 @Entity()
 export class User {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: number;
 
   @Column({
@@ -35,4 +38,8 @@ export class User {
 
   @DeleteDateColumn()
   deletedAt: string;
+
+  @JoinColumn()
+  @OneToOne(() => Profile, (profile) => profile.user)
+  profile: Profile;
 }

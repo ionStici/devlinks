@@ -10,6 +10,7 @@ import { AuthGuard } from './auth/guards/auth.guard';
 import databaseConfig from './config/database.config';
 import environmentValidation from './config/environment.validation';
 import { UsersModule } from './users/users.module';
+import { ProfilesModule } from './profiles/profiles.module';
 
 const ENV = process.env.NODE_ENV;
 
@@ -17,6 +18,7 @@ const ENV = process.env.NODE_ENV;
   imports: [
     AuthModule,
     UsersModule,
+    ProfilesModule,
     ConfigModule.forFeature(jwtConfig),
     JwtModule.registerAsync(jwtConfig.asProvider()),
     ConfigModule.forRoot({

@@ -1,23 +1,20 @@
-import axios from "axios";
-import { tokenService } from "./access-token";
+import axios from 'axios';
+import { env } from '@/config';
+import { tokenService } from './access-token';
 
 export const api = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: env.API_URL,
   withCredentials: true,
 });
 
-export const publicApi = axios.create({
-  baseURL: "http://localhost:3000",
-});
-
+// Attach the access token at each request
 api.interceptors.request.use((config) => {
-  const token = tokenService.getToken();
-  if (token) config.headers.Authorization = `Bearer ${token}`;
+  const accessToken = tokenService.getToken();
+  if (accessToken) config.headers.Authorization = `Bearer ${accessToken}`;
   return config;
 });
 
-let isRefreshing = false;
-
+// Try to get a new access token at 401 responses
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
@@ -25,24 +22,17 @@ api.interceptors.response.use(
 
     if (
       error.response?.status === 401 &&
-      !originalRequest.url?.includes("/auth/refresh") &&
-      !isRefreshing &&
+      !originalRequest.url?.includes('/auth/refresh') &&
       !originalRequest._retry
     ) {
-      isRefreshing = true;
       originalRequest._retry = true;
 
       try {
-        const response = await api.post("/auth/refresh");
+        const response = await api.post('/auth/refresh');
         const { accessToken } = response.data;
-
         tokenService.setToken(accessToken);
-
-        isRefreshing = false;
-
-        return api(originalRequest);
-      } catch {
-        isRefreshing = false;
+        return api(originalRequest); // Retry the original request
+      } catch (error) {
         return Promise.reject(error);
       }
     }

@@ -1,7 +1,7 @@
 import { IsEmail, Matches } from 'class-validator';
 
 export class CreateUserDto {
-  @IsEmail({}, { message: 'Wrong email format.' })
+  @IsEmail({}, { message: 'Invalid email format.' })
   email: string;
 
   @Matches(

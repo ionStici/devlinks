@@ -2,9 +2,7 @@
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
-    extend: {
-      screens: { xs: "400px" },
-    },
+    extend: { screens: { xs: "400px" } },
     colors: {
       black: "#000",
       purple: "#633CFF",

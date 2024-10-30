@@ -1,4 +1,4 @@
-import { api } from "./api";
+import { api } from './api';
 
 const createAccessTokenService = () => {
   let accessToken: string | null = null;
@@ -9,9 +9,10 @@ const createAccessTokenService = () => {
     accessToken = token;
 
     if (token) {
-      api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-    } else {
-      delete api.defaults.headers.common["Authorization"];
+      api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+    }
+    if (!token) {
+      delete api.defaults.headers.common['Authorization'];
     }
   };
 

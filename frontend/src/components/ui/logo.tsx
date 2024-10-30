@@ -1,35 +1,38 @@
+import logoLarge from '@/assets/logos/logo-devlinks-large.svg';
+import logoSmall from '@/assets/logos/logo-devlinks-small.svg';
+
 type LogoProps = {
-  size: "large" | "medium" | "small";
+  size: 'large' | 'medium' | 'small';
 };
 
 export default function Logo({ size }: LogoProps) {
   return (
     <>
-      {size === "large" && (
+      {size === 'large' && (
         <img
-          src="/assets/logo-devlinks-large.svg"
+          src={logoLarge}
+          alt="Devlinks Logo"
+          width={183}
+          height={40}
           className="w-[183px] h-10"
-          alt="Devlinks Logo"
-          width="183"
-          height="40"
         />
       )}
-      {size === "medium" && (
+      {size === 'medium' && (
         <img
-          src="/assets/logo-devlinks-large.svg"
+          src={logoLarge}
+          alt="Devlinks Logo"
+          width={146}
+          height={32}
           className="w-[146px] h-8"
-          alt="Devlinks Logo"
-          width="146"
-          height="32"
         />
       )}
-      {size === "small" && (
+      {size === 'small' && (
         <img
-          src="/assets/logo-devlinks-small.svg"
-          className="size-8"
+          src={logoSmall}
           alt="Devlinks Logo"
-          width="32"
-          height="32"
+          width={32}
+          height={32}
+          className="w-8 h-8"
         />
       )}
     </>

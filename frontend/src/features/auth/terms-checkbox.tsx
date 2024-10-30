@@ -1,6 +1,6 @@
-import { NavLink } from "react-router-dom";
+import { NavLink } from 'react-router-dom';
 
-export default function TermsCheckbox() {
+export function TermsCheckbox() {
   return (
     <div className="flex items-center gap-2">
       <input
@@ -15,7 +15,7 @@ export default function TermsCheckbox() {
           to="/terms"
           className="text-purple px-[1px] rounded-sm focus:outline-none ring-[1px] ring-transparent focus:ring-purple"
         >
-          Terms and Conditions.
+          Terms and Conditions
         </NavLink>
       </label>
     </div>

@@ -3,10 +3,10 @@ type HeaderProps = {
   content: string;
 };
 
-export default function Header({ heading, content }: HeaderProps) {
+export function Header({ heading, content }: HeaderProps) {
   return (
     <header className="mb-10">
-      <h1 className="text-dark-grey text-2xl font-bold sm:text-[32px] sm:leading-10 mb-2">
+      <h1 className="text-2xl sm:text-[32px] sm:leading-10 font-bold text-dark-grey mb-2">
         {heading}
       </h1>
       <p className="text-grey text-base">{content}</p>
