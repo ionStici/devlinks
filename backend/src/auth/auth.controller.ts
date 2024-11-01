@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
   Inject,
@@ -51,6 +52,16 @@ export class AuthController {
   }
 
   @Auth(AuthType.None)
+  @Post('register')
+  @HttpCode(HttpStatus.OK)
+  async register(
+    @Body() registerDto: any,
+    @Res({ passthrough: true }) response: Response,
+  ) {
+    console.log('yo');
+  }
+
+  @Auth(AuthType.None)
   @Post('refresh')
   @HttpCode(HttpStatus.OK)
   async refreshTokens(
@@ -97,5 +108,22 @@ export class AuthController {
     response.clearCookie('refreshToken', { ...this.cookieOptions, maxAge: 0 });
 
     return { message: 'Logged out successfully' };
+  }
+
+  @Auth(AuthType.Bearer)
+  @Get('me')
+  @HttpCode(HttpStatus.OK)
+  async getUser() {
+    return {
+      email: 'mike@email.com',
+      username: 'wizard-dev',
+      name: 'mike',
+      about: 'full stack developer',
+      image: 'image.jpg',
+      links: [
+        'Website%https://ionstici.dev/',
+        'GitHub%https://github.com/ionstici',
+      ],
+    };
   }
 }

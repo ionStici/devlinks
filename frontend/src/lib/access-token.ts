@@ -1,6 +1,6 @@
 import { api } from './api';
 
-const createAccessTokenService = () => {
+export const createAccessTokenService = () => {
   let accessToken: string | null = null;
 
   const getToken = () => accessToken;

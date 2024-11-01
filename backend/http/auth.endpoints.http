@@ -9,3 +9,4 @@ Cookie: refreshToken=
 POST http://localhost:3000/auth/logout
 Cookie: refreshToken=
 
+# P@ssw0rd

@@ -1,1 +1,1 @@
-export const APP_URL = "https://devlinks.fun";
+export const APP_URL = 'https://devlinks.fun';

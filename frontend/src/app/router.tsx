@@ -1,3 +1,4 @@
+import { ProtectedRoute } from '@/lib/protected-route';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 const router = createBrowserRouter([
@@ -30,6 +31,26 @@ const router = createBrowserRouter([
       const { TermsRoute } = await import('./routes/terms');
       return { Component: TermsRoute };
     },
+  },
+  {
+    path: '/editor',
+    element: <ProtectedRoute />,
+    children: [
+      {
+        path: '/editor/profile',
+        lazy: async () => {
+          const { ProfileRoute } = await import('./routes/editor/profile');
+          return { Component: ProfileRoute };
+        },
+      },
+      {
+        path: '/editor/links',
+        lazy: async () => {
+          const { LinksRoute } = await import('./routes/editor/links');
+          return { Component: LinksRoute };
+        },
+      },
+    ],
   },
   {
     path: '*',

@@ -3,8 +3,9 @@ export const emailRegex =
   /^[A-Za-z0-9](?:[A-Za-z0-9._%+-]{0,48}[A-Za-z0-9])?@(?:[A-Za-z0-9-]{1,23}[A-Za-z0-9])\.[A-Za-z]{2,}$/;
 
 // PASSWORD REGEX
-export const passwordRegex =
-  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,96}$/;
+export const passwordRegex = /.{8,}/; // at least 8 characters
+// export const passwordRegex =
+//   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,96}$/;
 // At least one lowercase letter
 // At least one uppercase letter
 // At least one number

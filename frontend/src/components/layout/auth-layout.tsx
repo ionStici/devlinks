@@ -1,8 +1,16 @@
+import { useAuth } from '@/lib/auth';
 import { type ReactNode } from 'react';
-import { NavLink } from 'react-router-dom';
+import { Navigate, NavLink } from 'react-router-dom';
 import Logo from '../ui/logo';
+import { Spinner } from '../ui/spinner';
 
 export function AuthLayout({ children }: { children: ReactNode }) {
+  const { user, loading } = useAuth();
+
+  if (loading) return <Spinner />;
+
+  if (user) return <Navigate to="/editor/profile" />;
+
   return (
     <main className="bg-grey-light">
       <div

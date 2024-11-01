@@ -1,8 +1,8 @@
 import { NavLink } from 'react-router-dom';
 
-export function ResetPassword() {
+export function ResetPasswordLink() {
   return (
-    <div className="flex items-center gap-1 text-sm">
+    <div className="flex flex-col sm:flex-row sm:items-center gap-1 text-sm">
       <p>Forgot your password? </p>
       <NavLink
         to="/auth/reset-password"
