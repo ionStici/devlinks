@@ -1,6 +1,7 @@
 import { type AuthContextType } from '@/types/auth-context';
 import { type Credentials } from '@/types/credentials';
 import { type User } from '@/types/user';
+import axios from 'axios';
 import React, {
   createContext,
   useCallback,
@@ -10,7 +11,6 @@ import React, {
 } from 'react';
 import { tokenService } from './access-token';
 import { api } from './api';
-import axios from 'axios';
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
@@ -62,7 +62,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     // await new Promise((resolve) => setTimeout(resolve, 3000));
 
     try {
-      await api.post('/auth/logout');
+      const { data } = await api.post('/auth/logout');
+      return data.message;
     } catch {
       throw new Error('Logout Failed');
     } finally {

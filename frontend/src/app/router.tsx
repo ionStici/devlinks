@@ -4,7 +4,6 @@ import {
   RouterProvider,
   createBrowserRouter,
 } from 'react-router-dom';
-import { ErrorBoundary } from './routes/user';
 
 const router = createBrowserRouter([
   {
@@ -72,7 +71,6 @@ const router = createBrowserRouter([
   },
   {
     path: '/:user',
-    errorElement: <ErrorBoundary />,
     lazy: async () => {
       const { User } = await import('./routes/user');
       return { Component: User };

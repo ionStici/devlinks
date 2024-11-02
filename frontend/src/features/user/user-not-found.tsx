@@ -1,3 +1,3 @@
 export function UserNotFound() {
-  return <div></div>;
+  return <div>User Not Found</div>;
 }

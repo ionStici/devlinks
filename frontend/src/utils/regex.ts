@@ -16,12 +16,10 @@ export const passwordRegex = /.{8,}/; // at least 8 characters
 
 // USERNAME REGEX
 export const usernameRegex =
-  /^(?=.{4,16}$)(?!.*--)(?=.*[a-zA-Z])[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*$/;
-// Length between 4-16 characters
-// Must contain at least one letter
-// Must start with a letter & Cannot start with a number
-// Can contain letters, numbers, and hyphens
-// Cannot contain consecutive hyphens (--)
-// Cannot start or end with a hyphen
-// Hyphens can only appear between alphanumeric characters
-// Case-sensitive (both uppercase and lowercase letters allowed)
+  /^(?=.{4,16}$)(?!.*--)[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*$/;
+// (?=.{4,16}$) → Length between 4-16 characters
+// [a-zA-Z0-9] → Can contain letters, numbers, and hyphens -
+// (?!.--) → Cannot contain consecutive hyphens (--)
+// ^[a-zA-Z0-9]+ and *$ → Cannot start/end with hyphen
+// (-[a-zA-Z0-9]+)* → Hyphens only between alphanumeric characters
+// [a-zA-Z] → Both cases allowed

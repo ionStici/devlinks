@@ -24,7 +24,9 @@ export class AccessTokenGuard implements CanActivate {
     const accessToken = request.headers.authorization?.split(' ')[1];
 
     if (!accessToken) {
-      throw new UnauthorizedException('Missing access token');
+      throw new UnauthorizedException(
+        'You are not authorized, the access token is missing.',
+      );
     }
 
     try {

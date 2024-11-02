@@ -17,6 +17,9 @@ import { Auth } from './decorators/auth.decorator';
 import { LoginDto } from './dtos/login.dto';
 import { AuthType } from './enums/auth-type.enum';
 import { AuthService } from './providers/auth.service';
+import { CreateUserDto } from 'src/users/dtos/create-user.dto';
+import { ActiveUser } from './decorators/active-user.decorator';
+import { ActiveUserData } from './interfaces/active-user-data.interface';
 
 @Controller('auth')
 export class AuthController {
@@ -37,6 +40,7 @@ export class AuthController {
     };
   }
 
+  // LOGIN
   @Auth(AuthType.None)
   @Post('login')
   @HttpCode(HttpStatus.OK)
@@ -47,20 +51,10 @@ export class AuthController {
     const tokens = await this.authService.login(loginDto);
 
     response.cookie('refreshToken', tokens.refreshToken, this.cookieOptions);
-
     return { accessToken: tokens.accessToken };
   }
 
-  @Auth(AuthType.None)
-  @Post('register')
-  @HttpCode(HttpStatus.OK)
-  async register(
-    @Body() registerDto: any,
-    @Res({ passthrough: true }) response: Response,
-  ) {
-    console.log('yo');
-  }
-
+  // REFRESH
   @Auth(AuthType.None)
   @Post('refresh')
   @HttpCode(HttpStatus.OK)
@@ -68,7 +62,6 @@ export class AuthController {
     @Req() request: Request,
     @Res({ passthrough: true }) response: Response,
   ) {
-    // await new Promise((resolve) => setTimeout(resolve, 500));
     const refreshToken = request.cookies?.refreshToken;
 
     if (!refreshToken) {
@@ -85,10 +78,10 @@ export class AuthController {
     const tokens = await this.authService.refreshTokens(refreshToken);
 
     response.cookie('refreshToken', tokens.refreshToken, this.cookieOptions);
-
     return { accessToken: tokens.accessToken };
   }
 
+  // LOGOUT
   @Auth(AuthType.None)
   @Post('logout')
   @HttpCode(HttpStatus.OK)
@@ -107,24 +100,33 @@ export class AuthController {
     }
 
     response.clearCookie('refreshToken', { ...this.cookieOptions, maxAge: 0 });
-
     return { message: 'Logged out successfully' };
   }
 
+  // REGISTER
+  @Auth(AuthType.None)
+  @Post('register')
+  @HttpCode(HttpStatus.OK)
+  async register(
+    @Body() createUserDto: CreateUserDto,
+    @Res({ passthrough: true }) response: Response,
+  ) {
+    const newUser = await this.authService.register(createUserDto);
+
+    const tokens = await this.authService.generateTokens(
+      newUser.id,
+      newUser.email,
+    );
+
+    response.cookie('refreshToken', tokens.refreshToken, this.cookieOptions);
+    return { accessToken: tokens.accessToken };
+  }
+
+  // GET PROFILE
   @Auth(AuthType.Bearer)
   @Get('me')
   @HttpCode(HttpStatus.OK)
-  async getUser() {
-    return {
-      email: 'mike@email.com',
-      username: 'wizard-dev',
-      name: 'mike',
-      about: 'full stack developer',
-      image: '/profile.jpg',
-      links: [
-        'Website%https://ionstici.dev/',
-        'GitHub%https://github.com/ionstici',
-      ],
-    };
+  async getProfile(@ActiveUser() user: ActiveUserData) {
+    return await this.authService.getProfile(user.email);
   }
 }

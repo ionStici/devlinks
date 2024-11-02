@@ -9,8 +9,3 @@ export const ActiveUser = createParamDecorator(
     return field ? user?.[field] : user;
   },
 );
-
-// @Post()
-// public createItem (@ActiveUser() user : ActiveUserData) {
-// console.log(user); // sub, email
-// }

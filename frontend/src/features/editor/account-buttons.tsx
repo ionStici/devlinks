@@ -5,6 +5,7 @@ import { NavLink } from 'react-router-dom';
 import { IconSettings, IconLogOut, IconDoc } from '@/assets/svg-icons';
 import { TinySpinner } from '@/components/ui/tiny-spinner';
 import { useAuth } from '@/lib/auth';
+import toast from 'react-hot-toast';
 
 export function AccountButtons() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -17,7 +18,9 @@ export function AccountButtons() {
     if (logoutPending) return;
     setLogoutPending(true);
 
-    await logout();
+    const message = await logout();
+    toast.success(message);
+
     setLogoutPending(false);
   }
 

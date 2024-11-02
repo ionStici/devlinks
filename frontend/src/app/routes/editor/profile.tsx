@@ -6,6 +6,7 @@ import { Heading } from '@/features/editor/heading';
 import { ProfileInput } from '@/features/editor/profile-input';
 import { SaveButton } from '@/features/editor/save-button';
 import { UploadPicture } from '@/features/editor/upload-picture';
+import { api } from '@/lib/api';
 import { useUser } from '@/lib/auth';
 import { ProfileFormValues } from '@/types/profile-form-values';
 import { useState } from 'react';
@@ -26,14 +27,17 @@ export function ProfileRoute() {
   });
   const { errors } = formState;
 
-  function onSubmit(data: ProfileFormValues) {
+  async function onSubmit(data: ProfileFormValues) {
     if (pending) return;
 
     const profileData = { ...data, ...(newImage ? { newImage } : {}) };
 
     // // // // // In Progress // // // // //
-    console.log(profileData);
 
+    const response = await api.patch('/profile/update', profileData);
+    console.log(response.data);
+
+    // // // // // In Progress // // // // //
     setPending(true);
   }
 

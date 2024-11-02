@@ -14,6 +14,7 @@ import { LogoutProvider } from './providers/logout.provider';
 import { TokenBlacklist } from './token-blacklist.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ScheduleModule } from '@nestjs/schedule';
+import { ProfilesModule } from 'src/profiles/profiles.module';
 
 @Module({
   controllers: [AuthController],
@@ -30,6 +31,7 @@ import { ScheduleModule } from '@nestjs/schedule';
   ],
   imports: [
     forwardRef(() => UsersModule),
+    ProfilesModule,
     ConfigModule.forFeature(jwtConfig),
     JwtModule.registerAsync(jwtConfig.asProvider()),
     TypeOrmModule.forFeature([TokenBlacklist]),

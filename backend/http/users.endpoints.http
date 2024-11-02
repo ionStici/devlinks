@@ -1,7 +1,0 @@
-POST http://localhost:3000/users/create
-Content-Type: application/json
-
-{
-  "email": "steve@email.com",
-  "password": "P@ssw0rd"
-}

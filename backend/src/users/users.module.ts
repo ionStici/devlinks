@@ -1,12 +1,13 @@
 import { forwardRef, Module } from '@nestjs/common';
-import { UsersController } from './users.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from './user.entity';
-import { UsersService } from './providers/users.service';
+import { AuthModule } from 'src/auth/auth.module';
 import { CreateUserProvider } from './providers/create-user.provider';
 import { FindUserByEmailProvider } from './providers/find-user-by-email.provider';
 import { FindUserByIdProvider } from './providers/find-user-by-id.provider';
-import { AuthModule } from 'src/auth/auth.module';
+import { UsersService } from './providers/users.service';
+import { User } from './user.entity';
+import { ProfilesModule } from 'src/profiles/profiles.module';
+import { Profile } from 'src/profiles/profile.entity';
 
 @Module({
   providers: [
@@ -15,8 +16,11 @@ import { AuthModule } from 'src/auth/auth.module';
     FindUserByEmailProvider,
     FindUserByIdProvider,
   ],
-  controllers: [UsersController],
-  imports: [TypeOrmModule.forFeature([User]), forwardRef(() => AuthModule)],
+  imports: [
+    TypeOrmModule.forFeature([User, Profile]),
+    forwardRef(() => AuthModule),
+    ProfilesModule,
+  ],
   exports: [UsersService],
 })
 export class UsersModule {}

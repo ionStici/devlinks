@@ -29,7 +29,6 @@ export class LoginProvider {
     } catch {
       throw new RequestTimeoutException('Operation Failed.');
     }
-    console.log(doesPasswordMatch);
 
     if (!doesPasswordMatch) {
       throw new UnauthorizedException('Incorrect Password');

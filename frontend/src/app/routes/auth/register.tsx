@@ -25,12 +25,17 @@ export function RegisterRoute() {
   async function onSubmit(credentials: FieldValues) {
     if (pending) return;
 
+    if (!credentials.terms) {
+      toast.error('Agree to the Terms and Conditions');
+      return;
+    }
+
     setPending(true);
 
     try {
       await registerAuth({
         email: credentials.email as string,
-        password: credentials.password as string,
+        password: credentials['new-password'] as string,
       });
       toast.success('Registered Successfully');
     } catch (error) {
@@ -90,7 +95,7 @@ export function RegisterRoute() {
         <p className="text-xs text-grey -mt-3">
           Password must contain at least 8 characters
         </p>
-        <TermsCheckbox />
+        <TermsCheckbox register={register} />
         <Button pendingText="Creating Account..." pending={pending}>
           Create new account
         </Button>
