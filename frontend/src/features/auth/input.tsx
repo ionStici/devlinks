@@ -73,7 +73,6 @@ export function Input({
         })}
         onClick={() => clearError(name)}
         type={type}
-        name={name}
         id={name}
         placeholder={placeholder}
         autoComplete={autoComplete}

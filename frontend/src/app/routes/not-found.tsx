@@ -1,9 +1,14 @@
+import { Head } from '@/components/seo';
 import Logo from '@/components/ui/logo';
 import { NavLink } from 'react-router-dom';
 
 export function NotFoundRoute() {
   return (
     <main className="bg-grey-light">
+      <Head
+        title="Page not Found"
+        description="This page does not exist or was moved."
+      />
       <div
         className="
         max-w-[476px] mx-auto p-8 min-h-dvh bg-white shadow-section

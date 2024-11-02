@@ -1,4 +1,5 @@
 import { AuthLayout } from '@/components/layout/auth-layout';
+import { Head } from '@/components/seo';
 import { Button } from '@/features/auth/button';
 import { Footer } from '@/features/auth/footer';
 import { Form } from '@/features/auth/form';
@@ -46,6 +47,10 @@ export function LoginRoute() {
 
   return (
     <AuthLayout>
+      <Head
+        title="Log in to your devlinks account"
+        description="Access your devlinks profile to manage your personal details and share your software development journey with the world."
+      />
       <Header
         heading="Login"
         content="Add your details below to get back into the app"

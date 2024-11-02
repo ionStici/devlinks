@@ -1,4 +1,5 @@
 import { AuthLayout } from '@/components/layout/auth-layout';
+import { Head } from '@/components/seo';
 import { Button } from '@/features/auth/button';
 import { Footer } from '@/features/auth/footer';
 import { Form } from '@/features/auth/form';
@@ -23,8 +24,6 @@ export function ResetPasswordRoute() {
 
     toast.error('Password reset is not implemented yet.');
 
-    console.log(data);
-
     await resetPassword(data.email);
 
     setPending(false);
@@ -36,6 +35,7 @@ export function ResetPasswordRoute() {
 
   return (
     <AuthLayout>
+      <Head title="Reset your Password" />
       <Header
         heading="Reset Password"
         content="We'll email you a link so you can reset your password.

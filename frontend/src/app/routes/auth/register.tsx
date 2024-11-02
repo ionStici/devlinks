@@ -1,4 +1,5 @@
 import { AuthLayout } from '@/components/layout/auth-layout';
+import { Head } from '@/components/seo';
 import { Button } from '@/features/auth/button';
 import { Footer } from '@/features/auth/footer';
 import { Form } from '@/features/auth/form';
@@ -47,6 +48,10 @@ export function RegisterRoute() {
 
   return (
     <AuthLayout>
+      <Head
+        title="Create your devlinks account"
+        description="Join devlinks and build your personalized profile with all your software development social links. Share your journey, connect with others, and showcase your work."
+      />
       <Header
         heading="Create account"
         content="Let's get you started sharing links!"

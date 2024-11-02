@@ -17,6 +17,7 @@ export default {
       red: '#FF3939',
       empty: '#EEE',
       transparent: 'transparent',
+      inherit: 'inherit',
     },
     boxShadow: {
       none: 'none',

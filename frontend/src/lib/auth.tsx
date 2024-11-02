@@ -40,7 +40,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   // LOGIN
   const login = useCallback(async (credentials: Credentials) => {
-    await new Promise((resolve) => setTimeout(resolve, 500));
+    // await new Promise((resolve) => setTimeout(resolve, 500));
 
     try {
       const response = await api.post('/auth/login', credentials);
@@ -59,6 +59,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   // LOGOUT
   const logout = useCallback(async () => {
+    // await new Promise((resolve) => setTimeout(resolve, 3000));
+
     try {
       await api.post('/auth/logout');
     } catch {

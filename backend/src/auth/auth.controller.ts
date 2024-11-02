@@ -68,6 +68,7 @@ export class AuthController {
     @Req() request: Request,
     @Res({ passthrough: true }) response: Response,
   ) {
+    // await new Promise((resolve) => setTimeout(resolve, 500));
     const refreshToken = request.cookies?.refreshToken;
 
     if (!refreshToken) {
@@ -119,7 +120,7 @@ export class AuthController {
       username: 'wizard-dev',
       name: 'mike',
       about: 'full stack developer',
-      image: 'image.jpg',
+      image: '/profile.jpg',
       links: [
         'Website%https://ionstici.dev/',
         'GitHub%https://github.com/ionstici',
