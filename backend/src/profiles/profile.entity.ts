@@ -1,14 +1,11 @@
 import { User } from 'src/users/user.entity';
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToOne, PrimaryColumn } from 'typeorm';
 
 @Entity()
 export class Profile {
-  @PrimaryGeneratedColumn('uuid')
-  id: number;
-
-  @Column({
+  @PrimaryColumn({
     type: 'varchar',
-    length: 50,
+    length: 16,
     unique: true,
     nullable: false,
   })
@@ -16,14 +13,14 @@ export class Profile {
 
   @Column({
     type: 'varchar',
-    length: 96,
+    length: 30,
     default: '',
   })
   name: string;
 
   @Column({
     type: 'varchar',
-    length: 96,
+    length: 125,
     default: '',
   })
   about: string;
@@ -37,7 +34,7 @@ export class Profile {
   @Column({
     type: 'varchar',
     array: true,
-    default: [],
+    default: '{}',
   })
   links: string[];
 

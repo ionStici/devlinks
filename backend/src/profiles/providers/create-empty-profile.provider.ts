@@ -12,7 +12,9 @@ export class CreateEmptyProfileProvider {
   ) {}
 
   public async createEmptyProfile() {
-    let newProfile = this.profileRepository.create({ username: uuidv4() });
+    let newProfile = this.profileRepository.create({
+      username: uuidv4().replaceAll('-', '').slice(0, 16),
+    });
 
     try {
       newProfile = await this.profileRepository.save(newProfile);

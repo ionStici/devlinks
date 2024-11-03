@@ -1,6 +1,7 @@
 import { Type } from 'class-transformer';
 import {
   ArrayMaxSize,
+  ArrayNotEmpty,
   IsArray,
   IsOptional,
   IsString,
@@ -29,13 +30,16 @@ export class CreateProfileDto {
   @Type(() => File)
   image?: Express.Multer.File;
 
-  @IsOptional()
   @IsArray()
   @ArrayMaxSize(15, { message: 'Cannot add more than 15 links' })
-  @IsString({ each: true })
   @MaxLength(256, {
     each: true,
     message: 'Each link cannot exceed 256 characters',
+  })
+  @Matches(/^[^%]+%https?:\/\/.+$/, {
+    each: true,
+    message:
+      'Each link must be in format "Platform%URL" where URL starts with http:// or https://',
   })
   links: string[];
 }

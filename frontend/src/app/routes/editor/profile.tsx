@@ -1,20 +1,22 @@
 import { EditorLayout } from '@/components/layout/editor-layout';
 import { Head } from '@/components/seo';
 import { AccountButtons } from '@/features/editor/account-buttons';
+import { updateProfile } from '@/features/editor/api/update-profile';
 import { Footer } from '@/features/editor/footer';
 import { Heading } from '@/features/editor/heading';
 import { ProfileInput } from '@/features/editor/profile-input';
 import { SaveButton } from '@/features/editor/save-button';
 import { UploadPicture } from '@/features/editor/upload-picture';
-import { api } from '@/lib/api';
-import { useUser } from '@/lib/auth';
+import { useAuth, useUser } from '@/lib/auth';
 import { ProfileFormValues } from '@/types/profile-form-values';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 
 export function ProfileRoute() {
   const [pending, setPending] = useState<boolean>(false);
   const [newImage, setNewImage] = useState<File | null>(null);
+  const { setUser } = useAuth();
 
   const {
     user: { username, name, about, image },
@@ -29,16 +31,19 @@ export function ProfileRoute() {
 
   async function onSubmit(data: ProfileFormValues) {
     if (pending) return;
-
-    const profileData = { ...data, ...(newImage ? { newImage } : {}) };
-
-    // // // // // In Progress // // // // //
-
-    const response = await api.patch('/profile/update', profileData);
-    console.log(response.data);
-
-    // // // // // In Progress // // // // //
     setPending(true);
+
+    const profileData = { ...data, ...(newImage ? { image: newImage } : {}) };
+
+    try {
+      const { user, message } = await updateProfile(profileData);
+      setUser(user);
+      toast.success(message);
+    } catch (error) {
+      toast.error(String(error));
+    }
+
+    setPending(false);
   }
 
   function clearError(name: 'username' | 'name' | 'about') {

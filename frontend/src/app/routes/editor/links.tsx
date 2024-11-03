@@ -1,15 +1,19 @@
 import { EditorLayout } from '@/components/layout/editor-layout';
 import { Head } from '@/components/seo';
-import { Footer } from '@/features/editor/footer';
 import { AccountButtons } from '@/features/editor/account-buttons';
+import { updateLinks } from '@/features/editor/api/update-links';
+import { Footer } from '@/features/editor/footer';
 import { Heading } from '@/features/editor/heading';
 import { LinksForms } from '@/features/editor/links-form';
 import { SaveButton } from '@/features/editor/save-button';
-import { useUser } from '@/lib/auth';
+import { useAuth, useUser } from '@/lib/auth';
+import { User } from '@/types/user';
 import { useState, type FormEvent } from 'react';
+import toast from 'react-hot-toast';
 
 export function LinksRoute() {
   const [pending, setPending] = useState<boolean>(false);
+  const { setUser } = useAuth();
 
   const {
     user: { links },
@@ -19,12 +23,21 @@ export function LinksRoute() {
     e.preventDefault();
     if (pending) return;
     setPending(true);
-    // await new Promise((resolve) => setTimeout(resolve, 1500)); // TEMP
 
     const formData = new FormData(e.currentTarget);
-    const data = Object.fromEntries(formData);
 
-    console.log(data);
+    try {
+      const { links, message } = await updateLinks(formData);
+
+      setUser((prevData: User | null) => {
+        if (!prevData) return null;
+        return { ...prevData, links: links };
+      });
+
+      toast.success(message);
+    } catch (error) {
+      toast.error(String(error));
+    }
 
     setPending(false);
   }

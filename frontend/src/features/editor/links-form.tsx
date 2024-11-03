@@ -1,7 +1,7 @@
 import { platforms as allPlatforms } from '@/data/platforms';
 import { Platform as PlatformData } from '@/types/platform';
 import { Reorder } from 'framer-motion';
-import { type FormEvent, type ReactNode, useState } from 'react';
+import { type FormEvent, type ReactNode, useEffect, useState } from 'react';
 import GetStarted from './get-started';
 import { LinkInput } from './link-input';
 
@@ -18,6 +18,10 @@ export function LinksForms({
 }: LinksFormsProps) {
   const [clientLinks, setClientLinks] = useState<string[]>([...serverLinks]);
   const sorted = clientLinks.map((link: string) => link.split('%')[0]);
+
+  useEffect(() => {
+    setClientLinks([...serverLinks]);
+  }, [serverLinks]);
 
   const usedPlatforms = clientLinks.map((link) => link.split('%')[0]);
 
