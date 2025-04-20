@@ -35,8 +35,8 @@ export class AuthService {
   }
 
   // Get active user profile
-  public async getProfile(userEmail: string) {
-    const { email, profile } = await this.profilesService.getProfile(userEmail);
+  public async getActiveProfile(email: string) {
+    const profile = await this.profilesService.getProfileByEmail(email);
     return { email, ...profile };
   }
 

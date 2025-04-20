@@ -126,7 +126,7 @@ export class AuthController {
   @Auth(AuthType.Bearer)
   @Get('me')
   @HttpCode(HttpStatus.OK)
-  async getProfile(@ActiveUser() user: ActiveUserData) {
-    return await this.authService.getProfile(user.email);
+  async getActiveProfile(@ActiveUser() user: ActiveUserData) {
+    return await this.authService.getActiveProfile(user.email);
   }
 }

@@ -1,0 +1,65 @@
+import { EditorLayout } from '@/components/layout/editor-layout';
+import { Head } from '@/components/seo';
+import { AccountButtons } from '@/features/editor/account-buttons';
+import { Footer } from '@/features/editor/footer';
+import { Heading } from '@/features/editor/heading';
+import { SaveButton } from '@/features/editor/save-button';
+import { SettingsButtons } from '@/features/editor/settings-buttons';
+import { useState } from 'react';
+import { SettingsEnum } from '@/features/editor/settings-buttons';
+import { ChangeEmailInputs } from '@/features/editor/change-email-inputs';
+import { AccountHeading } from '@/features/editor/account-heading';
+import { useForm } from 'react-hook-form';
+
+export function AccountRoute() {
+  const [activeSetting, setActiveSetting] =
+    useState<SettingsEnum>('change-email');
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    clearErrors,
+  } = useForm({ mode: 'onSubmit', reValidateMode: 'onBlur' });
+
+  function clearError(name: string) {
+    clearErrors(name);
+  }
+
+  function onSubmit(data: unknown) {
+    console.log(data);
+  }
+
+  return (
+    <EditorLayout>
+      <Head title="Account" />
+      <Heading
+        title="Account Settings"
+        text="Manage your devlinks account, you are in control."
+      />
+      <SettingsButtons
+        activeSetting={activeSetting}
+        setActiveSetting={setActiveSetting}
+      />
+      <AccountHeading activeSetting={activeSetting} />
+      <form
+        className="flex flex-col flex-grow"
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <div className="mx-6 md:mx-10 space-y-5">
+          {activeSetting === 'change-email' && (
+            <ChangeEmailInputs
+              register={register}
+              clearError={clearError}
+              errors={errors}
+            />
+          )}
+        </div>
+        <Footer>
+          <AccountButtons />
+          <SaveButton pending={false}>Save</SaveButton>
+        </Footer>
+      </form>
+    </EditorLayout>
+  );
+}

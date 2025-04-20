@@ -1,16 +1,19 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { PatchLinksDto } from '../dtos/patch-links.dto';
-import { CreateEmptyProfileProvider } from './create-empty-profile.provider';
-import { GetProfileProvider } from './get-profile.provider';
-import { UpdateProfileProvider } from './update-profile.provider';
 import { PatchProfileDto } from '../dtos/patch-profile.dto';
+import { Profile } from '../profile.entity';
+import { CreateEmptyProfileProvider } from './create-empty-profile.provider';
 import { UpdateLinksProvider } from './update-links.provider';
+import { UpdateProfileProvider } from './update-profile.provider';
 
 @Injectable()
 export class ProfilesService {
   constructor(
+    @InjectRepository(Profile)
+    private readonly profileRepository: Repository<Profile>,
     private readonly createEmptyProfileProvider: CreateEmptyProfileProvider,
-    private readonly getProfileProvider: GetProfileProvider,
     private readonly updateProfileProvider: UpdateProfileProvider,
     private readonly updateLinksProvider: UpdateLinksProvider,
   ) {}
@@ -19,8 +22,8 @@ export class ProfilesService {
     return this.createEmptyProfileProvider.createEmptyProfile();
   }
 
-  public getProfile(email: string) {
-    return this.getProfileProvider.getProfile(email);
+  public async getProfileByEmail(email: string) {
+    return await this.profileRepository.findOne({ where: { user: { email } } });
   }
 
   public updateProfile(
