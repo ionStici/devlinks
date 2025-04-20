@@ -26,16 +26,8 @@ export class ProfilesService {
     return await this.profileRepository.findOne({ where: { user: { email } } });
   }
 
-  public updateProfile(
-    email: string,
-    patchProfileDto: PatchProfileDto,
-    image: Express.Multer.File,
-  ) {
-    return this.updateProfileProvider.updateProfile(
-      email,
-      patchProfileDto,
-      image,
-    );
+  public updateProfile(email: string, patchProfileDto: PatchProfileDto) {
+    return this.updateProfileProvider.updateProfile(email, patchProfileDto);
   }
 
   public updateLinks(email: string, patchLinksDto: PatchLinksDto) {

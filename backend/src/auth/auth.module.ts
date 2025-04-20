@@ -9,10 +9,18 @@ import { AuthService } from './providers/auth.service';
 import { HashingProvider } from './providers/hashing.provider';
 import { LoginProvider } from './providers/login.provider';
 import { TokensProvider } from './providers/tokens.provider';
+import { APP_GUARD } from '@nestjs/core';
+import { AuthGuard } from './guards/auth.guard';
 
 @Module({
   controllers: [AuthController],
-  providers: [AuthService, HashingProvider, TokensProvider, LoginProvider],
+  providers: [
+    AuthService,
+    HashingProvider,
+    TokensProvider,
+    LoginProvider,
+    { provide: APP_GUARD, useClass: AuthGuard },
+  ],
   imports: [
     ProfilesModule,
     forwardRef(() => UsersModule),

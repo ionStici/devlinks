@@ -1,7 +1,5 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UploadsModule } from 'src/uploads/uploads.module';
-import { User } from 'src/users/user.entity';
 import { Profile } from './profile.entity';
 import { ProfilesController } from './profiles.controller';
 import { CreateEmptyProfileProvider } from './providers/create-empty-profile.provider';
@@ -11,7 +9,7 @@ import { UpdateProfileProvider } from './providers/update-profile.provider';
 
 @Module({
   controllers: [ProfilesController],
-  imports: [TypeOrmModule.forFeature([Profile, User]), UploadsModule],
+  imports: [TypeOrmModule.forFeature([Profile])],
   providers: [
     ProfilesService,
     CreateEmptyProfileProvider,
