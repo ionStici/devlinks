@@ -43,7 +43,9 @@ export function Input({
     <div className="relative flex flex-col">
       <label
         htmlFor={name}
-        className={`mb-1 text-xs ${!error ? 'text-dark-grey' : 'text-red'}`}
+        className={`mb-1 text-sm pl-[2px] ${
+          !error ? 'text-dark-grey' : 'text-red'
+        }`}
       >
         {label}
       </label>
@@ -91,7 +93,7 @@ export function Input({
         />
       )}
       {error && (
-        <p className="absolute right-0 top-0 sm:top-8 sm:right-4 text-red text-xs sm:pl-1 sm:bg-white sm:py-1 sm:pointer-events-none">
+        <p className="absolute right-0 top-0 sm:top-[35px] sm:right-4 text-red text-xs sm:pl-1 sm:bg-white sm:py-1 sm:pointer-events-none">
           {String(error)}
         </p>
       )}

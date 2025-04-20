@@ -1,7 +1,5 @@
-import { Type } from 'class-transformer';
 import {
   ArrayMaxSize,
-  ArrayNotEmpty,
   IsArray,
   IsOptional,
   IsString,
@@ -27,8 +25,9 @@ export class CreateProfileDto {
   about: string;
 
   @IsOptional()
-  @Type(() => File)
-  image?: Express.Multer.File;
+  @IsString()
+  @MaxLength(1024, { message: 'Image URL should not exceed 1024 characters.' })
+  image: string;
 
   @IsArray()
   @ArrayMaxSize(15, { message: 'Cannot add more than 15 links' })

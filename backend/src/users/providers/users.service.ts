@@ -1,26 +1,20 @@
 import { Injectable } from '@nestjs/common';
-import { CreateUserDto } from '../dtos/create-user.dto';
+import { RegisterDto } from 'src/auth/dtos/register.dto';
 import { CreateUserProvider } from './create-user.provider';
-import { FindUserByEmailProvider } from './find-user-by-email.provider';
-import { FindUserByIdProvider } from './find-user-by-id.provider';
+import { FindUserDto, FindUserProvider } from './find-user.provider';
 
 @Injectable()
 export class UsersService {
   constructor(
     private readonly createUserProvider: CreateUserProvider,
-    private readonly findUserByEmailProvider: FindUserByEmailProvider,
-    private readonly findUserByIdProvider: FindUserByIdProvider,
+    private readonly findUserProvider: FindUserProvider,
   ) {}
 
-  public createUser(createUserDto: CreateUserDto) {
+  public createUser(createUserDto: RegisterDto) {
     return this.createUserProvider.createUser(createUserDto);
   }
 
-  public findUserByEmail(email: string) {
-    return this.findUserByEmailProvider.findUserByEmail(email);
-  }
-
-  public findUserById(id: number) {
-    return this.findUserByIdProvider.findUserById(id);
+  public findUser(findUserDto: FindUserDto) {
+    return this.findUserProvider.findUser(findUserDto);
   }
 }

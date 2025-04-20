@@ -65,6 +65,13 @@ const router = createBrowserRouter([
               return { Component: LinksRoute };
             },
           },
+          {
+            path: 'account',
+            lazy: async () => {
+              const { AccountRoute } = await import('./routes/editor/account');
+              return { Component: AccountRoute };
+            },
+          },
         ],
       },
     ],

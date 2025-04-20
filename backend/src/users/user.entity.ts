@@ -13,7 +13,7 @@ import {
 @Entity()
 export class User {
   @PrimaryGeneratedColumn('uuid')
-  id: number;
+  id: string;
 
   @Column({
     type: 'varchar',
@@ -25,7 +25,7 @@ export class User {
 
   @Column({
     type: 'varchar',
-    length: 200,
+    length: 208,
     nullable: false,
   })
   password: string;

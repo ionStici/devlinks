@@ -27,6 +27,7 @@ export class Profile {
 
   @Column({
     type: 'varchar',
+    length: 1024,
     default: '',
   })
   image: string;

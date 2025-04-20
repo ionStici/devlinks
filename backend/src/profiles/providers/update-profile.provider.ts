@@ -5,7 +5,6 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UploadsService } from 'src/uploads/providers/uploads.service';
 import { Repository } from 'typeorm';
 import { PatchProfileDto } from '../dtos/patch-profile.dto';
 import { Profile } from '../profile.entity';
@@ -15,14 +14,9 @@ export class UpdateProfileProvider {
   constructor(
     @InjectRepository(Profile)
     private readonly profileRepository: Repository<Profile>,
-    private readonly uploadsService: UploadsService,
   ) {}
 
-  public async updateProfile(
-    email: string,
-    patchProfileDto: PatchProfileDto,
-    image: Express.Multer.File,
-  ) {
+  public async updateProfile(email: string, patchProfileDto: PatchProfileDto) {
     const queryRunner =
       this.profileRepository.manager.connection.createQueryRunner();
     await queryRunner.connect();
@@ -37,15 +31,10 @@ export class UpdateProfileProvider {
         throw new NotFoundException('Profile not found');
       }
 
-      if (image) {
-        const oldImage = profile.image;
-        profile.image = await this.uploadsService.uploadAvatar(image);
-        if (oldImage) await this.uploadsService.deleteAvatar(oldImage);
-      }
-
       profile.username = patchProfileDto.username ?? profile.username;
       profile.name = patchProfileDto.name ?? profile.name;
       profile.about = patchProfileDto.about ?? profile.about;
+      profile.image = patchProfileDto.image ?? profile.image;
 
       const updatedProfile = await queryRunner.manager.save(Profile, profile);
       await queryRunner.commitTransaction();

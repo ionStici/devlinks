@@ -8,23 +8,22 @@ import {
   Post,
   Req,
   Res,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
-import { Request, Response } from 'express';
-import jwtConfig from './config/jwt.config';
-import { Auth } from './decorators/auth.decorator';
-import { LoginDto } from './dtos/login.dto';
-import { AuthType } from './enums/auth-type.enum';
-import { AuthService } from './providers/auth.service';
-import { CreateUserDto } from 'src/users/dtos/create-user.dto';
+import { CookieOptions, Request, Response } from 'express';
+import jwtConfig from 'src/config/jwt.config';
 import { ActiveUser } from './decorators/active-user.decorator';
+import { Public } from './decorators/public.decorator';
+import { LoginDto } from './dtos/login.dto';
+import { RegisterDto } from './dtos/register.dto';
 import { ActiveUserData } from './interfaces/active-user-data.interface';
+import { AuthService } from './providers/auth.service';
 
 @Controller('auth')
 export class AuthController {
+  private readonly REFRESH_TOKEN_COOKIE = 'refresh_token';
   private readonly refreshTokenTtl: number;
-  private readonly cookieOptions: Record<string, any>;
+  private readonly cookieOptions: CookieOptions;
 
   constructor(
     @Inject(jwtConfig.KEY)
@@ -33,29 +32,29 @@ export class AuthController {
   ) {
     this.refreshTokenTtl = jwtConfiguration.refreshTokenTtl;
     this.cookieOptions = {
-      httpOnly: false,
+      httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
       maxAge: this.refreshTokenTtl * 1000,
-    };
+    } as const;
   }
 
   // LOGIN
-  @Auth(AuthType.None)
+  @Public()
   @Post('login')
   @HttpCode(HttpStatus.OK)
   async login(
     @Body() loginDto: LoginDto,
     @Res({ passthrough: true }) response: Response,
   ) {
+    this.clearTokenCookies(response);
     const tokens = await this.authService.login(loginDto);
-
-    response.cookie('refreshToken', tokens.refreshToken, this.cookieOptions);
+    this.setTokenCookies(response, tokens.refreshToken);
     return { accessToken: tokens.accessToken };
   }
 
   // REFRESH
-  @Auth(AuthType.None)
+  @Public()
   @Post('refresh')
   @HttpCode(HttpStatus.OK)
   async refreshTokens(
@@ -63,70 +62,49 @@ export class AuthController {
     @Res({ passthrough: true }) response: Response,
   ) {
     const refreshToken = request.cookies?.refreshToken;
-
-    if (!refreshToken) {
-      throw new UnauthorizedException('Refresh token not found');
-    }
-
-    const isBlacklisted =
-      await this.authService.isTokenBlacklisted(refreshToken);
-
-    if (isBlacklisted) {
-      throw new UnauthorizedException('Token has been revoked');
-    }
-
     const tokens = await this.authService.refreshTokens(refreshToken);
-
-    response.cookie('refreshToken', tokens.refreshToken, this.cookieOptions);
+    this.setTokenCookies(response, tokens.refreshToken);
     return { accessToken: tokens.accessToken };
   }
 
-  // LOGOUT
-  @Auth(AuthType.None)
-  @Post('logout')
-  @HttpCode(HttpStatus.OK)
-  async logout(
-    @Req() request: Request,
-    @Res({ passthrough: true }) response: Response,
-  ) {
-    const refreshToken = request.cookies?.refreshToken;
-
-    if (!refreshToken) {
-      throw new UnauthorizedException('No tokens provided');
-    }
-
-    if (refreshToken) {
-      await this.authService.logout(refreshToken);
-    }
-
-    response.clearCookie('refreshToken', { ...this.cookieOptions, maxAge: 0 });
-    return { message: 'Logged out successfully' };
-  }
-
   // REGISTER
-  @Auth(AuthType.None)
+  @Public()
   @Post('register')
   @HttpCode(HttpStatus.OK)
   async register(
-    @Body() createUserDto: CreateUserDto,
+    @Body() registerDto: RegisterDto,
     @Res({ passthrough: true }) response: Response,
   ) {
-    const newUser = await this.authService.register(createUserDto);
-
-    const tokens = await this.authService.generateTokens(
-      newUser.id,
-      newUser.email,
-    );
-
-    response.cookie('refreshToken', tokens.refreshToken, this.cookieOptions);
+    const tokens = await this.authService.register(registerDto);
+    this.setTokenCookies(response, tokens.refreshToken);
     return { accessToken: tokens.accessToken };
   }
 
   // GET PROFILE
-  @Auth(AuthType.Bearer)
   @Get('me')
   @HttpCode(HttpStatus.OK)
-  async getProfile(@ActiveUser() user: ActiveUserData) {
-    return await this.authService.getProfile(user.email);
+  async getActiveProfile(@ActiveUser() user: ActiveUserData) {
+    return await this.authService.getActiveProfile(user.email);
+  }
+
+  // LOGOUT
+  @Post('logout')
+  async logout(@Res({ passthrough: true }) response: Response) {
+    this.clearTokenCookies(response);
+  }
+
+  // HELPER
+  private setTokenCookies(response: Response, refreshToken: string): void {
+    response.cookie(
+      this.REFRESH_TOKEN_COOKIE,
+      refreshToken,
+      this.cookieOptions,
+    );
+  }
+
+  // HELPER
+  private clearTokenCookies(response: Response): void {
+    const refreshOptions = { ...this.cookieOptions, maxAge: 0 };
+    response.clearCookie(this.REFRESH_TOKEN_COOKIE, refreshOptions);
   }
 }
