@@ -5,15 +5,15 @@ import {
 } from '@nestjs/common';
 import { UsersService } from 'src/users/providers/users.service';
 import { LoginDto } from '../dtos/login.dto';
-import { GenerateTokensProvider } from './generate-tokens.provider';
 import { HashingProvider } from './hashing.provider';
+import { TokensProvider } from './tokens.provider';
 
 @Injectable()
 export class LoginProvider {
   constructor(
     private readonly usersService: UsersService,
     private readonly hashingProvider: HashingProvider,
-    private readonly generateTokensProvider: GenerateTokensProvider,
+    private readonly tokensProvider: TokensProvider,
   ) {}
 
   public async login(loginDto: LoginDto) {
@@ -27,13 +27,13 @@ export class LoginProvider {
         user.password,
       );
     } catch {
-      throw new RequestTimeoutException('Operation Failed.');
+      throw new RequestTimeoutException('Login Failed.');
     }
 
     if (!doesPasswordMatch) {
-      throw new UnauthorizedException('Incorrect Password');
+      throw new UnauthorizedException('Incorrect Password.');
     }
 
-    return await this.generateTokensProvider.generateTokens(user);
+    return await this.tokensProvider.generateTokens(user);
   }
 }

@@ -1,54 +1,60 @@
 import {
   CanActivate,
   ExecutionContext,
+  Inject,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
+import { ConfigType } from '@nestjs/config';
 import { Reflector } from '@nestjs/core';
-import { AuthType } from '../enums/auth-type.enum';
-import { AccessTokenGuard } from './access-token.guard';
-import { AUTH_TYPE_KEY } from '../constants/auth.constants';
+import { JwtService } from '@nestjs/jwt';
+import { Request } from 'express';
+import jwtConfig from 'src/config/jwt.config';
+import { PUBLIC_KEY, REQUEST_USER_KEY } from '../constants/auth.constants';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  private static readonly defaultAuthType = AuthType.Bearer;
-
-  private readonly authTypeGuardMap: Record<
-    AuthType,
-    | CanActivate
-    | CanActivate[]
-    | { canActivate: () => boolean | Promise<boolean> }
-  >;
-
   constructor(
     private readonly reflector: Reflector,
-    private readonly accessTokenGuard: AccessTokenGuard,
-  ) {
-    this.authTypeGuardMap = {
-      [AuthType.Bearer]: this.accessTokenGuard,
-      [AuthType.None]: { canActivate: () => true },
-    };
-  }
+    @Inject(jwtConfig.KEY)
+    private readonly jwtConfiguration: ConfigType<typeof jwtConfig>,
+    private readonly jwtService: JwtService,
+  ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const authType = this.reflector.getAllAndOverride<AuthType[]>(
-      AUTH_TYPE_KEY,
-      [context.getHandler(), context.getClass()],
-    ) ?? [AuthGuard.defaultAuthType];
+    const isPublic = this.reflector.getAllAndOverride<boolean>(PUBLIC_KEY, [
+      context.getHandler(),
+      context.getClass(),
+    ]);
 
-    const guards = authType.map((type) => this.authTypeGuardMap[type]).flat();
+    if (isPublic) return true;
 
-    let error = new UnauthorizedException();
+    const request = context.switchToHttp().getRequest<Request>();
+    const token = request.headers.authorization.split(' ')[1];
 
-    for (const guard of guards) {
-      try {
-        const result = await Promise.resolve(guard.canActivate(context));
-        if (result) return true;
-      } catch (err) {
-        error = err;
-      }
+    if (!token) {
+      throw new UnauthorizedException(
+        'You are not authorized, the access token is missing.',
+      );
     }
 
-    throw error;
+    try {
+      const payload = await this.jwtService.verifyAsync(token, {
+        ...this.jwtConfiguration,
+        ignoreExpiration: false,
+      });
+
+      request[REQUEST_USER_KEY] = payload;
+
+      return true;
+    } catch (error) {
+      if (error?.name === 'TokenExpiredError') {
+        throw new UnauthorizedException('Access token has expired');
+      }
+      if (error?.name === 'JsonWebTokenError') {
+        throw new UnauthorizedException('Invalid access token');
+      }
+      throw new UnauthorizedException('Authentication failed');
+    }
   }
 }

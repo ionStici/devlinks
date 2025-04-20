@@ -1,42 +1,24 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
+import jwtConfig from 'src/config/jwt.config';
+import { ProfilesModule } from 'src/profiles/profiles.module';
 import { UsersModule } from 'src/users/users.module';
 import { AuthController } from './auth.controller';
-import jwtConfig from './config/jwt.config';
 import { AuthService } from './providers/auth.service';
-import { BcryptProvider } from './providers/bcrypt.provider';
-import { GenerateTokensProvider } from './providers/generate-tokens.provider';
 import { HashingProvider } from './providers/hashing.provider';
-import { RefreshTokensProvider } from './providers/refresh-tokens.provider';
 import { LoginProvider } from './providers/login.provider';
-import { LogoutProvider } from './providers/logout.provider';
-import { TokenBlacklist } from './token-blacklist.entity';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { ScheduleModule } from '@nestjs/schedule';
-import { ProfilesModule } from 'src/profiles/profiles.module';
+import { TokensProvider } from './providers/tokens.provider';
 
 @Module({
   controllers: [AuthController],
-  providers: [
-    AuthService,
-    {
-      provide: HashingProvider,
-      useClass: BcryptProvider,
-    },
-    LoginProvider,
-    LogoutProvider,
-    GenerateTokensProvider,
-    RefreshTokensProvider,
-  ],
+  providers: [AuthService, HashingProvider, TokensProvider, LoginProvider],
   imports: [
-    forwardRef(() => UsersModule),
     ProfilesModule,
+    forwardRef(() => UsersModule),
     ConfigModule.forFeature(jwtConfig),
     JwtModule.registerAsync(jwtConfig.asProvider()),
-    TypeOrmModule.forFeature([TokenBlacklist]),
-    ScheduleModule.forRoot(),
   ],
-  exports: [AuthService, HashingProvider, LogoutProvider],
+  exports: [AuthService, HashingProvider],
 })
 export class AuthModule {}

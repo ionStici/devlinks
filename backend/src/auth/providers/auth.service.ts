@@ -1,22 +1,18 @@
 import { Injectable } from '@nestjs/common';
-import { LoginDto } from '../dtos/login.dto';
-import { LoginProvider } from './login.provider';
-import { RefreshTokensProvider } from './refresh-tokens.provider';
-import { LogoutProvider } from './logout.provider';
-import { UsersService } from 'src/users/providers/users.service';
-import { CreateUserDto } from 'src/users/dtos/create-user.dto';
-import { GenerateTokensProvider } from './generate-tokens.provider';
 import { ProfilesService } from 'src/profiles/providers/profiles.service';
+import { UsersService } from 'src/users/providers/users.service';
+import { LoginDto } from '../dtos/login.dto';
+import { RegisterDto } from '../dtos/register.dto';
+import { LoginProvider } from './login.provider';
+import { TokensProvider } from './tokens.provider';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly loginProvider: LoginProvider,
-    private readonly logoutProvider: LogoutProvider,
-    private readonly refreshTokensProvider: RefreshTokensProvider,
-    private readonly generateTokensProvider: GenerateTokensProvider,
     private readonly usersService: UsersService,
     private readonly profilesService: ProfilesService,
+    private readonly tokensProvider: TokensProvider,
   ) {}
 
   // Login
@@ -24,40 +20,20 @@ export class AuthService {
     return this.loginProvider.login(loginDto);
   }
 
-  // Logout
-  public async logout(refreshToken: string) {
-    return this.logoutProvider.logout(refreshToken);
-  }
-
   // Register
-  public async register(createUserDto: CreateUserDto) {
-    return this.usersService.createUser(createUserDto);
+  public async register(registerDro: RegisterDto) {
+    const newUser = await this.usersService.createUser(registerDro);
+    return await this.tokensProvider.generateTokens(newUser);
   }
 
-  // Get active user profile
+  // Get Profile
   public async getActiveProfile(email: string) {
     const profile = await this.profilesService.getProfileByEmail(email);
     return { email, ...profile };
   }
 
-  // Reset Password
-  public async resetPassword(email: string) {
-    console.log(email);
-    return 'Password reset is not implemented yet.';
-  }
-
-  // Generate Tokens
-  public async generateTokens(id: number, email: string) {
-    return this.generateTokensProvider.generateTokens({ id, email });
-  }
-
   // Refresh Tokens
   public async refreshTokens(refreshToken: string) {
-    return this.refreshTokensProvider.refreshTokens(refreshToken);
-  }
-
-  // Check if refresh token is revoked
-  public async isTokenBlacklisted(refreshToken: string) {
-    return this.logoutProvider.isTokenBlacklisted(refreshToken);
+    return this.tokensProvider.refreshTokens(refreshToken);
   }
 }
