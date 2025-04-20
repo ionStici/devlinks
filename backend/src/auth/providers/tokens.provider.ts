@@ -56,7 +56,7 @@ export class TokensProvider {
         issuer: this.issuer,
       });
 
-      const user = await this.usersService.findUserById(sub);
+      const user = await this.usersService.findUser({ id: sub });
       return await this.generateTokens(user);
     } catch {
       throw new UnauthorizedException('invalid Credentials.');

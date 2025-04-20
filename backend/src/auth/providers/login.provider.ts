@@ -17,7 +17,7 @@ export class LoginProvider {
   ) {}
 
   public async login(loginDto: LoginDto) {
-    const user = await this.usersService.findUserByEmail(loginDto.email);
+    const user = await this.usersService.findUser({ email: loginDto.email });
 
     let doesPasswordMatch: boolean = false;
 
