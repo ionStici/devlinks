@@ -6,6 +6,7 @@ import { CreateEmptyProfileProvider } from './providers/create-empty-profile.pro
 import { ProfilesService } from './providers/profiles.service';
 import { UpdateLinksProvider } from './providers/update-links.provider';
 import { UpdateProfileProvider } from './providers/update-profile.provider';
+import { FindProfileProvider } from './providers/find-profile.provider';
 
 @Module({
   controllers: [ProfilesController],
@@ -15,6 +16,7 @@ import { UpdateProfileProvider } from './providers/update-profile.provider';
     CreateEmptyProfileProvider,
     UpdateProfileProvider,
     UpdateLinksProvider,
+    FindProfileProvider,
   ],
   exports: [ProfilesService],
 })

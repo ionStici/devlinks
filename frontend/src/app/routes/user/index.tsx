@@ -1,13 +1,30 @@
+import { Spinner } from '@/components/ui/spinner';
+import { FetchUserError } from '@/features/user/fetch-user-error';
+import { useFindProfile } from '@/features/user/use-find-profile-api';
 import { useLocation } from 'react-router-dom';
-import { UserNotFound } from '@/features/user/user-not-found';
 import { NotFoundRoute } from '../not-found';
+import { UserMain } from '@/features/user/user-main';
 
 export function User() {
   const { pathname } = useLocation();
+  const username = pathname.replace('/@', '');
+  const { data: user, isPending, error } = useFindProfile(username);
 
-  if (!pathname.startsWith('/@')) return <NotFoundRoute />;
+  if (!pathname.startsWith('/@') || !username) {
+    return <NotFoundRoute />;
+  }
 
-  if (!'user') return <UserNotFound />;
+  if (isPending) {
+    return <Spinner />;
+  }
 
-  return <div>User</div>;
+  if (error) {
+    return <FetchUserError username={username} errorMessage={error.message} />;
+  }
+
+  if (user) {
+    return <UserMain user={user} />;
+  }
+
+  return <NotFoundRoute />;
 }

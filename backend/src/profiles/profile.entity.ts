@@ -33,12 +33,12 @@ export class Profile {
   image: string;
 
   @Column({
-    type: 'varchar',
-    array: true,
-    default: '{}',
+    type: 'simple-json',
+    nullable: false,
+    default: '[]',
   })
   links: string[];
 
-  @OneToOne(() => User, (user) => user.profile)
+  @OneToOne(() => User, (user) => user.profile, { nullable: false })
   user: User;
 }

@@ -40,6 +40,6 @@ export class User {
   deletedAt: string;
 
   @JoinColumn()
-  @OneToOne(() => Profile, (profile) => profile.user)
+  @OneToOne(() => Profile, (profile) => profile.user, { nullable: false })
   profile: Profile;
 }

@@ -7,6 +7,7 @@ import { Profile } from '../profile.entity';
 import { CreateEmptyProfileProvider } from './create-empty-profile.provider';
 import { UpdateLinksProvider } from './update-links.provider';
 import { UpdateProfileProvider } from './update-profile.provider';
+import { FindProfileProvider } from './find-profile.provider';
 
 @Injectable()
 export class ProfilesService {
@@ -16,14 +17,19 @@ export class ProfilesService {
     private readonly createEmptyProfileProvider: CreateEmptyProfileProvider,
     private readonly updateProfileProvider: UpdateProfileProvider,
     private readonly updateLinksProvider: UpdateLinksProvider,
+    private readonly findProfileProvider: FindProfileProvider,
   ) {}
 
-  public async createEmptyProfile() {
+  public findProfile(username: string) {
+    return this.findProfileProvider.findProfile(username);
+  }
+
+  public createEmptyProfile() {
     return this.createEmptyProfileProvider.createEmptyProfile();
   }
 
-  public async getProfileByEmail(email: string) {
-    return await this.profileRepository.findOne({ where: { user: { email } } });
+  public getProfileByEmail(email: string) {
+    return this.profileRepository.findOne({ where: { user: { email } } });
   }
 
   public updateProfile(email: string, patchProfileDto: PatchProfileDto) {

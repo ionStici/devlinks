@@ -61,7 +61,7 @@ export class AuthController {
     @Req() request: Request,
     @Res({ passthrough: true }) response: Response,
   ) {
-    const refreshToken = request.cookies?.refreshToken;
+    const refreshToken = request.cookies?.[this.REFRESH_TOKEN_COOKIE];
     const tokens = await this.authService.refreshTokens(refreshToken);
     this.setTokenCookies(response, tokens.refreshToken);
     return { accessToken: tokens.accessToken };
@@ -80,17 +80,18 @@ export class AuthController {
     return { accessToken: tokens.accessToken };
   }
 
+  // LOGOUT
+  @Post('logout')
+  async logout(@Res({ passthrough: true }) response: Response) {
+    this.clearTokenCookies(response);
+    return { message: 'Logged out successfully' };
+  }
+
   // GET PROFILE
   @Get('me')
   @HttpCode(HttpStatus.OK)
   async getActiveProfile(@ActiveUser() user: ActiveUserData) {
     return await this.authService.getActiveProfile(user.email);
-  }
-
-  // LOGOUT
-  @Post('logout')
-  async logout(@Res({ passthrough: true }) response: Response) {
-    this.clearTokenCookies(response);
   }
 
   // HELPER
