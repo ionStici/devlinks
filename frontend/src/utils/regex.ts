@@ -23,3 +23,6 @@ export const usernameRegex =
 // ^[a-zA-Z0-9]+ and *$ → Cannot start/end with hyphen
 // (-[a-zA-Z0-9]+)* → Hyphens only between alphanumeric characters
 // [a-zA-Z] → Both cases allowed
+
+// URL REGEX
+export const urlRegex = /^(https?:\/\/)[^\s/$.?#].[^\s]{1,1020}$/i;

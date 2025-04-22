@@ -7,20 +7,23 @@ import { Heading } from '@/features/editor/heading';
 import { ProfileInput } from '@/features/editor/profile-input';
 import { SaveButton } from '@/features/editor/save-button';
 import { UploadPicture } from '@/features/editor/upload-picture';
+import { UploadPictureModal } from '@/features/editor/upload-picture-modal';
 import { useAuth, useUser } from '@/lib/auth';
 import { ProfileFormValues } from '@/types/profile-form-values';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
 export function ProfileRoute() {
   const [pending, setPending] = useState<boolean>(false);
-  const [newImage, setNewImage] = useState<File | null>(null);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const { setUser } = useAuth();
 
   const {
     user: { username, name, about, image },
   } = useUser();
+
+  const [newImage, setNewImage] = useState<string>(image);
 
   const { register, handleSubmit, formState, clearErrors } = useForm({
     mode: 'onSubmit',
@@ -33,11 +36,12 @@ export function ProfileRoute() {
     if (pending) return;
     setPending(true);
 
-    const profileData = { ...data, ...(newImage ? { image: newImage } : {}) };
+    const profileData = { ...data, image: newImage };
 
     try {
       const { user, message } = await updateProfile(profileData);
       setUser(user);
+      setNewImage('');
       toast.success(message);
     } catch (error) {
       toast.error(String(error));
@@ -46,9 +50,12 @@ export function ProfileRoute() {
     setPending(false);
   }
 
-  function clearError(name: 'username' | 'name' | 'about') {
-    clearErrors(name);
-  }
+  const clearError = (name: 'username' | 'name' | 'about') => clearErrors(name);
+
+  useEffect(() => {
+    if (isOpen) document.documentElement.classList.add('overflow-hidden');
+    return () => document.documentElement.classList.remove('overflow-hidden');
+  }, [isOpen]);
 
   return (
     <EditorLayout>
@@ -60,11 +67,23 @@ export function ProfileRoute() {
         title="Profile Details"
         text="Add your details to create a personal touch to your profile."
       />
+      {isOpen && (
+        <UploadPictureModal
+          close={() => setIsOpen(false)}
+          currImage={image}
+          newImage={newImage}
+          setNewImage={(img: string) => setNewImage(img)}
+        />
+      )}
       <form
         className="flex flex-col flex-grow"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <UploadPicture imgSrc={image} setNewImage={setNewImage} />
+        <UploadPicture
+          openModal={() => setIsOpen(true)}
+          currImage={image}
+          newImage={newImage}
+        />
         <div className="flex flex-col gap-3 mx-6 md:mx-10 p-5 bg-light_grey rounded-xl">
           <ProfileInput
             type="text"

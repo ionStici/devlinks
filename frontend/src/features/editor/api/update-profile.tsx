@@ -5,14 +5,12 @@ interface ProfileDataType {
   username?: string;
   name?: string;
   about?: string;
-  image?: File;
+  image?: string;
 }
 
 export async function updateProfile(profileData: ProfileDataType) {
   try {
-    const response = await api.patch('/profile/update-profile', profileData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-    });
+    const response = await api.patch('/profile/update-profile', profileData);
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {

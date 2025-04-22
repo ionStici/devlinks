@@ -1,9 +1,12 @@
 import { User } from 'src/users/user.entity';
-import { Column, Entity, OneToOne, PrimaryColumn } from 'typeorm';
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Profile {
-  @PrimaryColumn({
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
+  @Column({
     type: 'varchar',
     length: 16,
     unique: true,
