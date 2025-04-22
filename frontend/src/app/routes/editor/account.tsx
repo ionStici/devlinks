@@ -2,6 +2,18 @@ import { EditorLayout } from '@/components/layout/editor-layout';
 import { Head } from '@/components/seo';
 import { AccountButtons } from '@/features/editor/account-buttons';
 import { AccountHeading } from '@/features/editor/account-heading';
+import {
+  changeEmailApi,
+  ChangeEmailDto,
+} from '@/features/editor/api/change-email';
+import {
+  changePasswordApi,
+  ChangePasswordDto,
+} from '@/features/editor/api/change-password';
+import {
+  deleteAccountApi,
+  DeleteAccountDto,
+} from '@/features/editor/api/delete-account';
 import { ChangeEmailInputs } from '@/features/editor/change-email-inputs';
 import { ChangePasswordInputs } from '@/features/editor/change-password-inputs';
 import { DeleteAccountInputs } from '@/features/editor/delete-account-inputs';
@@ -12,34 +24,61 @@ import {
   SettingsButtons,
   SettingsEnum,
 } from '@/features/editor/settings-buttons';
+import { useAuth, useUser } from '@/lib/auth';
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { FieldValues, useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
 
 export function AccountRoute() {
+  const { user } = useUser();
+  const { setUser } = useAuth();
+  const { email } = user;
+
   const [activeSetting, setActiveSetting] =
     useState<SettingsEnum>('change-email');
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    clearErrors,
-    reset,
-  } = useForm({ mode: 'onSubmit', reValidateMode: 'onBlur' });
+  const { register, handleSubmit, formState, clearErrors, reset } = useForm({
+    mode: 'onSubmit',
+    reValidateMode: 'onBlur',
+  });
+  const { errors } = formState;
 
   function clearError(name: string) {
     clearErrors(name);
   }
 
-  function onSubmit(data: unknown) {
-    if (activeSetting === 'change-email') {
-      console.log(data);
-    }
-    if (activeSetting === 'change-password') {
-      console.log(data);
-    }
-    if (activeSetting === 'delete-account') {
-      console.log(data);
+  async function onSubmit(data: FieldValues) {
+    try {
+      if (activeSetting === 'change-email') {
+        const res = await changeEmailApi({
+          email,
+          newEmail: data.email,
+          password: data.password,
+        } as ChangeEmailDto);
+
+        toast.success(res.message);
+        setUser(res.user);
+        reset();
+      }
+
+      if (activeSetting === 'change-password') {
+        const res = await changePasswordApi({
+          email,
+          password: data.password,
+          newPassword: data['new-password'],
+        } as ChangePasswordDto);
+        toast.success(res.message);
+      }
+
+      if (activeSetting === 'delete-account') {
+        const res = await deleteAccountApi({
+          email,
+          password: data.password,
+        } as DeleteAccountDto);
+        toast.success(res.message);
+      }
+    } catch (error) {
+      toast.error(String(error));
     }
   }
 
@@ -65,6 +104,7 @@ export function AccountRoute() {
         <div className="mx-6 md:mx-10 space-y-5">
           {activeSetting === 'change-email' && (
             <ChangeEmailInputs
+              email={email}
               register={register}
               clearError={clearError}
               errors={errors}

@@ -6,9 +6,21 @@ import { CreateUserProvider } from './providers/create-user.provider';
 import { FindUserProvider } from './providers/find-user.provider';
 import { UsersService } from './providers/users.service';
 import { User } from './user.entity';
+import { ChangeEmailProvider } from './providers/change-email.provider';
+import { ChangePasswordProvider } from './providers/change-password.provider';
+import { DeleteAccountProvider } from './providers/delete-account.provider';
+import { UsersController } from './users.controller';
 
 @Module({
-  providers: [UsersService, CreateUserProvider, FindUserProvider],
+  controllers: [UsersController],
+  providers: [
+    UsersService,
+    CreateUserProvider,
+    FindUserProvider,
+    ChangeEmailProvider,
+    ChangePasswordProvider,
+    DeleteAccountProvider,
+  ],
   imports: [
     forwardRef(() => AuthModule),
     ProfilesModule,
