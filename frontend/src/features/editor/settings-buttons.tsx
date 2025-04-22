@@ -1,5 +1,4 @@
 import { IconEmail, IconLock, IconTrash } from '@/assets/svg-icons';
-import { type Dispatch, type SetStateAction } from 'react';
 
 export type SettingsEnum =
   | 'change-email'
@@ -8,7 +7,7 @@ export type SettingsEnum =
 
 type SettingsButtonsProps = {
   activeSetting: SettingsEnum;
-  setActiveSetting: Dispatch<SetStateAction<SettingsEnum>>;
+  setActiveSetting: (flag: SettingsEnum) => void;
 };
 
 export function SettingsButtons({
@@ -25,7 +24,7 @@ export function SettingsButtons({
             onClick={() => setActiveSetting(flag)}
             key={text}
             className={`
-              flex-col text-center sm:flex-row 
+              flex-col text-center sm:flex-row text-sm xs:text-base
               max-w-[200px] w-full flex gap-1 items-center justify-center p-1 py-2 first:rounded-l-md last:rounded-r-md text-purple border first:border-r-0 last:border-l-0 border-purple sm:text-left 
               transition duration-200 focus:outline-none ring-1 ring-transparent focus:bg-white
               focus:ring-purple focus:rounded-md focus:scale-[1.05] focus:!border focus:z-10

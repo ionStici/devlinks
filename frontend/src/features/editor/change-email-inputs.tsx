@@ -1,17 +1,13 @@
 import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form';
 import { Input } from '../auth/input';
 
-type ChangeEmailInputsProps = {
+type Props = {
   register: UseFormRegister<FieldValues>;
   clearError: (name: string) => void;
   errors: FieldErrors;
 };
 
-export function ChangeEmailInputs({
-  register,
-  clearError,
-  errors,
-}: ChangeEmailInputsProps) {
+export function ChangeEmailInputs({ register, clearError, errors }: Props) {
   return (
     <>
       <Input

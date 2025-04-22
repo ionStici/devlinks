@@ -1,3 +1,4 @@
+import { Transform } from 'class-transformer';
 import {
   ArrayMaxSize,
   IsArray,
@@ -12,6 +13,9 @@ export class CreateProfileDto {
     message:
       'Username can contain letters, numbers, and hyphens. Cannot start/end with a hyphen. Length between 4-16 characters.',
   })
+  @Transform(({ value }) =>
+    typeof value === 'string' ? value.toLowerCase() : value,
+  )
   username: string;
 
   @IsOptional()

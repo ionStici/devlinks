@@ -1,14 +1,18 @@
 import { EditorLayout } from '@/components/layout/editor-layout';
 import { Head } from '@/components/seo';
 import { AccountButtons } from '@/features/editor/account-buttons';
+import { AccountHeading } from '@/features/editor/account-heading';
+import { ChangeEmailInputs } from '@/features/editor/change-email-inputs';
+import { ChangePasswordInputs } from '@/features/editor/change-password-inputs';
+import { DeleteAccountInputs } from '@/features/editor/delete-account-inputs';
 import { Footer } from '@/features/editor/footer';
 import { Heading } from '@/features/editor/heading';
 import { SaveButton } from '@/features/editor/save-button';
-import { SettingsButtons } from '@/features/editor/settings-buttons';
+import {
+  SettingsButtons,
+  SettingsEnum,
+} from '@/features/editor/settings-buttons';
 import { useState } from 'react';
-import { SettingsEnum } from '@/features/editor/settings-buttons';
-import { ChangeEmailInputs } from '@/features/editor/change-email-inputs';
-import { AccountHeading } from '@/features/editor/account-heading';
 import { useForm } from 'react-hook-form';
 
 export function AccountRoute() {
@@ -20,6 +24,7 @@ export function AccountRoute() {
     handleSubmit,
     formState: { errors },
     clearErrors,
+    reset,
   } = useForm({ mode: 'onSubmit', reValidateMode: 'onBlur' });
 
   function clearError(name: string) {
@@ -27,7 +32,15 @@ export function AccountRoute() {
   }
 
   function onSubmit(data: unknown) {
-    console.log(data);
+    if (activeSetting === 'change-email') {
+      console.log(data);
+    }
+    if (activeSetting === 'change-password') {
+      console.log(data);
+    }
+    if (activeSetting === 'delete-account') {
+      console.log(data);
+    }
   }
 
   return (
@@ -39,7 +52,10 @@ export function AccountRoute() {
       />
       <SettingsButtons
         activeSetting={activeSetting}
-        setActiveSetting={setActiveSetting}
+        setActiveSetting={(flag: SettingsEnum) => {
+          setActiveSetting(flag);
+          reset();
+        }}
       />
       <AccountHeading activeSetting={activeSetting} />
       <form
@@ -49,6 +65,20 @@ export function AccountRoute() {
         <div className="mx-6 md:mx-10 space-y-5">
           {activeSetting === 'change-email' && (
             <ChangeEmailInputs
+              register={register}
+              clearError={clearError}
+              errors={errors}
+            />
+          )}
+          {activeSetting === 'change-password' && (
+            <ChangePasswordInputs
+              register={register}
+              clearError={clearError}
+              errors={errors}
+            />
+          )}
+          {activeSetting === 'delete-account' && (
+            <DeleteAccountInputs
               register={register}
               clearError={clearError}
               errors={errors}
