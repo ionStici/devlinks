@@ -3,10 +3,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Profile } from './profile.entity';
 import { ProfilesController } from './profiles.controller';
 import { CreateEmptyProfileProvider } from './providers/create-empty-profile.provider';
+import { FindProfileProvider } from './providers/find-profile.provider';
 import { ProfilesService } from './providers/profiles.service';
 import { UpdateLinksProvider } from './providers/update-links.provider';
 import { UpdateProfileProvider } from './providers/update-profile.provider';
-import { FindProfileProvider } from './providers/find-profile.provider';
 
 @Module({
   controllers: [ProfilesController],

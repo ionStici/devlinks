@@ -46,13 +46,8 @@ export class ChangeEmailProvider {
         throw new ConflictException('Email is already in use.');
       }
 
-      if (
-        error instanceof NotFoundException ||
-        error instanceof BadRequestException
-      ) {
-        throw error;
-      }
-
+      if (error instanceof NotFoundException) throw error;
+      if (error instanceof BadRequestException) throw error;
       throw new InternalServerErrorException('Operation failed.');
     }
   }

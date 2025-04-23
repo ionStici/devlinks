@@ -5,9 +5,9 @@ import { PatchLinksDto } from '../dtos/patch-links.dto';
 import { PatchProfileDto } from '../dtos/patch-profile.dto';
 import { Profile } from '../profile.entity';
 import { CreateEmptyProfileProvider } from './create-empty-profile.provider';
+import { FindProfileProvider } from './find-profile.provider';
 import { UpdateLinksProvider } from './update-links.provider';
 import { UpdateProfileProvider } from './update-profile.provider';
-import { FindProfileProvider } from './find-profile.provider';
 
 @Injectable()
 export class ProfilesService {

@@ -40,6 +40,10 @@ export class User {
   deletedAt: string;
 
   @JoinColumn()
-  @OneToOne(() => Profile, (profile) => profile.user, { nullable: false })
+  @OneToOne(() => Profile, (profile) => profile.user, {
+    nullable: false,
+    cascade: ['remove'],
+    onDelete: 'CASCADE',
+  })
   profile: Profile;
 }

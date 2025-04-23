@@ -31,7 +31,7 @@ import toast from 'react-hot-toast';
 
 export function AccountRoute() {
   const { user } = useUser();
-  const { setUser } = useAuth();
+  const { setUser, logout } = useAuth();
   const { email } = user;
 
   const [activeSetting, setActiveSetting] =
@@ -67,7 +67,9 @@ export function AccountRoute() {
           password: data.password,
           newPassword: data['new-password'],
         } as ChangePasswordDto);
+
         toast.success(res.message);
+        reset();
       }
 
       if (activeSetting === 'delete-account') {
@@ -75,7 +77,9 @@ export function AccountRoute() {
           email,
           password: data.password,
         } as DeleteAccountDto);
+
         toast.success(res.message);
+        logout();
       }
     } catch (error) {
       toast.error(String(error));
