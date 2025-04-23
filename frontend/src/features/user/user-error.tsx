@@ -5,7 +5,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 
 type Props = { username: string; errorMessage: string };
 
-export function FetchUserError({ username, errorMessage }: Props) {
+export function UserError({ username, errorMessage }: Props) {
   const [usernameInput, setUsernameInput] = useState(username);
   const navigate = useNavigate();
 
