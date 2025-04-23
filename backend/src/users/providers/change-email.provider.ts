@@ -1,54 +1,40 @@
-import {
-  BadRequestException,
-  ConflictException,
-  Injectable,
-  InternalServerErrorException,
-  NotFoundException,
-} from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { HashingProvider } from 'src/auth/providers/hashing.provider';
 import { Repository } from 'typeorm';
 import { ChangeEmailDto } from '../dtos/change-email.dto';
 import { User } from '../user.entity';
+import { HelpersProvider } from './helpers.provider';
 
 @Injectable()
 export class ChangeEmailProvider {
   constructor(
     @InjectRepository(User)
     private readonly userRepo: Repository<User>,
-    private readonly hasher: HashingProvider,
+    private readonly helpers: HelpersProvider,
   ) {}
 
   async changeEmail(dto: ChangeEmailDto) {
-    try {
-      const user = await this.userRepo.findOne({
-        where: { email: dto.email },
-        relations: ['profile'],
+    return this.helpers.wrapErrors(async () => {
+      const user = await this.helpers.getAndValidate({
+        email: dto.email,
+        password: dto.password,
+        opts: { withProfile: true },
       });
 
-      if (!user) {
-        throw new NotFoundException('User not found');
-      }
-
-      if (!(await this.hasher.comparePassword(dto.password, user.password))) {
-        throw new BadRequestException('Incorrect password.');
-      }
-
       user.email = dto.newEmail ?? user.email;
-      const updatedUser = await this.userRepo.save(user);
 
-      return {
-        user: { email: updatedUser.email, ...user.profile },
-        message: 'Email address successfully updated!',
-      };
-    } catch (error) {
-      if (error.code === 'SQLITE_CONSTRAINT_UNIQUE') {
-        throw new ConflictException('Email is already in use.');
+      try {
+        const updated = await this.userRepo.save(user);
+
+        return {
+          user: { email: updated.email, ...user.profile },
+          message: 'Email address successfully updated!',
+        };
+      } catch (error) {
+        if (error.code === 'SQLITE_CONSTRAINT_UNIQUE')
+          throw new ConflictException('Try another email.');
+        throw error;
       }
-
-      if (error instanceof NotFoundException) throw error;
-      if (error instanceof BadRequestException) throw error;
-      throw new InternalServerErrorException('Operation failed.');
-    }
+    });
   }
 }

@@ -10,6 +10,7 @@ import { FindUserProvider } from './providers/find-user.provider';
 import { UsersService } from './providers/users.service';
 import { User } from './user.entity';
 import { UsersController } from './users.controller';
+import { HelpersProvider } from './providers/helpers.provider';
 
 @Module({
   controllers: [UsersController],
@@ -20,6 +21,7 @@ import { UsersController } from './users.controller';
     ChangeEmailProvider,
     ChangePasswordProvider,
     DeleteAccountProvider,
+    HelpersProvider,
   ],
   imports: [
     forwardRef(() => AuthModule),

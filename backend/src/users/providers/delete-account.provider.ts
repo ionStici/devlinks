@@ -1,49 +1,33 @@
-import {
-  BadRequestException,
-  Injectable,
-  InternalServerErrorException,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { HashingProvider } from 'src/auth/providers/hashing.provider';
+import { Profile } from 'src/profiles/profile.entity';
 import { Repository } from 'typeorm';
 import { DeleteAccountDto } from '../dtos/delete-account.dto';
 import { User } from '../user.entity';
-import { Profile } from 'src/profiles/profile.entity';
+import { HelpersProvider } from './helpers.provider';
 
 @Injectable()
 export class DeleteAccountProvider {
   constructor(
     @InjectRepository(User)
     private readonly userRepo: Repository<User>,
-    private readonly hasher: HashingProvider,
+    private readonly helpers: HelpersProvider,
   ) {}
 
   async deleteAccount(dto: DeleteAccountDto) {
-    try {
-      const user = await this.userRepo.findOne({
-        where: { email: dto.email },
-        relations: ['profile'],
+    return this.helpers.wrapErrors(async () => {
+      const user = await this.helpers.getAndValidate({
+        email: dto.email,
+        password: dto.password,
+        opts: { withProfile: true },
       });
 
-      if (!user) {
-        throw new NotFoundException('User not found');
-      }
-
-      if (!(await this.hasher.comparePassword(dto.password, user.password))) {
-        throw new BadRequestException('Incorrect password.');
-      }
-
-      await this.userRepo.manager.transaction(async (manager) => {
-        await manager.delete(Profile, { id: user.profile.id });
-        await manager.delete(User, { id: user.id });
+      await this.userRepo.manager.transaction(async (m) => {
+        await m.delete(Profile, { id: user.profile.id });
+        await m.delete(User, { id: user.id });
       });
 
       return { message: 'Account successfully and permanently deleted!' };
-    } catch (error) {
-      if (error instanceof NotFoundException) throw error;
-      if (error instanceof BadRequestException) throw error;
-      throw new InternalServerErrorException('Operation failed.');
-    }
+    });
   }
 }

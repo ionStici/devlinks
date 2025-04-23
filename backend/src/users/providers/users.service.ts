@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { RegisterDto } from 'src/auth/dtos/register.dto';
-import { CreateUserProvider } from './create-user.provider';
-import { FindUserDto, FindUserProvider } from './find-user.provider';
-import { ChangeEmailProvider } from './change-email.provider';
-import { ChangePasswordProvider } from './change-password.provider';
-import { DeleteAccountProvider } from './delete-account.provider';
 import { ChangeEmailDto } from '../dtos/change-email.dto';
 import { ChangePasswordDto } from '../dtos/change-password.dto';
 import { DeleteAccountDto } from '../dtos/delete-account.dto';
+import { ChangeEmailProvider } from './change-email.provider';
+import { ChangePasswordProvider } from './change-password.provider';
+import { CreateUserProvider } from './create-user.provider';
+import { DeleteAccountProvider } from './delete-account.provider';
+import { FindUserDto, FindUserProvider } from './find-user.provider';
 
 @Injectable()
 export class UsersService {
