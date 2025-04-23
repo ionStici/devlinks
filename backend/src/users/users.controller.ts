@@ -18,7 +18,7 @@ export class UsersController {
     return this.usersService.changePassword(dto);
   }
 
-  @Delete()
+  @Delete('account')
   deleteAccount(@Body() dto: DeleteAccountDto) {
     return this.usersService.deleteAccount(dto);
   }

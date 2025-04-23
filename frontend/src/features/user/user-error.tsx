@@ -3,9 +3,9 @@ import Logo from '@/components/ui/logo';
 import { FormEvent, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 
-type Props = { username: string; errorMessage: string };
+type Props = { username: string; message: string };
 
-export function UserError({ username, errorMessage }: Props) {
+export function UserError({ username, message }: Props) {
   const [usernameInput, setUsernameInput] = useState(username);
   const navigate = useNavigate();
 
@@ -34,12 +34,12 @@ export function UserError({ username, errorMessage }: Props) {
         <div className="sm:bg-white sm:p-10 sm:rounded-xl sm:shadow-section">
           <section className="flex flex-col items-center justify-center text-center">
             <h1 className="text-2xl md:text-3xl font-semibold text-dark-grey mb-5 border-b-2 border-red px-2">
-              {errorMessage.includes('User not found') ? errorMessage : 'Error'}
+              {message.includes('User not found') ? message : 'Error'}
             </h1>
             <p className="text-grey text-xl mb-10">
-              {errorMessage.includes('User not found')
+              {message.includes('User not found')
                 ? 'Please double-check the input and try again!'
-                : errorMessage}
+                : message}
             </p>
 
             <form onSubmit={onSubmit} className="w-full">

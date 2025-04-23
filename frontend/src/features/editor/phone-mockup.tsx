@@ -2,11 +2,12 @@ import { useUser } from '@/lib/auth';
 import illusPhoneMockup from '@/assets/illustrations/illustration-phone-mockup.svg';
 import { PlatformButton } from '@/components/ui/platform-button';
 import { platforms } from '@/data/platforms';
+import { useRef } from 'react';
 
 export function PhoneMockup() {
-  const {
-    user: { name, about, image, links },
-  } = useUser();
+  const imgBox = useRef<HTMLDivElement>(null);
+  const { user } = useUser();
+  const { name, about, image, links } = user;
 
   return (
     <div className="relative">
@@ -19,13 +20,17 @@ export function PhoneMockup() {
       />
 
       {image && (
-        <div className="absolute left-[50%] translate-x-[-50%] top-[60px] size-[104px] border-4 border-purple rounded-full">
+        <div
+          ref={imgBox}
+          className="absolute left-[50%] translate-x-[-50%] top-[60px] size-[104px] border-4 border-purple rounded-full"
+        >
           <img
             src={image}
             alt={`${name} Profile Picture`}
             className="object-cover rounded-full size-full"
             width={96}
             height={96}
+            onError={() => imgBox.current?.classList.add('hidden')}
           />
         </div>
       )}

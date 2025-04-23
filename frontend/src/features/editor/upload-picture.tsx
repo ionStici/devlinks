@@ -14,6 +14,7 @@ export function UploadPicture({
   newImage,
 }: UploadPictureProps) {
   const [src, setSrc] = useState<string | null>(null);
+  const [loadError, setLoadError] = useState(false);
 
   useEffect(() => {
     if (newImage) setSrc(newImage);
@@ -35,7 +36,7 @@ export function UploadPicture({
         onClick={openModal}
         className="block relative w-[193px] h-[193px] mb-6 cursor-pointer sm:flex-shrink-0 sm:mr-6 sm:mb-0 rounded-xl transition duration-200 focus:outline-none ring-2 ring-transparent ring-offset-2 focus:ring-purple-hover hover:ring-purple-hover"
       >
-        {src && (
+        {src && !loadError && (
           <img
             src={src}
             onError={handleError}
@@ -43,16 +44,18 @@ export function UploadPicture({
             width={193}
             height={193}
             className="size-[193px] rounded-xl object-cover"
+            onErrorCapture={() => setLoadError(true)}
           />
         )}
 
         <div
           className={`absolute top-0 left-0 size-full flex flex-col items-center justify-center rounded-xl text-purple bg-purple-light 
-          ${src ? '!bg-black/50 !text-white' : ''}`}
+          ${src && !loadError ? '!bg-black/50 !text-white' : ''}`}
         >
           <ReactSVG
             src={iconUpload}
-            className={`mb-2 ${src ? 'fill-white' : 'fill-purple'}`}
+            className={`mb-2 
+            ${src && !loadError ? 'fill-white' : 'fill-purple'}`}
             beforeInjection={(svg) => {
               svg.setAttribute('aria-label', 'Upload Image');
             }}

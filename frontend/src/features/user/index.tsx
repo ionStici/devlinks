@@ -1,39 +1,22 @@
 import { NotFoundRoute } from '@/app/routes/not-found';
 import { Spinner } from '@/components/ui/spinner';
-import { User as UserType } from '@/types/user';
 import { useLocation } from 'react-router-dom';
-import { HeadWrapper } from './head-wrapper';
-import { Links } from './links';
-import { NameAbout } from './name-about';
-import { ProfilePicture } from './profile-picture';
-import { SectionWrapper } from './section-wrapper';
 import { useFindProfile } from './use-find-profile-api';
 import { UserError } from './user-error';
+import { UserMain } from './user-main';
 
 export function User() {
   const { pathname } = useLocation();
-  const un = pathname.replace('/@', '');
-  const { data: user, isPending, error } = useFindProfile(un);
+  const username = pathname.replace('/@', '');
+  const { data: user, isPending, error } = useFindProfile(username);
 
-  if (!pathname.startsWith('/@') || !un) return <NotFoundRoute />;
+  if (!pathname.startsWith('/@') || !username) return <NotFoundRoute />;
 
   if (isPending) return <Spinner />;
 
-  if (error) return <UserError username={un} errorMessage={error.message} />;
+  if (error) return <UserError username={username} message={error.message} />;
 
-  const { username, name, about, image, links } = user as UserType;
-
-  if (user) {
-    return (
-      <HeadWrapper username={username} name={name} about={about}>
-        <SectionWrapper>
-          <ProfilePicture image={image} username={username} />
-          <NameAbout username={username} name={name} about={about} />
-          <Links links={links} />
-        </SectionWrapper>
-      </HeadWrapper>
-    );
-  }
+  if (user) return <UserMain user={user} />;
 
   return <NotFoundRoute />;
 }

@@ -22,7 +22,6 @@ import { AuthService } from './providers/auth.service';
 @Controller('auth')
 export class AuthController {
   private readonly REFRESH_TOKEN_COOKIE = 'refresh_token';
-  private readonly refreshTokenTtl: number;
   private readonly cookieOptions: CookieOptions;
 
   constructor(
@@ -30,16 +29,15 @@ export class AuthController {
     private readonly jwtConfiguration: ConfigType<typeof jwtConfig>,
     private readonly authService: AuthService,
   ) {
-    this.refreshTokenTtl = jwtConfiguration.refreshTokenTtl;
     this.cookieOptions = {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      maxAge: this.refreshTokenTtl * 1000,
+      sameSite: 'none',
+      path: '/auth/refresh',
+      maxAge: this.jwtConfiguration.refreshTokenTtl * 1000,
     } as const;
   }
 
-  // LOGIN
   @Public()
   @Post('login')
   @HttpCode(HttpStatus.OK)
@@ -53,7 +51,6 @@ export class AuthController {
     return { accessToken: tokens.accessToken };
   }
 
-  // REFRESH
   @Public()
   @Post('refresh')
   @HttpCode(HttpStatus.OK)
@@ -67,7 +64,6 @@ export class AuthController {
     return { accessToken: tokens.accessToken };
   }
 
-  // REGISTER
   @Public()
   @Post('register')
   @HttpCode(HttpStatus.OK)
@@ -80,21 +76,18 @@ export class AuthController {
     return { accessToken: tokens.accessToken };
   }
 
-  // LOGOUT
   @Post('logout')
   async logout(@Res({ passthrough: true }) response: Response) {
     this.clearTokenCookies(response);
     return { message: 'Logged out successfully' };
   }
 
-  // GET PROFILE
   @Get('me')
   @HttpCode(HttpStatus.OK)
   async getActiveProfile(@ActiveUser() user: ActiveUserData) {
     return await this.authService.getActiveProfile(user.email);
   }
 
-  // HELPER
   private setTokenCookies(response: Response, refreshToken: string): void {
     response.cookie(
       this.REFRESH_TOKEN_COOKIE,
@@ -103,7 +96,6 @@ export class AuthController {
     );
   }
 
-  // HELPER
   private clearTokenCookies(response: Response): void {
     const refreshOptions = { ...this.cookieOptions, maxAge: 0 };
     response.clearCookie(this.REFRESH_TOKEN_COOKIE, refreshOptions);

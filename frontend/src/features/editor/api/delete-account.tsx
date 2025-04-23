@@ -8,7 +8,7 @@ export type DeleteAccountDto = {
 
 export async function deleteAccountApi(data: DeleteAccountDto) {
   try {
-    const response = await api.delete('/users', { data });
+    const response = await api.delete('/users/account', { data });
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {

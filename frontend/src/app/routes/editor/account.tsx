@@ -33,6 +33,7 @@ export function AccountRoute() {
   const { user } = useUser();
   const { setUser, logout } = useAuth();
   const { email } = user;
+  const [pending, setPending] = useState(false);
 
   const [activeSetting, setActiveSetting] =
     useState<SettingsEnum>('change-email');
@@ -48,6 +49,9 @@ export function AccountRoute() {
   }
 
   async function onSubmit(data: FieldValues) {
+    if (pending) return;
+    setPending(true);
+
     try {
       if (activeSetting === 'change-email') {
         const res = await changeEmailApi({
@@ -83,6 +87,8 @@ export function AccountRoute() {
       }
     } catch (error) {
       toast.error(String(error));
+    } finally {
+      setPending(false);
     }
   }
 
@@ -131,7 +137,7 @@ export function AccountRoute() {
         </div>
         <Footer>
           <AccountButtons />
-          <SaveButton pending={false}>Save</SaveButton>
+          <SaveButton pending={pending}>Save</SaveButton>
         </Footer>
       </form>
     </EditorLayout>

@@ -25,12 +25,18 @@ export function ProfileRoute() {
 
   const [newImage, setNewImage] = useState<string>(image);
 
-  const { register, handleSubmit, formState, clearErrors } = useForm({
+  const { register, handleSubmit, formState, clearErrors, watch } = useForm({
     mode: 'onSubmit',
     reValidateMode: 'onSubmit',
     values: { username, name, about },
   });
   const { errors } = formState;
+
+  const newChanges =
+    watch('username') !== username ||
+    watch('name') !== name ||
+    watch('about') !== about ||
+    image !== newImage;
 
   async function onSubmit(data: ProfileFormValues) {
     if (pending) return;
@@ -41,7 +47,7 @@ export function ProfileRoute() {
     try {
       const { user, message } = await updateProfile(profileData);
       setUser(user);
-      setNewImage('');
+      setNewImage(user.image);
       toast.success(message);
     } catch (error) {
       toast.error(String(error));
@@ -63,10 +69,12 @@ export function ProfileRoute() {
         title="Edit Your Profile"
         description="Customize your devlinks profile by adding a profile picture, updating your name, and sharing more about yourself. View a live preview of your profile as you make changes."
       />
+
       <Heading
         title="Profile Details"
         text="Add your details to create a personal touch to your profile."
       />
+
       {isOpen && (
         <UploadPictureModal
           close={() => setIsOpen(false)}
@@ -113,9 +121,12 @@ export function ProfileRoute() {
             clearError={clearError}
           />
         </div>
+
         <Footer>
           <AccountButtons />
-          <SaveButton pending={pending}>Save</SaveButton>
+          <SaveButton pending={pending} newChanges={newChanges}>
+            Save
+          </SaveButton>
         </Footer>
       </form>
     </EditorLayout>
