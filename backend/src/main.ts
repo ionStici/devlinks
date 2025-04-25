@@ -2,9 +2,11 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import * as cookieParser from 'cookie-parser';
 import { AppModule } from './app.module';
+import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const config = app.get(ConfigService);
 
   app.useGlobalPipes(
     new ValidationPipe({
@@ -14,10 +16,12 @@ async function bootstrap() {
     }),
   );
 
-  app.enableCors({ origin: 'http://localhost:5173', credentials: true });
+  app.enableCors({
+    origin: config.get('JWT_TOKEN_AUDIENCE'),
+    credentials: true,
+  });
 
   app.use(cookieParser());
-
   await app.listen(3000);
 }
 bootstrap();

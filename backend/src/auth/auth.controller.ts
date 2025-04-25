@@ -32,8 +32,9 @@ export class AuthController {
     this.cookieOptions = {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'none',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
       path: '/auth/refresh',
+      domain: this.jwtConfiguration.audience.replace('https://', '.'),
       maxAge: this.jwtConfiguration.refreshTokenTtl * 1000,
     } as const;
   }
