@@ -34,7 +34,7 @@ export class AuthController {
       secure: process.env.NODE_ENV === 'production',
       sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'strict',
       path: '/auth/refresh',
-      // domain: this.jwtConfiguration.audience.replace('https://', '.'),
+      domain: this.jwtConfiguration.audience.replace('https://', '.'),
       maxAge: this.jwtConfiguration.refreshTokenTtl * 1000,
     } as const;
   }

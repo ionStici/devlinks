@@ -26,7 +26,6 @@ export class UpdateLinksProvider {
       }
 
       profile.links = patchLinksDto.links ?? profile.links;
-
       await this.profileRepository.save(profile);
 
       return {

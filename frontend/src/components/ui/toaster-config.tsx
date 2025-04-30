@@ -3,9 +3,9 @@ import { Toaster } from 'react-hot-toast';
 export function ToasterConfig() {
   return (
     <Toaster
-      position="bottom-center"
+      position="top-center"
       toastOptions={{
-        duration: 5000,
+        duration: 2500,
         style: {
           maxWidth: '650px',
           paddingLeft: '16px',

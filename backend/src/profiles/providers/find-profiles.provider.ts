@@ -16,7 +16,7 @@ export class FindProfilesProvider {
     });
 
     if (!profiles) {
-      throw new NotFoundException('No profiles found');
+      throw new NotFoundException('No data found');
     }
 
     return profiles.map((profile) => profile.username);

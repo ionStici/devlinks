@@ -42,7 +42,7 @@ export function UploadPictureModal({
   }
 
   return (
-    <div className="fixed z-10 top-0 left-0 w-full max-h-dvh min-h-dvh px-6 py-20 backdrop-blur-[2px] bg-zinc-900/50 dark:bg-black/25 overflow-y-scroll scrollbar-hide overflow-hidden">
+    <div className="fixed z-10 top-0 left-0 w-full max-h-dvh min-h-dvh px-6 py-20 backdrop-blur-[2px] bg-black/50 overflow-y-scroll scrollbar-hide overflow-hidden">
       <div className="w-full max-w-[450px] mx-auto bg-white rounded-lg p-5">
         <div className="flex items-start justify-between mb-2 xs:mb-4 text-dark-grey">
           <h1 className="text-xl xs:text-2xl font-semibold">Profile Picture</h1>

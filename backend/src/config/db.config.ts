@@ -4,7 +4,7 @@ import { Profile } from 'src/profiles/profile.entity';
 import { User } from 'src/users/user.entity';
 
 const ENV = process.env.NODE_ENV;
-const path = join(process.cwd(), 'src', 'data', 'db.sqlite');
+const path = ENV === 'production' ? '/var/data/db.sqlite' : join(process.cwd(), 'src', 'data', 'db.sqlite');
 
 export const dbConfig: TypeOrmModuleOptions = {
   type: 'better-sqlite3',

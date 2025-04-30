@@ -15,24 +15,20 @@ export class AuthService {
     private readonly tokensProvider: TokensProvider,
   ) {}
 
-  // Login
   public async login(loginDto: LoginDto) {
     return this.loginProvider.login(loginDto);
   }
 
-  // Register
   public async register(registerDro: RegisterDto) {
     const newUser = await this.usersService.createUser(registerDro);
     return await this.tokensProvider.generateTokens(newUser);
   }
 
-  // Get Profile
   public async getActiveProfile(email: string) {
     const profile = await this.profilesService.getProfileByEmail(email);
     return { email, ...profile };
   }
 
-  // Refresh Tokens
   public async refreshTokens(refreshToken: string) {
     return this.tokensProvider.refreshTokens(refreshToken);
   }

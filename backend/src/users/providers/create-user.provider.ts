@@ -39,7 +39,7 @@ export class CreateUserProvider {
     const newProfile = await this.profilesService.createEmptyProfile();
 
     let newUser = this.userRepository.create({
-      ...registerDto,
+      email: registerDto.email,
       password: await this.hashingProvider.hashPassword(registerDto.password),
       profile: newProfile,
     });

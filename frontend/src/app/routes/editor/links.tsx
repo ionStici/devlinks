@@ -10,13 +10,15 @@ import { useAuth, useUser } from '@/lib/auth';
 import { User } from '@/types/user';
 import { useState, type FormEvent } from 'react';
 import toast from 'react-hot-toast';
+import { useQueryClient } from '@tanstack/react-query';
 
 export function LinksRoute() {
   const [pending, setPending] = useState<boolean>(false);
   const { setUser } = useAuth();
+  const queryClient = useQueryClient();
 
   const {
-    user: { links },
+    user: { links, username },
   } = useUser();
 
   async function onSubmit(e: FormEvent<HTMLFormElement>) {
@@ -33,6 +35,8 @@ export function LinksRoute() {
         if (!prevData) return null;
         return { ...prevData, links: links };
       });
+
+      await queryClient.invalidateQueries({ queryKey: ['profile', username] });
 
       toast.success(message);
     } catch (error) {

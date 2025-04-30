@@ -13,11 +13,13 @@ import { ProfileFormValues } from '@/types/profile-form-values';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
+import { useQueryClient } from '@tanstack/react-query';
 
 export function ProfileRoute() {
   const [pending, setPending] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { setUser } = useAuth();
+  const queryClient = useQueryClient();
 
   const {
     user: { username, name, about, image },
@@ -48,6 +50,9 @@ export function ProfileRoute() {
       const { user, message } = await updateProfile(profileData);
       setUser(user);
       setNewImage(user.image);
+
+      await queryClient.invalidateQueries({ queryKey: ['profile', username] });
+
       toast.success(message);
     } catch (error) {
       toast.error(String(error));
