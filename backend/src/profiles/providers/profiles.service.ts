@@ -8,6 +8,7 @@ import { CreateEmptyProfileProvider } from './create-empty-profile.provider';
 import { FindProfileProvider } from './find-profile.provider';
 import { UpdateLinksProvider } from './update-links.provider';
 import { UpdateProfileProvider } from './update-profile.provider';
+import { FindProfilesProvider } from './find-profiles.provider';
 
 @Injectable()
 export class ProfilesService {
@@ -18,7 +19,12 @@ export class ProfilesService {
     private readonly updateProfileProvider: UpdateProfileProvider,
     private readonly updateLinksProvider: UpdateLinksProvider,
     private readonly findProfileProvider: FindProfileProvider,
+    private readonly findProfilesProvider: FindProfilesProvider,
   ) {}
+
+  public findProfiles() {
+    return this.findProfilesProvider.findProfiles();
+  }
 
   public findProfile(username: string) {
     return this.findProfileProvider.findProfile(username);

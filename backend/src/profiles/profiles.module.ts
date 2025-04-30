@@ -7,6 +7,7 @@ import { FindProfileProvider } from './providers/find-profile.provider';
 import { ProfilesService } from './providers/profiles.service';
 import { UpdateLinksProvider } from './providers/update-links.provider';
 import { UpdateProfileProvider } from './providers/update-profile.provider';
+import { FindProfilesProvider } from './providers/find-profiles.provider';
 
 @Module({
   controllers: [ProfilesController],
@@ -17,6 +18,7 @@ import { UpdateProfileProvider } from './providers/update-profile.provider';
     UpdateProfileProvider,
     UpdateLinksProvider,
     FindProfileProvider,
+    FindProfilesProvider,
   ],
   exports: [ProfilesService],
 })

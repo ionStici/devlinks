@@ -17,6 +17,12 @@ export class ProfilesController {
     return this.profilesService.findProfile(username);
   }
 
+  @Public()
+  @Get('/list/usernames')
+  findProfiles() {
+    return this.profilesService.findProfiles();
+  }
+
   @Patch('update-profile')
   updateProfile(
     @ActiveUser() user: ActiveUserData,

@@ -37,6 +37,13 @@ const router = createBrowserRouter([
     },
   },
   {
+    path: '/list',
+    lazy: async () => {
+      const { ListRoute } = await import('./routes/list');
+      return { Component: ListRoute };
+    },
+  },
+  {
     path: '/',
     children: [
       {
